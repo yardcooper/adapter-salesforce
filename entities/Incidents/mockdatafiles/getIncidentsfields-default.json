@@ -1,0 +1,40 @@
+[
+  {
+    "id": 9,
+    "attribute": "string",
+    "FieldOptions": [
+      {
+        "key": "string",
+        "visible": true
+      },
+      {
+        "key": "string",
+        "visible": true
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "attribute": "string",
+    "FieldOptions": [
+      {
+        "key": "string",
+        "visible": true
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "attribute": "string",
+    "FieldOptions": [
+      {
+        "key": "string",
+        "visible": true
+      },
+      {
+        "key": "string",
+        "visible": true
+      }
+    ]
+  }
+]

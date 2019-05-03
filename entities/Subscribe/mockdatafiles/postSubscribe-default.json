@@ -1,0 +1,24 @@
+{
+  "emailAddress": "string",
+  "locale": "string",
+  "subscription": [
+    {
+      "all": true,
+      "instances": {},
+      "products": {}
+    },
+    {
+      "all": false,
+      "instances": {},
+      "products": {}
+    },
+    {
+      "all": true,
+      "instances": {},
+      "products": {}
+    }
+  ],
+  "isActive": true,
+  "createdAt": "string",
+  "updatedAt": "string"
+}

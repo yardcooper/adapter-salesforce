@@ -1,0 +1,19 @@
+{
+  "actions": [
+    {
+      "name": "getLocales",
+      "protocol": "REST",
+      "method": "GET",
+      "entitypath": "{base_path}/{version}/locales{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": "mockdatafiles/getLocales-default.json"
+        }
+      ]
+    }
+  ]
+}

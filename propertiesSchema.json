@@ -1,0 +1,450 @@
+{
+  "$id": "adapter-salesforce",
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "host": {
+      "type": "string",
+      "description": "hostname of the server",
+      "default": "",
+      "examples": [
+        "systemx.customer.com"
+      ]
+    },
+    "port": {
+      "type": "integer",
+      "description": "port on which to connect to the server",
+      "default": 443,
+      "minimum": 1,
+      "maximum": 65535
+    },
+    "base_path": {
+      "type": "string",
+      "description": "a base path that is consistent across api calls",
+      "default": "",
+      "examples": [
+        "/system/api"
+      ]
+    },
+    "version": {
+      "type": "string",
+      "description": "api version this adapter integrates with",
+      "default": "",
+      "examples": [
+        "v1", "v2.6", "4.5.1"
+      ]
+    },
+    "cache_location": {
+      "type": "string",
+      "description": "Where cache of information should be located redis or local memory",
+      "default": "none",
+      "enum": [
+        "redis", "local", "none"
+      ]
+    },
+    "stub": {
+      "type": "boolean",
+      "description": "When true will not connect to the remote server, but will use a static object for all responses",
+      "default": false
+    },
+    "protocol": {
+      "type": "string",
+      "description": "the protocol to use to connect to server",
+      "default": "http",
+      "enum": [
+        "http", "https"
+      ]
+    },
+    "authentication": {
+      "$ref": "#/definitions/authentication"
+    },
+    "healthcheck": {
+      "$ref": "#/definitions/healthcheck"
+    },
+    "throttle": {
+      "$ref": "#/definitions/throttle"
+    },
+    "request": {
+      "$ref": "#/definitions/request"
+    },
+    "proxy": {
+      "$ref": "#/definitions/proxy"
+    },
+    "ssl": {
+      "$ref": "#/definitions/ssl"
+    }
+  },
+  "required": ["host", "port", "authentication", "healthcheck"],
+  "definitions": {
+    "authentication": {
+      "type": "object",
+      "properties": {
+        "auth_method": {
+          "type": "string",
+          "description": "The authentication method for requests",
+          "default": "basic user_password",
+          "enum": [
+            "basic user_password", "static_token", "request_token", "no_authentication"
+          ]
+        },
+        "username": {
+          "type": "string",
+          "description": "The username used for requests",
+          "default": "",
+          "examples": [
+            "username"
+          ]
+        },
+        "password": {
+          "type": "string",
+          "description": "The password used for requests. If it was retrieved through the encrypt password call, use the exact return including the {code} or {crypt}",
+          "default": "",
+          "examples": [
+            "password", "{code}password", "{crypt}password"
+          ]
+        },
+        "token": {
+          "type": "string",
+          "description": "The token used for requests",
+          "default": "",
+          "examples": [
+            "sdadafdsf_dummytoken_adfkdhfkajd"
+          ]
+        },
+        "token_user_field": {
+          "type": "string",
+          "description": "The field to send the user credential when getting a token",
+          "default": "username",
+          "examples": [
+            "username"
+          ]
+        },
+        "token_password_field": {
+          "type": "string",
+          "description": "The field to send the password credential when getting a token",
+          "default": "password",
+          "examples": [
+            "password"
+          ]
+        },
+        "token_result_field": {
+          "type": "string",
+          "description": "The field to pull the result from when getting a token",
+          "default": "token",
+          "examples": [
+            "token"
+          ]
+        },
+        "token_URI_path": {
+          "type": "string",
+          "description": "The path used to retrieve a token",
+          "default": "",
+          "examples": [
+            "/api/version/authenticate"
+          ]
+        },
+        "invalid_token_error": {
+          "type": "integer",
+          "description": "http error status number which defines an invalid token",
+          "default": 401,
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "token_timeout": {
+          "type": "integer",
+          "description": "How long a token is valid (in milliseconds), -1 (always get token), 0 use expiration returned with token",
+          "default": -1,
+          "minimum": -1,
+          "maximum": 3600000
+        },
+        "token_cache": {
+          "type": "string",
+          "description": "Whether tokens should be stored in redis or local memory",
+          "default": "local",
+          "enum": [
+            "redis", "local"
+          ]
+        },
+        "auth_field": {
+          "type": "string",
+          "description": "The field in which to pass the token",
+          "default": "header.headers.X-AUTH-TOKEN",
+          "examples": [
+            "header.headers.X-AUTH-TOKEN", "header.headers.Authorization", "header.auth", "body.token", "url"
+          ]
+        },
+        "auth_field_format": {
+          "type": "string",
+          "description": "The format used to pass the authentication -- variables {token}, {username}, {password} will be replaced with the proper values. {b64}...{/b64} will base64 encode everything between the start and end tag.",
+          "default": "{token}",
+          "examples": [
+            "{token}", "Token {token}", "{username}:{password}", "Basic {b64}{username}:{password}{/b64}", "token={token}"
+          ]
+        }
+      },
+      "required": ["auth_method"],
+      "allOf": [
+        {
+          "if" : { "properties" : { "auth_method": { "enum": ["basic user_password"] } } },
+          "then" : { "required" : ["username", "password", "auth_field", "auth_field_format"] }
+        },
+        {
+          "if" : { "properties" : { "auth_method": { "enum": ["request_token"] } } },
+          "then" : { "required" : ["username", "password", "auth_field", "auth_field_format"] }
+        },
+        {
+          "if" : { "properties" : { "auth_method": { "enum": ["static_token"] } } },
+          "then" : { "required" : ["token", "auth_field", "auth_field_format"] }
+        }
+      ]
+    },
+    "healthcheck": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The type of healthcheck to run",
+          "default": "intermittent",
+          "enum": [
+            "none", "startup", "intermittent"
+          ]
+        },
+        "frequency": {
+          "type": "integer",
+          "description": "How often the healthcheck should run (in milliseconds).",
+          "default": 3000000,
+          "minimum": 60000,
+          "maximum": 3600000
+        },
+        "protocol": {
+          "type": "string",
+          "description": "The protocol used to check the health of the system",
+          "default": "REST",
+          "enum": [
+            "REST"
+          ]
+        },
+        "URI_Path": {
+          "type": "string",
+          "description": "The path used to check the health of the system",
+          "default": "",
+          "examples": [
+            "/api/version/ping"
+          ]
+        }
+      },
+      "required": ["type"],
+      "allOf": [
+        {
+          "if" : { "properties" : { "type": { "enum": ["intermittent"] } } },
+          "then" : { "required" : ["frequency"] }
+        }
+      ]
+    },
+    "throttle": {
+      "type": "object",
+      "properties": {
+        "throttle_enabled": {
+          "type": "boolean",
+          "description": "Whether to use throttling",
+          "default": false
+        },
+        "number_pronghorns": {
+          "type": "integer",
+          "description": "whether the throttling is being done in a single Pronghorn instance or whether requests are being throttled across multiple pronghorns",
+          "default": 1,
+          "minimum": 1,
+          "maximum": 20
+        },
+        "sync_async": {
+          "type": "string",
+          "description": "should the queue handle request synchronously or asynchronously",
+          "default": "sync",
+          "examples": [
+            "async", "sync"
+          ]
+        },
+        "max_in_queue": {
+          "type": "integer",
+          "description": "the maximum number of requests that Pronghorn should allow into the queue before rejecting requests",
+          "default": 1000,
+          "minimum": 1,
+          "maximum": 5000
+        },
+        "concurrent_max": {
+          "type": "integer",
+          "description": "defines the number of request that Pronghorn can send to Ansible Tower at one time",
+          "default": 1,
+          "minimum": 1,
+          "maximum": 1000
+        },
+        "expire_timeout": {
+          "type": "integer",
+          "description": "After the request has completed, Pronghorn will wait the additional expire timeout time (in milliseconds) prior to sending in the next request.",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 60000
+        },
+        "avg_runtime": {
+          "type": "integer",
+          "description": "an approximate average of how long it takes Ansible Tower to handle each request",
+          "default": 200,
+          "minimum": 50,
+          "maximum": 60000
+        }
+      },
+      "required": ["throttle_enabled"],
+      "allOf": [
+        {
+          "if" : { "properties" : { "throttle_enabled": { "enum": [true] } } },
+          "then" : { "required" : ["number_pronghorns", "sync_async", "max_in_queue", "concurrent_max", "expire_timeout", "avg_runtime"] }
+        }
+      ]
+    },
+    "request": {
+      "type": "object",
+      "properties": {
+        "number_retries": {
+          "type": "integer",
+          "description": "how many attempt to make before it gives up on the request",
+          "default": 3,
+          "minimum": 0,
+          "maximum": 20
+        },
+        "limit_retry_error": {
+          "type": "integer",
+          "description": "http error status number which defines that no capacity was available and thus after waiting a short interval the adapter can retry the request",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "failover_codes": {
+          "type": "array",
+          "description": "An array of codes where it is ok to try another method",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "attempt_timeout": {
+          "type": "integer",
+          "description": "how long Pronghorn should wait before aborting the attempt",
+          "default": 5000,
+          "minimum": 1000,
+          "maximum": 3600000
+        },
+        "healthcheck_on_timeout": {
+          "type": "boolean",
+          "description": "Should the system run a healthcheck on timeout",
+          "default": false
+        },
+        "archiving": {
+          "type": "boolean",
+          "description": "Archives each request/response and corresponding metrics",
+          "default": false
+        }
+      },
+      "required": ["number_retries", "limit_retry_error", "attempt_timeout", "healthcheck_on_timeout"]
+    },
+    "proxy": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether or not there is a proxy for the Server",
+          "default": false
+        },
+        "host": {
+          "type": "string",
+          "description": "hostname of the proxy for the server",
+          "default": "",
+          "examples": [
+            "proxy.customer.com"
+          ]
+        },
+        "port": {
+          "type": "integer",
+          "description": "port on which to connect to the proxy for the server",
+          "default": 443,
+          "minimum": 1,
+          "maximum": 65535
+        },
+        "protocol": {
+          "type": "string",
+          "description": "the protocol to use to connect to the proxy",
+          "default": "http",
+          "enum": [
+            "http", "https", "socks4", "socks5"
+          ]
+        }
+      },
+      "required": ["enabled"],
+      "allOf": [
+        {
+          "if" : { "properties" : { "enabled": { "enum": [true] } } },
+          "then" : { "required" : ["host", "port"] }
+        }
+      ]
+    },
+    "ssl": {
+      "type": "object",
+      "properties": {
+        "ecdhCurve": {
+          "type": "string",
+          "description": "Do we need to set the autoCurve on this request",
+          "default": "",
+          "examples": [
+            "auto"
+          ]
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether or not ssl is enabled on Server",
+          "default": false
+        },
+        "accept_invalid_cert": {
+          "type": "boolean",
+          "description": "Whether the adapter should accept invalid certificates",
+          "default": false
+        },
+        "ca_file": {
+          "type": "string",
+          "description": "The fully qualified path name to the CA file used for SSL",
+          "default": "",
+          "examples": [
+            "keys/key.pem"
+          ]
+        },
+        "secure_protocol": {
+          "type": "string",
+          "description": "What protocol to set on the ssl request",
+          "default": "",
+          "examples": [
+            "SSLv2_method", "SSLv3_method"
+          ]
+        },
+        "ciphers": {
+          "type": "string",
+          "description": "Hyphen separated list of acceptable ciphers",
+          "default": "",
+          "examples": [
+            "DHE-RSA-AES256-SHA"
+          ]
+        }
+      },
+      "required": ["enabled"],
+      "allOf": [
+        {
+          "if" : { "properties" : { "enabled": { "enum": [true] } } },
+          "then" : { "required" : ["accept_invalid_cert", "ciphers"] }
+        },
+        {
+          "if" : { "allOf": [
+            { "properties" : { "enabled": { "enum": [true] } } },
+            { "properties" : { "accept_invalid_cert": { "enum": [ false ] } } }
+          ] },
+          "then" : { "required" : ["ca_file"] }
+        }
+      ]
+    }
+  }
+}

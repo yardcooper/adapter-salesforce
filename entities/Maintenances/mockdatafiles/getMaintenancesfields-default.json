@@ -1,0 +1,44 @@
+[
+  {
+    "id": 7,
+    "attribute": "string",
+    "FieldOptions": [
+      {
+        "key": "string",
+        "visible": true
+      },
+      {
+        "key": "string",
+        "visible": true
+      },
+      {
+        "key": "string",
+        "visible": true
+      },
+      {
+        "key": "string",
+        "visible": true
+      },
+      {
+        "key": "string",
+        "visible": true
+      },
+      {
+        "key": "string",
+        "visible": true
+      },
+      {
+        "key": "string",
+        "visible": true
+      },
+      {
+        "key": "string",
+        "visible": true
+      },
+      {
+        "key": "string",
+        "visible": true
+      }
+    ]
+  }
+]

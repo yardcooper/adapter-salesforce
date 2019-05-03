@@ -1,0 +1,77 @@
+# Guide: https://docs.gitlab.com/ce/ci/yaml/README.html
+# Only use spaces to indent your .yml configuration.
+# -----
+
+image: itential/argo:node8
+
+variables:
+  DOCKER_DRIVER: overlay2
+
+services:
+  - docker:dind
+
+after_script:
+  - rm -rf ~/.ssh
+
+stages:
+  # Lint code, test code quality, and ensure there are no insecure dependencies
+  - quality
+  # Run unit and integration test suites
+  - test
+  # publish module to npm, deploy docker registry image
+  - deploy
+
+lint:
+  stage: quality
+  script:
+    - node_setup
+    - npm run lint
+
+codequality:
+  stage: quality
+  allow_failure: true
+  script:
+    - export SP_VERSION=$(echo "$CI_SERVER_VERSION" | sed 's/^\([0-9]*\)\.\([0-9]*\).*/\1-\2-stable/')
+    - docker run
+        --env SOURCE_CODE="$PWD"
+        --volume "$PWD":/code
+        --volume /var/run/docker.sock:/var/run/docker.sock
+        "registry.gitlab.com/gitlab-org/security-products/codequality:$SP_VERSION" /code
+  artifacts:
+    paths: [gl-code-quality-report.json]
+
+security:
+  stage: quality
+  script:
+    - node_setup
+    - npm audit --registry=https://registry.npmjs.org
+
+unit:
+  stage: test
+  script:
+    - node_setup
+    - npm run test:unit
+
+integration:
+  stage: test
+  allow_failure: true
+  script:
+    - node_setup
+    - npm run test:integration
+
+prerelease:
+  stage: deploy
+  only:
+    - /(major\/)/
+  script:
+    - node_setup
+    - prerelease
+
+publish:
+  stage: deploy
+  only:
+    - master
+    - /(release\/)/
+  script:
+    - node_setup
+    - deploy

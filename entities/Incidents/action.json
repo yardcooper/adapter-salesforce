@@ -1,0 +1,79 @@
+{
+  "actions": [
+    {
+      "name": "getIncidents",
+      "protocol": "REST",
+      "method": "GET",
+      "entitypath": "{base_path}/{version}/incidents{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": "mockdatafiles/getIncidents-default.json"
+        }
+      ]
+    },
+    {
+      "name": "getIncidentsid",
+      "protocol": "REST",
+      "method": "GET",
+      "entitypath": "{base_path}/{version}/incidents/{pathv1}{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": "mockdatafiles/getIncidentsid-default.json"
+        }
+      ]
+    },
+    {
+      "name": "getIncidentsfields",
+      "protocol": "REST",
+      "method": "GET",
+      "entitypath": "{base_path}/{version}/incidents/fields{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": "mockdatafiles/getIncidentsfields-default.json"
+        }
+      ]
+    },
+    {
+      "name": "getIncidentsimpactTypes",
+      "protocol": "REST",
+      "method": "GET",
+      "entitypath": "{base_path}/{version}/incidents/impactTypes{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": "mockdatafiles/getIncidentsimpactTypes-default.json"
+        }
+      ]
+    },
+    {
+      "name": "getIncidentseventTypes",
+      "protocol": "REST",
+      "method": "GET",
+      "entitypath": "{base_path}/{version}/incidents/eventTypes{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": "mockdatafiles/getIncidentseventTypes-default.json"
+        }
+      ]
+    }
+  ]
+}

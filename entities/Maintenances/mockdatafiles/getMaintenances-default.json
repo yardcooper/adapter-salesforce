@@ -1,0 +1,83 @@
+[
+  {
+    "id": 3,
+    "message": null,
+    "externalId": null,
+    "name": null,
+    "affectsAll": false,
+    "isCore": false,
+    "plannedStartTime": null,
+    "plannedEndTime": null,
+    "additionalInformation": null,
+    "serviceKeys": [
+      "string",
+      "string",
+      "string",
+      "string",
+      "string",
+      "string",
+      "string",
+      "string",
+      "string"
+    ],
+    "instanceKeys": [
+      "string",
+      "string",
+      "string",
+      "string",
+      "string",
+      "string",
+      "string",
+      "string"
+    ],
+    "MaintenanceImpacts": [
+      {
+        "id": 3,
+        "startTime": "string",
+        "endTime": null,
+        "type": "string",
+        "systemAvailability": "string",
+        "createdAt": "string",
+        "updatedAt": "string"
+      },
+      {
+        "id": 3,
+        "startTime": "string",
+        "endTime": null,
+        "type": "string",
+        "systemAvailability": "string",
+        "createdAt": "string",
+        "updatedAt": "string"
+      },
+      {
+        "id": 5,
+        "startTime": "string",
+        "endTime": null,
+        "type": "string",
+        "systemAvailability": "string",
+        "createdAt": "string",
+        "updatedAt": "string"
+      },
+      {
+        "id": 6,
+        "startTime": "string",
+        "endTime": null,
+        "type": "string",
+        "systemAvailability": "string",
+        "createdAt": "string",
+        "updatedAt": "string"
+      },
+      {
+        "id": 6,
+        "startTime": "string",
+        "endTime": null,
+        "type": "string",
+        "systemAvailability": "string",
+        "createdAt": "string",
+        "updatedAt": "string"
+      }
+    ],
+    "createdAt": "string",
+    "updatedAt": "string"
+  }
+]

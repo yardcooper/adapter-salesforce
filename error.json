@@ -1,0 +1,166 @@
+{
+  "errors": [
+    {
+      "key": "Unable To Save To Database",
+      "icode": "AD.100",
+      "displayString": "Error on saving to Database $VARIABLE$",
+      "recommendation": "Verify the database connectivity and credentials"
+    },
+    {
+      "key": "Database Error",
+      "icode": "AD.101",
+      "displayString": "Database Error: $VARIABLE$",
+      "recommendation": "Verify the database connectivity, schema and permissions"
+    },
+    {
+      "key": "No Queue Item",
+      "icode": "AD.110",
+      "displayString": "Queue Item $VARIABLE$ not found in queue",
+      "recommendation": "Make sure the queue is working properly"
+    },
+    {
+      "key": "Unable To Create Queue",
+      "icode": "AD.111",
+      "displayString": "Unable to create queue: $VARIABLE$",
+      "recommendation": "Verify access to the database, redis or system memory"
+    },
+    {
+      "key": "Queue Full",
+      "icode": "AD.112",
+      "displayString": "Request $VARIABLE$ Transaction $VARIABLE$ rejected - queue full at $VARIABLE$",
+      "recommendation": "Make sure the queue is working properly"
+    },
+    {
+      "key": "Unable To Clear Queue",
+      "icode": "AD.113",
+      "displayString": "Unable to clear queue: $VARIABLE$",
+      "recommendation": "Make sure the queue exists"
+    },
+    {
+      "key": "Unable To Claim Turn",
+      "icode": "AD.114",
+      "displayString": "Request $VARIABLE$ Transaction $VARIABLE$ unable to claim license: $VARIABLE$",
+      "recommendation": "Make sure the queue is working properly"
+    },
+    {
+      "key": "Unable To Free Turn",
+      "icode": "AD.115",
+      "displayString": "Request $VARIABLE$ Transaction $VARIABLE$ unable to free license: $VARIABLE$",
+      "recommendation": "Make sure the queue is working properly"
+    },
+    {
+      "key": "Item In Wrong State",
+      "icode": "AD.116",
+      "displayString": "Queue item is in the wrong state: $VARIABLE$ ",
+      "recommendation": "Make sure the queue is working properly"
+    },
+    {
+      "key": "Missing Data",
+      "icode": "AD.300",
+      "displayString": "$VARIABLE$ is required",
+      "recommendation": "Please provide the required data"
+    },
+    {
+      "key": "Missing File",
+      "icode": "AD.301",
+      "displayString": "Can not open file $VARIABLE$",
+      "recommendation": "Verify the file exists and has proper permissions"
+    },
+    {
+      "key": "Invalid Action File",
+      "icode": "AD.302",
+      "displayString": "Invalid action file: $VARIABLE$ in $VARIABLE$",
+      "recommendation": "Verify the action file"
+    },
+    {
+      "key": "Unsupported Protocol",
+      "icode": "AD.303",
+      "displayString": "Protocol $VARIABLE$ not currently supported",
+      "recommendation": "Verify the protocol on the action"
+    },
+    {
+      "key": "Invalid Schema File",
+      "icode": "AD.304",
+      "displayString": "Invalid schema file: $VARIABLE$ in $VARIABLE$",
+      "recommendation": "Verify the action file"
+    },
+    {
+      "key": "Invalid Properties",
+      "icode": "AD.305",
+      "displayString": "Invalid properties: $VARIABLE$",
+      "recommendation": "Verify the properties for the adapter"
+    },
+    {
+      "key": "Query Not Translated",
+      "icode": "AD.310",
+      "displayString": "Query Not Translated",
+      "recommendation": "Verify the information passed in the query object"
+    },
+    {
+      "key": "Payload Not Translated",
+      "icode": "AD.311",
+      "displayString": "Payload Not Translated",
+      "recommendation": "Verify the information passed in the payload object"
+    },
+    {
+      "key": "Schema Validation Failure",
+      "icode": "AD.312",
+      "displayString": "Schema validation failed on $VARIABLE$",
+      "recommendation": "Verify the information provided is in the correct format with everything required"
+    },
+    {
+      "key": "Entity Cache Not Loading",
+      "icode": "AD.320",
+      "displayString": "Could not load entity: $VARIABLE$, into cache",
+      "recommendation": "Verify the cache is working properly"
+    },
+    {
+      "key": "Error Verifying Entity Cache",
+      "icode": "AD.321",
+      "displayString": "Could not verify entity in cache",
+      "recommendation": "Verify the cache is working properly"
+    },
+    {
+      "key": "Unable To Authenticate",
+      "icode": "AD.400",
+      "displayString": "Unable to authenticate with $VARIABLE$, response $VARIABLE$",
+      "recommendation": "Verify the user credentials and check the response for more information"
+    },
+    {
+      "key": "Unable To Encode",
+      "icode": "AD.401",
+      "displayString": "Can not perform base64 encoding on $VARIABLE$",
+      "recommendation": "Check the authentication format"
+    },
+    {
+      "key": "Unable To Get Token",
+      "icode": "AD.402",
+      "displayString": "Unable to get token for user: $VARIABLE$",
+      "recommendation": "Verify the user credentials and the system information"
+    },
+    {
+      "key": "Error On Request",
+      "icode": "AD.500",
+      "displayString": "Error $VARIABLE$ received on request",
+      "recommendation": "Verify the request is accurate via debug logs and postman"
+    },
+    {
+      "key": "Invalid Response",
+      "icode": "AD.501",
+      "displayString": "Invalid response received for $VARIABLE$",
+      "recommendation": "Verify the request is accurate via debug logs and postman"
+    },
+    {
+      "key": "Failure Response",
+      "icode": "AD.502",
+      "displayString": "Failure response received for $VARIABLE$",
+      "recommendation": "Check the reason for failure in the stack trace"
+    },
+    {
+      "key": "Caught Exception",
+      "icode": "AD.900",
+      "displayString": "Caught Exception $VARIABLE$",
+      "recommendation": "Evaluate why the exception took place"
+    }
+  ]
+}

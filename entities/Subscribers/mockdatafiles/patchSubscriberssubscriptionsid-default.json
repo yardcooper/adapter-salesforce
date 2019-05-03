@@ -1,0 +1,59 @@
+{
+  "emailAddress": "string",
+  "locale": "string",
+  "subscription": [
+    {
+      "all": true,
+      "instances": {},
+      "products": {}
+    },
+    {
+      "all": false,
+      "instances": {},
+      "products": {}
+    },
+    {
+      "all": true,
+      "instances": {},
+      "products": {}
+    },
+    {
+      "all": true,
+      "instances": {},
+      "products": {}
+    },
+    {
+      "all": true,
+      "instances": {},
+      "products": {}
+    },
+    {
+      "all": false,
+      "instances": {},
+      "products": {}
+    },
+    {
+      "all": true,
+      "instances": {},
+      "products": {}
+    },
+    {
+      "all": false,
+      "instances": {},
+      "products": {}
+    },
+    {
+      "all": false,
+      "instances": {},
+      "products": {}
+    },
+    {
+      "all": false,
+      "instances": {},
+      "products": {}
+    }
+  ],
+  "isActive": false,
+  "createdAt": "string",
+  "updatedAt": "string"
+}

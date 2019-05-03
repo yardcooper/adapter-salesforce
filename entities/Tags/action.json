@@ -1,0 +1,31 @@
+{
+  "actions": [
+    {
+      "name": "getTags",
+      "protocol": "REST",
+      "method": "GET",
+      "entitypath": "{base_path}/{version}/tags{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": []
+    },
+    {
+      "name": "getTagsinstanceinstanceKey",
+      "protocol": "REST",
+      "method": "GET",
+      "entitypath": "{base_path}/{version}/tags/instance/{pathv1}{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": []
+    },
+    {
+      "name": "getTagTypes",
+      "protocol": "REST",
+      "method": "GET",
+      "entitypath": "{base_path}/{version}/tagTypes{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": []
+    }
+  ]
+}

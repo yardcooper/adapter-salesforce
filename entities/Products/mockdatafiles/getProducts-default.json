@@ -1,0 +1,18 @@
+[
+  {
+    "key": "string",
+    "parentId": 3,
+    "parentName": "string",
+    "order": 10,
+    "path": "string",
+    "public": true
+  },
+  {
+    "key": "string",
+    "parentId": 4,
+    "parentName": "string",
+    "order": 1,
+    "path": "string",
+    "public": true
+  }
+]

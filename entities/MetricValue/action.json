@@ -1,0 +1,34 @@
+{
+  "actions": [
+    {
+      "name": "getMetricValues",
+      "protocol": "REST",
+      "method": "GET",
+      "entitypath": "{base_path}/{version}/metricValues{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": "mockdatafiles/getMetricValues-default.json"
+        }
+      ]
+    },
+    {
+      "name": "getMetricValuesid",
+      "protocol": "REST",
+      "method": "GET",
+      "entitypath": "{base_path}/{version}/metricValues/{pathv1}{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": "mockdatafiles/getMetricValuesid-default.json"
+        }
+      ]
+    }
+  ]
+}

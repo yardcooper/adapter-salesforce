@@ -1,0 +1,103 @@
+{
+  "actions": [
+    {
+      "name": "getInstances",
+      "protocol": "REST",
+      "method": "GET",
+      "entitypath": "{base_path}/{version}/instances{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": []
+    },
+    {
+      "name": "getInstancesstatus",
+      "protocol": "REST",
+      "method": "GET",
+      "entitypath": "{base_path}/{version}/instances/status{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": "mockdatafiles/getInstancesstatus-default.json"
+        }
+      ]
+    },
+    {
+      "name": "getInstancesstatuspreview",
+      "protocol": "REST",
+      "method": "GET",
+      "entitypath": "{base_path}/{version}/instances/status/preview{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": "mockdatafiles/getInstancesstatuspreview-default.json"
+        }
+      ]
+    },
+    {
+      "name": "getInstanceskeystatuspreview",
+      "protocol": "REST",
+      "method": "GET",
+      "entitypath": "{base_path}/{version}/instances/{pathv1}/status/preview{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": "mockdatafiles/getInstanceskeystatuspreview-default.json"
+        }
+      ]
+    },
+    {
+      "name": "getInstanceskeystatus",
+      "protocol": "REST",
+      "method": "GET",
+      "entitypath": "{base_path}/{version}/instances/{pathv1}/status{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": "mockdatafiles/getInstanceskeystatus-default.json"
+        }
+      ]
+    },
+    {
+      "name": "getInstanceAliaseskeystatus",
+      "protocol": "REST",
+      "method": "GET",
+      "entitypath": "{base_path}/{version}/instanceAliases/{pathv1}/status{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": "mockdatafiles/getInstanceAliaseskeystatus-default.json"
+        }
+      ]
+    },
+    {
+      "name": "getInstanceAliaseskey",
+      "protocol": "REST",
+      "method": "GET",
+      "entitypath": "{base_path}/{version}/instanceAliases/{pathv1}{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": "mockdatafiles/getInstanceAliaseskey-default.json"
+        }
+      ]
+    }
+  ]
+}

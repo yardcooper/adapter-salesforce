@@ -1,0 +1,219 @@
+[
+  {
+    "id": 4,
+    "message": null,
+    "externalId": null,
+    "affectsAll": true,
+    "isCore": false,
+    "additionalInformation": null,
+    "serviceKeys": [
+      "string",
+      "string",
+      "string",
+      "string",
+      "string"
+    ],
+    "instanceKeys": [
+      "string",
+      "string",
+      "string",
+      "string",
+      "string",
+      "string",
+      "string",
+      "string"
+    ],
+    "IncidentImpacts": [
+      {
+        "id": 4,
+        "startTime": "string",
+        "endTime": null,
+        "serviceIssue": "string",
+        "endUserImpact": "string",
+        "type": "string",
+        "createdAt": "string",
+        "updatedAt": "string"
+      },
+      {
+        "id": 10,
+        "startTime": "string",
+        "endTime": null,
+        "serviceIssue": "string",
+        "endUserImpact": "string",
+        "type": "string",
+        "createdAt": "string",
+        "updatedAt": "string"
+      },
+      {
+        "id": 6,
+        "startTime": "string",
+        "endTime": null,
+        "serviceIssue": "string",
+        "endUserImpact": "string",
+        "type": "string",
+        "createdAt": "string",
+        "updatedAt": "string"
+      },
+      {
+        "id": 3,
+        "startTime": "string",
+        "endTime": null,
+        "serviceIssue": "string",
+        "endUserImpact": "string",
+        "type": "string",
+        "createdAt": "string",
+        "updatedAt": "string"
+      },
+      {
+        "id": 3,
+        "startTime": "string",
+        "endTime": null,
+        "serviceIssue": "string",
+        "endUserImpact": "string",
+        "type": "string",
+        "createdAt": "string",
+        "updatedAt": "string"
+      },
+      {
+        "id": 2,
+        "startTime": "string",
+        "endTime": null,
+        "serviceIssue": "string",
+        "endUserImpact": "string",
+        "type": "string",
+        "createdAt": "string",
+        "updatedAt": "string"
+      }
+    ],
+    "IncidentEvents": [
+      {
+        "id": 9,
+        "type": "string",
+        "message": "string",
+        "createdAt": "string",
+        "updatedAt": "string"
+      },
+      {
+        "id": 5,
+        "type": "string",
+        "message": "string",
+        "createdAt": "string",
+        "updatedAt": "string"
+      },
+      {
+        "id": 1,
+        "type": "string",
+        "message": "string",
+        "createdAt": "string",
+        "updatedAt": "string"
+      },
+      {
+        "id": 5,
+        "type": "string",
+        "message": "string",
+        "createdAt": "string",
+        "updatedAt": "string"
+      }
+    ],
+    "createdAt": "string",
+    "updatedAt": "string"
+  },
+  {
+    "id": 7,
+    "message": null,
+    "externalId": null,
+    "affectsAll": true,
+    "isCore": true,
+    "additionalInformation": null,
+    "serviceKeys": [
+      "string",
+      "string",
+      "string",
+      "string",
+      "string"
+    ],
+    "instanceKeys": [
+      "string"
+    ],
+    "IncidentImpacts": [
+      {
+        "id": 2,
+        "startTime": "string",
+        "endTime": null,
+        "serviceIssue": "string",
+        "endUserImpact": "string",
+        "type": "string",
+        "createdAt": "string",
+        "updatedAt": "string"
+      },
+      {
+        "id": 5,
+        "startTime": "string",
+        "endTime": null,
+        "serviceIssue": "string",
+        "endUserImpact": "string",
+        "type": "string",
+        "createdAt": "string",
+        "updatedAt": "string"
+      },
+      {
+        "id": 7,
+        "startTime": "string",
+        "endTime": null,
+        "serviceIssue": "string",
+        "endUserImpact": "string",
+        "type": "string",
+        "createdAt": "string",
+        "updatedAt": "string"
+      },
+      {
+        "id": 7,
+        "startTime": "string",
+        "endTime": null,
+        "serviceIssue": "string",
+        "endUserImpact": "string",
+        "type": "string",
+        "createdAt": "string",
+        "updatedAt": "string"
+      },
+      {
+        "id": 5,
+        "startTime": "string",
+        "endTime": null,
+        "serviceIssue": "string",
+        "endUserImpact": "string",
+        "type": "string",
+        "createdAt": "string",
+        "updatedAt": "string"
+      },
+      {
+        "id": 5,
+        "startTime": "string",
+        "endTime": null,
+        "serviceIssue": "string",
+        "endUserImpact": "string",
+        "type": "string",
+        "createdAt": "string",
+        "updatedAt": "string"
+      }
+    ],
+    "IncidentEvents": [
+      {
+        "id": 7,
+        "type": "string",
+        "message": "string",
+        "createdAt": "string",
+        "updatedAt": "string"
+      },
+      {
+        "id": 8,
+        "type": "string",
+        "message": "string",
+        "createdAt": "string",
+        "updatedAt": "string"
+      }
+    ],
+    "createdAt": "string",
+    "updatedAt": "string"
+  }
+]

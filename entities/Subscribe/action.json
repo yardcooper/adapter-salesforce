@@ -1,0 +1,73 @@
+{
+  "actions": [
+    {
+      "name": "postSubscribe",
+      "protocol": "REST",
+      "method": "POST",
+      "entitypath": "{base_path}/{version}/subscribe{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": "mockdatafiles/postSubscribe-default.json"
+        }
+      ]
+    },
+    {
+      "name": "patchUnsubscribe",
+      "protocol": "REST",
+      "method": "PATCH",
+      "entitypath": "{base_path}/{version}/unsubscribe{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": "mockdatafiles/patchUnsubscribe-default.json"
+        }
+      ]
+    },
+    {
+      "name": "postUnsubscribe",
+      "protocol": "REST",
+      "method": "POST",
+      "entitypath": "{base_path}/{version}/unsubscribe{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": "mockdatafiles/postUnsubscribe-default.json"
+        }
+      ]
+    },
+    {
+      "name": "postLogin",
+      "protocol": "REST",
+      "method": "POST",
+      "entitypath": "{base_path}/{version}/login{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": "mockdatafiles/postLogin-default.json"
+        }
+      ]
+    },
+    {
+      "name": "getLogout",
+      "protocol": "REST",
+      "method": "GET",
+      "entitypath": "{base_path}/{version}/logout{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": []
+    }
+  ]
+}

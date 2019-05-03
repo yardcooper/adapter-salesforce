@@ -1,0 +1,19 @@
+{
+  "actions": [
+    {
+      "name": "getServices",
+      "protocol": "REST",
+      "method": "GET",
+      "entitypath": "{base_path}/{version}/services{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": "mockdatafiles/getServices-default.json"
+        }
+      ]
+    }
+  ]
+}

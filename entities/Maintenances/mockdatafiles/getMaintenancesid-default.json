@@ -1,0 +1,110 @@
+{
+  "id": 8,
+  "message": null,
+  "externalId": null,
+  "name": null,
+  "affectsAll": false,
+  "isCore": true,
+  "plannedStartTime": null,
+  "plannedEndTime": null,
+  "additionalInformation": null,
+  "serviceKeys": [
+    "string",
+    "string",
+    "string",
+    "string",
+    "string",
+    "string",
+    "string",
+    "string",
+    "string"
+  ],
+  "instanceKeys": [
+    "string"
+  ],
+  "MaintenanceImpacts": [
+    {
+      "id": 8,
+      "startTime": "string",
+      "endTime": null,
+      "type": "string",
+      "systemAvailability": "string",
+      "createdAt": "string",
+      "updatedAt": "string"
+    },
+    {
+      "id": 7,
+      "startTime": "string",
+      "endTime": null,
+      "type": "string",
+      "systemAvailability": "string",
+      "createdAt": "string",
+      "updatedAt": "string"
+    },
+    {
+      "id": 1,
+      "startTime": "string",
+      "endTime": null,
+      "type": "string",
+      "systemAvailability": "string",
+      "createdAt": "string",
+      "updatedAt": "string"
+    },
+    {
+      "id": 3,
+      "startTime": "string",
+      "endTime": null,
+      "type": "string",
+      "systemAvailability": "string",
+      "createdAt": "string",
+      "updatedAt": "string"
+    },
+    {
+      "id": 1,
+      "startTime": "string",
+      "endTime": null,
+      "type": "string",
+      "systemAvailability": "string",
+      "createdAt": "string",
+      "updatedAt": "string"
+    },
+    {
+      "id": 5,
+      "startTime": "string",
+      "endTime": null,
+      "type": "string",
+      "systemAvailability": "string",
+      "createdAt": "string",
+      "updatedAt": "string"
+    },
+    {
+      "id": 5,
+      "startTime": "string",
+      "endTime": null,
+      "type": "string",
+      "systemAvailability": "string",
+      "createdAt": "string",
+      "updatedAt": "string"
+    },
+    {
+      "id": 3,
+      "startTime": "string",
+      "endTime": null,
+      "type": "string",
+      "systemAvailability": "string",
+      "createdAt": "string",
+      "updatedAt": "string"
+    },
+    {
+      "id": 2,
+      "startTime": "string",
+      "endTime": null,
+      "type": "string",
+      "systemAvailability": "string",
+      "createdAt": "string",
+      "updatedAt": "string"
+    }
+  ],
+  "createdAt": "string",
+  "updatedAt": "string"
+}

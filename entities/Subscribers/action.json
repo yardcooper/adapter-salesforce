@@ -1,0 +1,79 @@
+{
+  "actions": [
+    {
+      "name": "getSubscribers",
+      "protocol": "REST",
+      "method": "GET",
+      "entitypath": "{base_path}/{version}/subscribers{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": "mockdatafiles/getSubscribers-default.json"
+        }
+      ]
+    },
+    {
+      "name": "patchSubscribers",
+      "protocol": "REST",
+      "method": "PATCH",
+      "entitypath": "{base_path}/{version}/subscribers{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": "mockdatafiles/patchSubscribers-default.json"
+        }
+      ]
+    },
+    {
+      "name": "postSubscriberssubscriptionsid",
+      "protocol": "REST",
+      "method": "POST",
+      "entitypath": "{base_path}/{version}/subscribers/subscriptions/{pathv1}{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": "mockdatafiles/postSubscriberssubscriptionsid-default.json"
+        }
+      ]
+    },
+    {
+      "name": "patchSubscriberssubscriptionsid",
+      "protocol": "REST",
+      "method": "PATCH",
+      "entitypath": "{base_path}/{version}/subscribers/subscriptions/{pathv1}{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": "mockdatafiles/patchSubscriberssubscriptionsid-default.json"
+        }
+      ]
+    },
+    {
+      "name": "deleteSubscriberssubscriptionsid",
+      "protocol": "REST",
+      "method": "DELETE",
+      "entitypath": "{base_path}/{version}/subscribers/subscriptions/{pathv1}{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": "mockdatafiles/deleteSubscriberssubscriptionsid-default.json"
+        }
+      ]
+    }
+  ]
+}

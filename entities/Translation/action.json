@@ -1,0 +1,19 @@
+{
+  "actions": [
+    {
+      "name": "getLocalizations",
+      "protocol": "REST",
+      "method": "GET",
+      "entitypath": "{base_path}/{version}/localizations{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": "mockdatafiles/getLocalizations-default.json"
+        }
+      ]
+    }
+  ]
+}

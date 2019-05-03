@@ -1,0 +1,34 @@
+{
+  "actions": [
+    {
+      "name": "getGeneralMessages",
+      "protocol": "REST",
+      "method": "GET",
+      "entitypath": "{base_path}/{version}/generalMessages{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": "mockdatafiles/getGeneralMessages-default.json"
+        }
+      ]
+    },
+    {
+      "name": "getGeneralMessagesid",
+      "protocol": "REST",
+      "method": "GET",
+      "entitypath": "{base_path}/{version}/generalMessages/{pathv1}{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": "mockdatafiles/getGeneralMessagesid-default.json"
+        }
+      ]
+    }
+  ]
+}

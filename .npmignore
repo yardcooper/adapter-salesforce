@@ -1,0 +1,15 @@
+.DS_Store
+**.binon
+.backup
+.codeclimate.yml
+.gitignore
+.gitlab-ci.yml
+.npmignore
+.nyc_output
+.vscode
+.vsdoc
+bitbucket-pipelines.yml
+coverage
+node_modules
+npm-debug.log
+nohup.out

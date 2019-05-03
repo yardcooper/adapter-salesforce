@@ -1,0 +1,64 @@
+{
+  "actions": [
+    {
+      "name": "getMaintenances",
+      "protocol": "REST",
+      "method": "GET",
+      "entitypath": "{base_path}/{version}/maintenances{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": "mockdatafiles/getMaintenances-default.json"
+        }
+      ]
+    },
+    {
+      "name": "getMaintenancesid",
+      "protocol": "REST",
+      "method": "GET",
+      "entitypath": "{base_path}/{version}/maintenances/{pathv1}{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": "mockdatafiles/getMaintenancesid-default.json"
+        }
+      ]
+    },
+    {
+      "name": "getMaintenancesfields",
+      "protocol": "REST",
+      "method": "GET",
+      "entitypath": "{base_path}/{version}/maintenances/fields{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": "mockdatafiles/getMaintenancesfields-default.json"
+        }
+      ]
+    },
+    {
+      "name": "getMaintenanceseventTypes",
+      "protocol": "REST",
+      "method": "GET",
+      "entitypath": "{base_path}/{version}/maintenances/eventTypes{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": "mockdatafiles/getMaintenanceseventTypes-default.json"
+        }
+      ]
+    }
+  ]
+}

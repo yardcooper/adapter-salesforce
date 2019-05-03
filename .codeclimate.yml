@@ -1,0 +1,9 @@
+version: "2"
+engines:
+  fixme: true
+  duplication: true
+  structure: true
+exclude_patterns:
+  - "node_modules"
+  - "coverage"
+  - "output"

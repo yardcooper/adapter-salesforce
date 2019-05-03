@@ -1,0 +1,10 @@
+[
+  {
+    "key": "string",
+    "severity": "string"
+  },
+  {
+    "key": "string",
+    "severity": "string"
+  }
+]

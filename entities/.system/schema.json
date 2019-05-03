@@ -1,0 +1,20 @@
+{
+  "$id": "schema.json",
+  "type": "object",
+  "schema": "http://json-schema.org/draft-07/schema#",
+  "translate": false,
+  "dynamicfields": true,
+  "properties": {
+    "ph_request_type": {
+      "type": "string",
+      "description": "type of request (internal to adapter)",
+      "default": "getToken",
+      "enum": [
+        "getToken",
+        "healthcheck"
+      ],
+      "external_name": "ph_request_type"
+    }
+  },
+  "definitions": {}
+}

@@ -1,0 +1,34 @@
+{
+  "actions": [
+    {
+      "name": "getProducts",
+      "protocol": "REST",
+      "method": "GET",
+      "entitypath": "{base_path}/{version}/products{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": "mockdatafiles/getProducts-default.json"
+        }
+      ]
+    },
+    {
+      "name": "getProductskey",
+      "protocol": "REST",
+      "method": "GET",
+      "entitypath": "{base_path}/{version}/products/{pathv1}{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": "mockdatafiles/getProductskey-default.json"
+        }
+      ]
+    }
+  ]
+}

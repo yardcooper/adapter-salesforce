@@ -1,0 +1,121 @@
+{
+  "id": 3,
+  "message": null,
+  "externalId": null,
+  "affectsAll": true,
+  "isCore": false,
+  "additionalInformation": null,
+  "serviceKeys": [
+    "string",
+    "string",
+    "string",
+    "string",
+    "string",
+    "string",
+    "string"
+  ],
+  "instanceKeys": [
+    "string",
+    "string",
+    "string",
+    "string",
+    "string",
+    "string",
+    "string",
+    "string",
+    "string"
+  ],
+  "IncidentImpacts": [
+    {
+      "id": 9,
+      "startTime": "string",
+      "endTime": null,
+      "serviceIssue": "string",
+      "endUserImpact": "string",
+      "type": "string",
+      "createdAt": "string",
+      "updatedAt": "string"
+    },
+    {
+      "id": 9,
+      "startTime": "string",
+      "endTime": null,
+      "serviceIssue": "string",
+      "endUserImpact": "string",
+      "type": "string",
+      "createdAt": "string",
+      "updatedAt": "string"
+    },
+    {
+      "id": 3,
+      "startTime": "string",
+      "endTime": null,
+      "serviceIssue": "string",
+      "endUserImpact": "string",
+      "type": "string",
+      "createdAt": "string",
+      "updatedAt": "string"
+    },
+    {
+      "id": 5,
+      "startTime": "string",
+      "endTime": null,
+      "serviceIssue": "string",
+      "endUserImpact": "string",
+      "type": "string",
+      "createdAt": "string",
+      "updatedAt": "string"
+    },
+    {
+      "id": 6,
+      "startTime": "string",
+      "endTime": null,
+      "serviceIssue": "string",
+      "endUserImpact": "string",
+      "type": "string",
+      "createdAt": "string",
+      "updatedAt": "string"
+    },
+    {
+      "id": 3,
+      "startTime": "string",
+      "endTime": null,
+      "serviceIssue": "string",
+      "endUserImpact": "string",
+      "type": "string",
+      "createdAt": "string",
+      "updatedAt": "string"
+    },
+    {
+      "id": 7,
+      "startTime": "string",
+      "endTime": null,
+      "serviceIssue": "string",
+      "endUserImpact": "string",
+      "type": "string",
+      "createdAt": "string",
+      "updatedAt": "string"
+    },
+    {
+      "id": 5,
+      "startTime": "string",
+      "endTime": null,
+      "serviceIssue": "string",
+      "endUserImpact": "string",
+      "type": "string",
+      "createdAt": "string",
+      "updatedAt": "string"
+    }
+  ],
+  "IncidentEvents": [
+    {
+      "id": 9,
+      "type": "string",
+      "message": "string",
+      "createdAt": "string",
+      "updatedAt": "string"
+    }
+  ],
+  "createdAt": "string",
+  "updatedAt": "string"
+}

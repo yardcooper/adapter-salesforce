@@ -1,0 +1,6 @@
+{
+  "metricValueName": "string",
+  "value": 1,
+  "timestamp": "string",
+  "instanceKey": "string"
+}

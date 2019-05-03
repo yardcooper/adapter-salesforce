@@ -1,0 +1,19 @@
+{
+  "actions": [
+    {
+      "name": "getSearchkey",
+      "protocol": "REST",
+      "method": "GET",
+      "entitypath": "{base_path}/{version}/search/{pathv1}{query}",
+      "schema": "schema.json",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": "mockdatafiles/getSearchkey-default.json"
+        }
+      ]
+    }
+  ]
+}

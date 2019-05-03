@@ -1,0 +1,1150 @@
+{
+  "id": "@itentialopensource/adapter-salesforce",
+  "type": "Adapter",
+  "export": "Salesforce",
+  "displayName": "Salesforce",
+  "title": "Salesforce",
+  "src": "adapter.js",
+  "roles": [
+    "admin"
+  ],
+  "methods": [
+    {
+      "name": "getLocalizations",
+      "summary": "",
+      "description": "Returns object of localized text",
+      "input": [
+        {
+          "name": "locale",
+          "type": "string",
+          "info": "Returns object of localized text",
+          "required": false
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "getIncidents",
+      "summary": "",
+      "description": "Returns an array of Incident objects. Defaults to last 30 days.",
+      "input": [
+        {
+          "name": "startTime",
+          "type": "string",
+          "info": "Returns an array of Incident objects. Defaults to last 30 days.",
+          "required": false
+        },
+        {
+          "name": "service",
+          "type": "string",
+          "info": "Returns an array of Incident objects. Defaults to last 30 days.",
+          "required": false
+        },
+        {
+          "name": "instance",
+          "type": "string",
+          "info": "Returns an array of Incident objects. Defaults to last 30 days.",
+          "required": false
+        },
+        {
+          "name": "limit",
+          "type": "number",
+          "info": "Returns an array of Incident objects. Defaults to last 30 days.",
+          "required": false
+        },
+        {
+          "name": "offset",
+          "type": "number",
+          "info": "Returns an array of Incident objects. Defaults to last 30 days.",
+          "required": false
+        },
+        {
+          "name": "sort",
+          "type": "string",
+          "info": "Returns an array of Incident objects. Defaults to last 30 days.",
+          "required": false
+        },
+        {
+          "name": "order",
+          "type": "string",
+          "info": "Returns an array of Incident objects. Defaults to last 30 days.",
+          "required": false
+        },
+        {
+          "name": "locale",
+          "type": "string",
+          "info": "Returns an array of Incident objects. Defaults to last 30 days.",
+          "required": false
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "getIncidentsid",
+      "summary": "",
+      "description": "Returns an Incident based on Id.",
+      "input": [
+        {
+          "name": "id",
+          "type": "string",
+          "info": "Returns an Incident based on Id.",
+          "required": true
+        },
+        {
+          "name": "locale",
+          "type": "string",
+          "info": "Returns an Incident based on Id.",
+          "required": false
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "getIncidentsfields",
+      "summary": "",
+      "description": "Returns an array of Incident fields.",
+      "input": [
+        {
+          "name": "locale",
+          "type": "string",
+          "info": "Returns an array of Incident fields.",
+          "required": false
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "getIncidentsimpactTypes",
+      "summary": "",
+      "description": "Returns an array of incident imapct type fields.",
+      "input": [
+        {
+          "name": "locale",
+          "type": "string",
+          "info": "Returns an array of incident imapct type fields.",
+          "required": false
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "getIncidentseventTypes",
+      "summary": "",
+      "description": "Returns an array of incident imapct type fields.",
+      "input": [
+        {
+          "name": "locale",
+          "type": "string",
+          "info": "Returns an array of incident imapct type fields.",
+          "required": false
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "getMaintenances",
+      "summary": "",
+      "description": "Returns an array of Maintenance objects. Defaults to last 30 days.",
+      "input": [
+        {
+          "name": "startTime",
+          "type": "string",
+          "info": "Returns an array of Maintenance objects. Defaults to last 30 days.",
+          "required": false
+        },
+        {
+          "name": "service",
+          "type": "string",
+          "info": "Returns an array of Maintenance objects. Defaults to last 30 days.",
+          "required": false
+        },
+        {
+          "name": "instance",
+          "type": "string",
+          "info": "Returns an array of Maintenance objects. Defaults to last 30 days.",
+          "required": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "info": "Returns an array of Maintenance objects. Defaults to last 30 days.",
+          "required": false
+        },
+        {
+          "name": "limit",
+          "type": "number",
+          "info": "Returns an array of Maintenance objects. Defaults to last 30 days.",
+          "required": false
+        },
+        {
+          "name": "offset",
+          "type": "number",
+          "info": "Returns an array of Maintenance objects. Defaults to last 30 days.",
+          "required": false
+        },
+        {
+          "name": "sort",
+          "type": "string",
+          "info": "Returns an array of Maintenance objects. Defaults to last 30 days.",
+          "required": false
+        },
+        {
+          "name": "order",
+          "type": "string",
+          "info": "Returns an array of Maintenance objects. Defaults to last 30 days.",
+          "required": false
+        },
+        {
+          "name": "locale",
+          "type": "string",
+          "info": "Returns an array of Maintenance objects. Defaults to last 30 days.",
+          "required": false
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "getMaintenancesid",
+      "summary": "",
+      "description": "Returns a Maintenance based on Id.",
+      "input": [
+        {
+          "name": "id",
+          "type": "string",
+          "info": "Returns a Maintenance based on Id.",
+          "required": true
+        },
+        {
+          "name": "locale",
+          "type": "string",
+          "info": "Returns a Maintenance based on Id.",
+          "required": false
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "getMaintenancesfields",
+      "summary": "",
+      "description": "Returns an array of Maintenance fields.",
+      "input": [
+        {
+          "name": "locale",
+          "type": "string",
+          "info": "Returns an array of Maintenance fields.",
+          "required": false
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "getMaintenanceseventTypes",
+      "summary": "",
+      "description": "Returns an array of maintenance imapct type fields.",
+      "input": [
+        {
+          "name": "locale",
+          "type": "string",
+          "info": "Returns an array of maintenance imapct type fields.",
+          "required": false
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "getGeneralMessages",
+      "summary": "",
+      "description": "Returns an array of GeneralMessage objects.",
+      "input": [
+        {
+          "name": "limit",
+          "type": "number",
+          "info": "Returns an array of GeneralMessage objects.",
+          "required": false
+        },
+        {
+          "name": "offset",
+          "type": "number",
+          "info": "Returns an array of GeneralMessage objects.",
+          "required": false
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "getGeneralMessagesid",
+      "summary": "",
+      "description": "Returns a GeneralMessage based on Id.",
+      "input": [
+        {
+          "name": "id",
+          "type": "string",
+          "info": "Returns a GeneralMessage based on Id.",
+          "required": true
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "getMetricValues",
+      "summary": "",
+      "description": "Returns an array of MetricValue objects.",
+      "input": [
+        {
+          "name": "startTime",
+          "type": "string",
+          "info": "Returns an array of MetricValue objects.",
+          "required": false
+        },
+        {
+          "name": "endTime",
+          "type": "string",
+          "info": "Returns an array of MetricValue objects.",
+          "required": false
+        },
+        {
+          "name": "metricName",
+          "type": "string",
+          "info": "Returns an array of MetricValue objects.",
+          "required": false
+        },
+        {
+          "name": "instanceKey",
+          "type": "string",
+          "info": "Returns an array of MetricValue objects.",
+          "required": false
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "getMetricValuesid",
+      "summary": "",
+      "description": "Returns a MetricValue based on Id.",
+      "input": [
+        {
+          "name": "id",
+          "type": "string",
+          "info": "Returns a MetricValue based on Id.",
+          "required": true
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "getLocales",
+      "summary": "",
+      "description": "Return all locales",
+      "input": [
+        {
+          "name": "locale",
+          "type": "string",
+          "info": "Return all locales",
+          "required": false
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "getServices",
+      "summary": "",
+      "description": "Return all locales",
+      "input": [
+        {
+          "name": "locale",
+          "type": "string",
+          "info": "Return all locales",
+          "required": false
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "getInstances",
+      "summary": "",
+      "description": "Return all locales",
+      "input": [
+        {
+          "name": "sort",
+          "type": "string",
+          "info": "Return all locales",
+          "required": false
+        },
+        {
+          "name": "order",
+          "type": "string",
+          "info": "Return all locales",
+          "required": false
+        },
+        {
+          "name": "products",
+          "type": "string",
+          "info": "Return all locales",
+          "required": false
+        },
+        {
+          "name": "tags",
+          "type": "array",
+          "info": "Return all locales",
+          "required": false
+        },
+        {
+          "name": "childProducts",
+          "type": "boolean",
+          "info": "Return all locales",
+          "required": false
+        },
+        {
+          "name": "locale",
+          "type": "string",
+          "info": "Return all locales",
+          "required": false
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "getInstancesstatus",
+      "summary": "",
+      "description": "DEPRECATED WARNING ROUTE WILL BE REMOVED\nUse /instance/status/preview for overall current status and\ncurrently ongoing incidents, maintenances, and general messages.\nUse /instances/{key}/status for current status and recent\nhistory of incidents, maintenances, and general messages for\nsepcific instance\n\nReturn all instances and associated incidents",
+      "input": [
+        {
+          "name": "products",
+          "type": "string",
+          "info": "DEPRECATED WARNING ROUTE WILL BE REMOVED\nUse /instance/status/preview for overall current status and\ncurrently ongoing incidents, maintenances, and general messages.\nUse /instances/{key}/status for current status and recent\nhistory of incidents, maintenances, and general messages for\nsepcific instance\n\nReturn all instances and associated incidents",
+          "required": false
+        },
+        {
+          "name": "childProducts",
+          "type": "boolean",
+          "info": "DEPRECATED WARNING ROUTE WILL BE REMOVED\nUse /instance/status/preview for overall current status and\ncurrently ongoing incidents, maintenances, and general messages.\nUse /instances/{key}/status for current status and recent\nhistory of incidents, maintenances, and general messages for\nsepcific instance\n\nReturn all instances and associated incidents",
+          "required": false
+        },
+        {
+          "name": "locale",
+          "type": "string",
+          "info": "DEPRECATED WARNING ROUTE WILL BE REMOVED\nUse /instance/status/preview for overall current status and\ncurrently ongoing incidents, maintenances, and general messages.\nUse /instances/{key}/status for current status and recent\nhistory of incidents, maintenances, and general messages for\nsepcific instance\n\nReturn all instances and associated incidents",
+          "required": false
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "getInstancesstatuspreview",
+      "summary": "",
+      "description": "Return all instances and associated incidents, maintenances, and general messages.\nFor each instance returns a state enum indicating the most\nsevere ongoing event, and if it effects a core service.\n\nStatus Enums\n* OK\n* MAJOR_INCIDENT_CORE\n* MINOR_INCIDENT_CORE\n* MAINTENANCE_CORE\n* MAJOR_INCIDENT_NONCORE\n* MINOR_INCIDENT_NONCORE\n* MAINTENANCE_NONCORE",
+      "input": [
+        {
+          "name": "products",
+          "type": "string",
+          "info": "Return all instances and associated incidents, maintenances, and general messages.\nFor each instance returns a state enum indicating the most\nsevere ongoing event, and if it effects a core service.\n\nStatus Enums\n* OK\n* MAJOR_INCIDENT_CORE\n* MINOR_INCIDENT_CORE\n* MAINTENANCE_CORE\n* MAJOR_INCIDENT_NONCORE\n* MINOR_INCIDENT_NONCORE\n* MAINTENANCE_NONCORE",
+          "required": false
+        },
+        {
+          "name": "childProducts",
+          "type": "boolean",
+          "info": "Return all instances and associated incidents, maintenances, and general messages.\nFor each instance returns a state enum indicating the most\nsevere ongoing event, and if it effects a core service.\n\nStatus Enums\n* OK\n* MAJOR_INCIDENT_CORE\n* MINOR_INCIDENT_CORE\n* MAINTENANCE_CORE\n* MAJOR_INCIDENT_NONCORE\n* MINOR_INCIDENT_NONCORE\n* MAINTENANCE_NONCORE",
+          "required": false
+        },
+        {
+          "name": "locale",
+          "type": "string",
+          "info": "Return all instances and associated incidents, maintenances, and general messages.\nFor each instance returns a state enum indicating the most\nsevere ongoing event, and if it effects a core service.\n\nStatus Enums\n* OK\n* MAJOR_INCIDENT_CORE\n* MINOR_INCIDENT_CORE\n* MAINTENANCE_CORE\n* MAJOR_INCIDENT_NONCORE\n* MINOR_INCIDENT_NONCORE\n* MAINTENANCE_NONCORE",
+          "required": false
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "getInstanceskeystatuspreview",
+      "summary": "",
+      "description": "Rerurn an instance with associated incidents, maintenances, and general messages.\nFor a given instance returns a state enum indicating the most\nsevere ongoing event, and if it effects a core service.\n\nStatus Enums\n* OK\n* MAJOR_INCIDENT_CORE\n* MINOR_INCIDENT_CORE\n* MAINTENANCE_CORE\n* MAJOR_INCIDENT_NONCORE\n* MINOR_INCIDENT_NONCORE\n* MAINTENANCE_NONCORE",
+      "input": [
+        {
+          "name": "key",
+          "type": "string",
+          "info": "Rerurn an instance with associated incidents, maintenances, and general messages.\nFor a given instance returns a state enum indicating the most\nsevere ongoing event, and if it effects a core service.\n\nStatus Enums\n* OK\n* MAJOR_INCIDENT_CORE\n* MINOR_INCIDENT_CORE\n* MAINTENANCE_CORE\n* MAJOR_INCIDENT_NONCORE\n* MINOR_INCIDENT_NONCORE\n* MAINTENANCE_NONCORE",
+          "required": true
+        },
+        {
+          "name": "productKey",
+          "type": "string",
+          "info": "Rerurn an instance with associated incidents, maintenances, and general messages.\nFor a given instance returns a state enum indicating the most\nsevere ongoing event, and if it effects a core service.\n\nStatus Enums\n* OK\n* MAJOR_INCIDENT_CORE\n* MINOR_INCIDENT_CORE\n* MAINTENANCE_CORE\n* MAJOR_INCIDENT_NONCORE\n* MINOR_INCIDENT_NONCORE\n* MAINTENANCE_NONCORE",
+          "required": false
+        },
+        {
+          "name": "childProducts",
+          "type": "boolean",
+          "info": "Rerurn an instance with associated incidents, maintenances, and general messages.\nFor a given instance returns a state enum indicating the most\nsevere ongoing event, and if it effects a core service.\n\nStatus Enums\n* OK\n* MAJOR_INCIDENT_CORE\n* MINOR_INCIDENT_CORE\n* MAINTENANCE_CORE\n* MAJOR_INCIDENT_NONCORE\n* MINOR_INCIDENT_NONCORE\n* MAINTENANCE_NONCORE",
+          "required": false
+        },
+        {
+          "name": "locale",
+          "type": "string",
+          "info": "Rerurn an instance with associated incidents, maintenances, and general messages.\nFor a given instance returns a state enum indicating the most\nsevere ongoing event, and if it effects a core service.\n\nStatus Enums\n* OK\n* MAJOR_INCIDENT_CORE\n* MINOR_INCIDENT_CORE\n* MAINTENANCE_CORE\n* MAJOR_INCIDENT_NONCORE\n* MINOR_INCIDENT_NONCORE\n* MAINTENANCE_NONCORE",
+          "required": false
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "getInstanceskeystatus",
+      "summary": "",
+      "description": "Return an by instance with associated incidents, maintenances, and general messages.\nReturns a state enum indicating the most\nsevere ongoing event, and if it effects a core service.\n\nStatus Enums:\n* OK\n* MAJOR_INCIDENT_CORE\n* MINOR_INCIDENT_CORE\n* MAINTENANCE_CORE\n* MAJOR_INCIDENT_NONCORE\n* MINOR_INCIDENT_NONCORE\n* MAINTENANCE_NONCORE",
+      "input": [
+        {
+          "name": "key",
+          "type": "string",
+          "info": "Return an by instance with associated incidents, maintenances, and general messages.\nReturns a state enum indicating the most\nsevere ongoing event, and if it effects a core service.\n\nStatus Enums:\n* OK\n* MAJOR_INCIDENT_CORE\n* MINOR_INCIDENT_CORE\n* MAINTENANCE_CORE\n* MAJOR_INCIDENT_NONCORE\n* MINOR_INCIDENT_NONCORE\n* MAINTENANCE_NONCORE",
+          "required": true
+        },
+        {
+          "name": "productKey",
+          "type": "string",
+          "info": "Return an by instance with associated incidents, maintenances, and general messages.\nReturns a state enum indicating the most\nsevere ongoing event, and if it effects a core service.\n\nStatus Enums:\n* OK\n* MAJOR_INCIDENT_CORE\n* MINOR_INCIDENT_CORE\n* MAINTENANCE_CORE\n* MAJOR_INCIDENT_NONCORE\n* MINOR_INCIDENT_NONCORE\n* MAINTENANCE_NONCORE",
+          "required": false
+        },
+        {
+          "name": "childProducts",
+          "type": "boolean",
+          "info": "Return an by instance with associated incidents, maintenances, and general messages.\nReturns a state enum indicating the most\nsevere ongoing event, and if it effects a core service.\n\nStatus Enums:\n* OK\n* MAJOR_INCIDENT_CORE\n* MINOR_INCIDENT_CORE\n* MAINTENANCE_CORE\n* MAJOR_INCIDENT_NONCORE\n* MINOR_INCIDENT_NONCORE\n* MAINTENANCE_NONCORE",
+          "required": false
+        },
+        {
+          "name": "locale",
+          "type": "string",
+          "info": "Return an by instance with associated incidents, maintenances, and general messages.\nReturns a state enum indicating the most\nsevere ongoing event, and if it effects a core service.\n\nStatus Enums:\n* OK\n* MAJOR_INCIDENT_CORE\n* MINOR_INCIDENT_CORE\n* MAINTENANCE_CORE\n* MAJOR_INCIDENT_NONCORE\n* MINOR_INCIDENT_NONCORE\n* MAINTENANCE_NONCORE",
+          "required": false
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "getInstanceAliaseskeystatus",
+      "summary": "",
+      "description": "Return an by instance with associated incidents, maintenances, and general messages.\nReturns a state enum indicating the most\nsevere ongoing event, and if it effects a core service.\n\nStatus Enums:\n* OK\n* MAJOR_INCIDENT_CORE\n* MINOR_INCIDENT_CORE\n* MAINTENANCE_CORE\n* MAJOR_INCIDENT_NONCORE\n* MINOR_INCIDENT_NONCORE\n* MAINTENANCE_NONCORE",
+      "input": [
+        {
+          "name": "key",
+          "type": "string",
+          "info": "Return an by instance with associated incidents, maintenances, and general messages.\nReturns a state enum indicating the most\nsevere ongoing event, and if it effects a core service.\n\nStatus Enums:\n* OK\n* MAJOR_INCIDENT_CORE\n* MINOR_INCIDENT_CORE\n* MAINTENANCE_CORE\n* MAJOR_INCIDENT_NONCORE\n* MINOR_INCIDENT_NONCORE\n* MAINTENANCE_NONCORE",
+          "required": true
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "getInstanceAliaseskey",
+      "summary": "",
+      "description": "Get Instance Alias",
+      "input": [
+        {
+          "name": "key",
+          "type": "string",
+          "info": "Get Instance Alias",
+          "required": true
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "getProducts",
+      "summary": "",
+      "description": "Return all catergories",
+      "input": [],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "getProductskey",
+      "summary": "",
+      "description": "Returns an product by id.",
+      "input": [
+        {
+          "name": "key",
+          "type": "string",
+          "info": "Returns an product by id.",
+          "required": true
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "postSubscribe",
+      "summary": "",
+      "description": "",
+      "input": [
+        {
+          "name": "XSendNotification",
+          "type": "string",
+          "info": "",
+          "required": false
+        },
+        {
+          "name": "body",
+          "type": "object",
+          "info": "",
+          "required": true
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "patchUnsubscribe",
+      "summary": "",
+      "description": "",
+      "input": [
+        {
+          "name": "body",
+          "type": "object",
+          "info": "",
+          "required": false
+        },
+        {
+          "name": "token",
+          "type": "string",
+          "info": "",
+          "required": false
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "postUnsubscribe",
+      "summary": "",
+      "description": "",
+      "input": [
+        {
+          "name": "body",
+          "type": "object",
+          "info": "",
+          "required": false
+        },
+        {
+          "name": "token",
+          "type": "string",
+          "info": "",
+          "required": false
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "postLogin",
+      "summary": "",
+      "description": "Requests to send a login link to the email address",
+      "input": [
+        {
+          "name": "XSendNotification",
+          "type": "string",
+          "info": "Requests to send a login link to the email address",
+          "required": false
+        },
+        {
+          "name": "body",
+          "type": "object",
+          "info": "Requests to send a login link to the email address",
+          "required": true
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "getLogout",
+      "summary": "",
+      "description": "Logout authenticated user.",
+      "input": [
+        {
+          "name": "token",
+          "type": "string",
+          "info": "Logout authenticated user.",
+          "required": true
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "getSubscribers",
+      "summary": "Retrieve Subscriber",
+      "description": "Returns subscriber and subscription using token",
+      "input": [
+        {
+          "name": "token",
+          "type": "string",
+          "info": "Returns subscriber and subscription using token",
+          "required": true
+        },
+        {
+          "name": "normalize",
+          "type": "boolean",
+          "info": "Returns subscriber and subscription using token",
+          "required": false
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "patchSubscribers",
+      "summary": "Update Subscriber",
+      "description": "Update subscriber using token",
+      "input": [
+        {
+          "name": "XSendNotification",
+          "type": "string",
+          "info": "Update subscriber using token",
+          "required": false
+        },
+        {
+          "name": "token",
+          "type": "string",
+          "info": "Update subscriber using token",
+          "required": true
+        },
+        {
+          "name": "body",
+          "type": "object",
+          "info": "Update subscriber using token",
+          "required": true
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "postSubscriberssubscriptionsid",
+      "summary": "Creates a Subscription for the User.",
+      "description": "",
+      "input": [
+        {
+          "name": "id",
+          "type": "string",
+          "info": "",
+          "required": true
+        },
+        {
+          "name": "token",
+          "type": "string",
+          "info": "",
+          "required": true
+        },
+        {
+          "name": "body",
+          "type": "object",
+          "info": "",
+          "required": true
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "patchSubscriberssubscriptionsid",
+      "summary": "Updates a Subscription for the User.",
+      "description": "",
+      "input": [
+        {
+          "name": "id",
+          "type": "string",
+          "info": "",
+          "required": true
+        },
+        {
+          "name": "token",
+          "type": "string",
+          "info": "",
+          "required": true
+        },
+        {
+          "name": "body",
+          "type": "object",
+          "info": "",
+          "required": true
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "deleteSubscriberssubscriptionsid",
+      "summary": "Deletes a Subscription for the User.",
+      "description": "",
+      "input": [
+        {
+          "name": "id",
+          "type": "string",
+          "info": "",
+          "required": true
+        },
+        {
+          "name": "token",
+          "type": "string",
+          "info": "",
+          "required": true
+        },
+        {
+          "name": "body",
+          "type": "object",
+          "info": "",
+          "required": true
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "getSearchkey",
+      "summary": "",
+      "description": "Return all search results",
+      "input": [
+        {
+          "name": "key",
+          "type": "string",
+          "info": "Return all search results",
+          "required": true
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "getTags",
+      "summary": "",
+      "description": "Return all the tags",
+      "input": [],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "getTagsinstanceinstanceKey",
+      "summary": "",
+      "description": "Return all the tags for a given Instance Key",
+      "input": [
+        {
+          "name": "instanceKey",
+          "type": "string",
+          "info": "Return all the tags for a given Instance Key",
+          "required": true
+        },
+        {
+          "name": "instances",
+          "type": "boolean",
+          "info": "Return all the tags for a given Instance Key",
+          "required": false
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    },
+    {
+      "name": "getTagTypes",
+      "summary": "",
+      "description": "Return all the tag types",
+      "input": [],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result"
+      },
+      "roles": [
+        "admin"
+      ],
+      "task": true
+    }
+  ]
+}
