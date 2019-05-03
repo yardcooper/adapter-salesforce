@@ -1,6 +1,6 @@
 {
   "name": "@itentialopensource/adapter-salesforce",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "This adapter integrates with system Salesforce",
   "main": "adapter.js",
   "wizardVersion": "2.6.3",
