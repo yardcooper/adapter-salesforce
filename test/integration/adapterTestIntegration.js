@@ -1,13 +1,26 @@
+/* @copyright Itential, LLC 2019 (pre-modifications) */
+
 // Set globals
 /* global describe it log pronghornProps */
+/* eslint no-unused-vars: warn */
 
 // include required items for testing & logging
 const assert = require('assert');
+const fs = require('fs');
+const mocha = require('mocha');
+const path = require('path');
 const winston = require('winston');
+const { expect } = require('chai');
+const { use } = require('chai');
+const td = require('testdouble');
+
+const anything = td.matchers.anything();
 
 // stub and attemptTimeout are used throughout the code so set them here
 let logLevel = 'none';
 const stub = true;
+const isRapidFail = false;
+const isSaveMockData = false;
 const attemptTimeout = 5000;
 
 // these variables can be changed to run in integrated mode so easier to set them here
@@ -139,6 +152,108 @@ function runCommonAsserts(data, error) {
   assert.notEqual(null, data.response);
 }
 
+/**
+ * Runs the error asserts for the test
+ */
+function runErrorAsserts(data, error, code, origin, displayStr) {
+  assert.equal(null, data);
+  assert.notEqual(undefined, error);
+  assert.notEqual(null, error);
+  assert.notEqual(undefined, error.IAPerror);
+  assert.notEqual(null, error.IAPerror);
+  assert.notEqual(undefined, error.IAPerror.displayString);
+  assert.notEqual(null, error.IAPerror.displayString);
+  assert.equal(code, error.icode);
+  assert.equal(origin, error.IAPerror.origin);
+  assert.equal(displayStr, error.IAPerror.displayString);
+}
+
+/**
+ * @function saveMockData
+ * Attempts to take data from responses and place them in MockDataFiles to help create Mockdata.
+ * Note, this was built based on entity file structure for Adapter-Engine 1.6.x
+ * @param {string} entityName - Name of the entity saving mock data for
+ * @param {string} actionName -  Name of the action saving mock data for
+ * @param {string} descriptor -  Something to describe this test (used as a type)
+ * @param {string or object} responseData - The data to put in the mock file.
+ */
+function saveMockData(entityName, actionName, descriptor, responseData) {
+  // do not need to save mockdata if we are running in stub mode (already has mock data) or if told not to save
+  if (stub || !isSaveMockData) {
+    return false;
+  }
+
+  // must have a response in order to store the response
+  if (responseData && responseData.response) {
+    const data = responseData.response;
+
+    try {
+      const base = `./entities/${entityName}/`;
+      const filename = `mockdatafiles/${actionName}-${descriptor}.json`;
+
+      // write the data we retrieved
+      fs.writeFile(base + filename, JSON.stringify(data, null, 2), 'utf8', (errWritingMock) => {
+        if (errWritingMock) throw errWritingMock;
+
+        // update the action file to reflect the changes. Note: We're replacing the default object for now!
+        fs.readFile(`${base}action.json`, (errRead, content) => {
+          if (errRead) throw errRead;
+
+          // parse the action file into JSON
+          const parsedJson = JSON.parse(content);
+
+          // The object update we'll write in.
+          const responseObj = {
+            type: descriptor,
+            key: '',
+            mockFile: filename
+          };
+
+          // get the object for method we're trying to change.
+          const currentMethodAction = parsedJson.actions.find(obj => obj.name === actionName);
+
+          // if the method was not found - should never happen but...
+          if (!currentMethodAction) {
+            throw Error('Can\'t find an action for this method in the provided entity.');
+          }
+
+          // if there is a response object, we want to replace the Response object. Otherwise we'll create one.
+          const actionResponseObj = currentMethodAction.responseObjects.find(obj => obj.type === descriptor);
+
+          // Add the action responseObj back into the array of response objects.
+          if (!actionResponseObj) {
+            // if there is a default response object, we want to get the key.
+            const defaultResponseObj = currentMethodAction.responseObjects.find(obj => obj.type === 'default');
+
+            // save the default key into the new response object
+            if (!defaultResponseObj) {
+              responseObj.key = defaultResponseObj.key;
+            }
+
+            // save the new response object
+            currentMethodAction.responseObjects = [responseObj];
+          } else {
+            // update the location of the mock data file
+            actionResponseObj.mockFile = responseObj.mockFile;
+          }
+
+          // Save results
+          fs.writeFile(`${base}action.json`, JSON.stringify(parsedJson, null, 2), (err) => {
+            if (err) throw err;
+          });
+        });
+      });
+    } catch (e) {
+      log.debug(`Failed to save mock data for ${actionName}. ${e.message}`);
+      return false;
+    }
+  }
+
+  // no response to save
+  log.debug(`No data passed to save into mockdata for ${actionName}`);
+  return false;
+}
+
 
 // require the adapter that we are going to be using
 const Salesforce = require('../../adapter.js');
@@ -150,6 +265,22 @@ describe('[integration] Salesforce Adapter Test', () => {
       pronghornProps.adapterProps.adapters[0].id,
       pronghornProps.adapterProps.adapters[0].properties
     );
+
+    if (isRapidFail) {
+      const state = {};
+      state.passed = true;
+
+      mocha.afterEach(function x() {
+        state.passed = state.passed
+        && (this.currentTest.state === 'passed');
+      });
+      mocha.beforeEach(function x() {
+        if (!state.passed) {
+          return this.currentTest.skip();
+        }
+        return true;
+      });
+    }
 
     describe('#class instance created', () => {
       it('should be a class with properties', (done) => {
@@ -181,8 +312,9 @@ describe('[integration] Salesforce Adapter Test', () => {
       it('should be healthy', (done) => {
         const p = new Promise((resolve) => {
           a.healthCheck(null, (data) => {
-            resolve(data);
             assert.equal(true, a.healthy);
+            saveMockData('system', 'healthcheck', 'default', data);
+            resolve(data);
             done();
           });
         });
@@ -190,6 +322,15 @@ describe('[integration] Salesforce Adapter Test', () => {
         log.debug(p);
       }).timeout(attemptTimeout);
     });
+
+    /*
+    -----------------------------------------------------------------------
+    -----------------------------------------------------------------------
+    *** All code above this comment will be replaced during a migration ***
+    ******************* DO NOT REMOVE THIS COMMENT BLOCK ******************
+    -----------------------------------------------------------------------
+    -----------------------------------------------------------------------
+    */
 
     describe('#getLocalizations - errors', () => {
       it('should work if integrated or standalone with mockdata', (done) => {

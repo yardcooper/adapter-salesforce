@@ -31,7 +31,9 @@
       "description": "api version this adapter integrates with",
       "default": "",
       "examples": [
-        "v1", "v2.6", "4.5.1"
+        "v1",
+        "v2.6",
+        "4.5.1"
       ]
     },
     "cache_location": {
@@ -39,7 +41,9 @@
       "description": "Where cache of information should be located redis or local memory",
       "default": "none",
       "enum": [
-        "redis", "local", "none"
+        "redis",
+        "local",
+        "none"
       ]
     },
     "stub": {
@@ -52,7 +56,8 @@
       "description": "the protocol to use to connect to server",
       "default": "http",
       "enum": [
-        "http", "https"
+        "http",
+        "https"
       ]
     },
     "authentication": {
@@ -74,7 +79,12 @@
       "$ref": "#/definitions/ssl"
     }
   },
-  "required": ["host", "port", "authentication", "healthcheck"],
+  "required": [
+    "host",
+    "port",
+    "authentication",
+    "healthcheck"
+  ],
   "definitions": {
     "authentication": {
       "type": "object",
@@ -84,7 +94,10 @@
           "description": "The authentication method for requests",
           "default": "basic user_password",
           "enum": [
-            "basic user_password", "static_token", "request_token", "no_authentication"
+            "basic user_password",
+            "static_token",
+            "request_token",
+            "no_authentication"
           ]
         },
         "username": {
@@ -100,7 +113,9 @@
           "description": "The password used for requests. If it was retrieved through the encrypt password call, use the exact return including the {code} or {crypt}",
           "default": "",
           "examples": [
-            "password", "{code}password", "{crypt}password"
+            "password",
+            "{code}password",
+            "{crypt}password"
           ]
         },
         "token": {
@@ -162,7 +177,8 @@
           "description": "Whether tokens should be stored in redis or local memory",
           "default": "local",
           "enum": [
-            "redis", "local"
+            "redis",
+            "local"
           ]
         },
         "auth_field": {
@@ -170,7 +186,11 @@
           "description": "The field in which to pass the token",
           "default": "header.headers.X-AUTH-TOKEN",
           "examples": [
-            "header.headers.X-AUTH-TOKEN", "header.headers.Authorization", "header.auth", "body.token", "url"
+            "header.headers.X-AUTH-TOKEN",
+            "header.headers.Authorization",
+            "header.auth",
+            "body.token",
+            "url"
           ]
         },
         "auth_field_format": {
@@ -178,23 +198,73 @@
           "description": "The format used to pass the authentication -- variables {token}, {username}, {password} will be replaced with the proper values. {b64}...{/b64} will base64 encode everything between the start and end tag.",
           "default": "{token}",
           "examples": [
-            "{token}", "Token {token}", "{username}:{password}", "Basic {b64}{username}:{password}{/b64}", "token={token}"
+            "{token}",
+            "Token {token}",
+            "{username}:{password}",
+            "Basic {b64}{username}:{password}{/b64}",
+            "token={token}"
           ]
         }
       },
-      "required": ["auth_method"],
+      "required": [
+        "auth_method"
+      ],
       "allOf": [
         {
-          "if" : { "properties" : { "auth_method": { "enum": ["basic user_password"] } } },
-          "then" : { "required" : ["username", "password", "auth_field", "auth_field_format"] }
+          "if": {
+            "properties": {
+              "auth_method": {
+                "enum": [
+                  "basic user_password"
+                ]
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "username",
+              "password",
+              "auth_field",
+              "auth_field_format"
+            ]
+          }
         },
         {
-          "if" : { "properties" : { "auth_method": { "enum": ["request_token"] } } },
-          "then" : { "required" : ["username", "password", "auth_field", "auth_field_format"] }
+          "if": {
+            "properties": {
+              "auth_method": {
+                "enum": [
+                  "request_token"
+                ]
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "username",
+              "password",
+              "auth_field",
+              "auth_field_format"
+            ]
+          }
         },
         {
-          "if" : { "properties" : { "auth_method": { "enum": ["static_token"] } } },
-          "then" : { "required" : ["token", "auth_field", "auth_field_format"] }
+          "if": {
+            "properties": {
+              "auth_method": {
+                "enum": [
+                  "static_token"
+                ]
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "token",
+              "auth_field",
+              "auth_field_format"
+            ]
+          }
         }
       ]
     },
@@ -206,7 +276,9 @@
           "description": "The type of healthcheck to run",
           "default": "intermittent",
           "enum": [
-            "none", "startup", "intermittent"
+            "none",
+            "startup",
+            "intermittent"
           ]
         },
         "frequency": {
@@ -233,11 +305,25 @@
           ]
         }
       },
-      "required": ["type"],
+      "required": [
+        "type"
+      ],
       "allOf": [
         {
-          "if" : { "properties" : { "type": { "enum": ["intermittent"] } } },
-          "then" : { "required" : ["frequency"] }
+          "if": {
+            "properties": {
+              "type": {
+                "enum": [
+                  "intermittent"
+                ]
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "frequency"
+            ]
+          }
         }
       ]
     },
@@ -261,7 +347,8 @@
           "description": "should the queue handle request synchronously or asynchronously",
           "default": "sync",
           "examples": [
-            "async", "sync"
+            "async",
+            "sync"
           ]
         },
         "max_in_queue": {
@@ -273,7 +360,7 @@
         },
         "concurrent_max": {
           "type": "integer",
-          "description": "defines the number of request that Pronghorn can send to Ansible Tower at one time",
+          "description": "defines the number of request that Pronghorn can send salesforce at one time",
           "default": 1,
           "minimum": 1,
           "maximum": 1000
@@ -287,17 +374,36 @@
         },
         "avg_runtime": {
           "type": "integer",
-          "description": "an approximate average of how long it takes Ansible Tower to handle each request",
+          "description": "an approximate average of how long it takes salesforce to handle each request",
           "default": 200,
           "minimum": 50,
           "maximum": 60000
         }
       },
-      "required": ["throttle_enabled"],
+      "required": [
+        "throttle_enabled"
+      ],
       "allOf": [
         {
-          "if" : { "properties" : { "throttle_enabled": { "enum": [true] } } },
-          "then" : { "required" : ["number_pronghorns", "sync_async", "max_in_queue", "concurrent_max", "expire_timeout", "avg_runtime"] }
+          "if": {
+            "properties": {
+              "throttle_enabled": {
+                "enum": [
+                  true
+                ]
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "number_pronghorns",
+              "sync_async",
+              "max_in_queue",
+              "concurrent_max",
+              "expire_timeout",
+              "avg_runtime"
+            ]
+          }
         }
       ]
     },
@@ -343,7 +449,12 @@
           "default": false
         }
       },
-      "required": ["number_retries", "limit_retry_error", "attempt_timeout", "healthcheck_on_timeout"]
+      "required": [
+        "number_retries",
+        "limit_retry_error",
+        "attempt_timeout",
+        "healthcheck_on_timeout"
+      ]
     },
     "proxy": {
       "type": "object",
@@ -373,15 +484,33 @@
           "description": "the protocol to use to connect to the proxy",
           "default": "http",
           "enum": [
-            "http", "https", "socks4", "socks5"
+            "http",
+            "https",
+            "socks4",
+            "socks5"
           ]
         }
       },
-      "required": ["enabled"],
+      "required": [
+        "enabled"
+      ],
       "allOf": [
         {
-          "if" : { "properties" : { "enabled": { "enum": [true] } } },
-          "then" : { "required" : ["host", "port"] }
+          "if": {
+            "properties": {
+              "enabled": {
+                "enum": [
+                  true
+                ]
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "host",
+              "port"
+            ]
+          }
         }
       ]
     },
@@ -419,7 +548,8 @@
           "description": "What protocol to set on the ssl request",
           "default": "",
           "examples": [
-            "SSLv2_method", "SSLv3_method"
+            "SSLv2_method",
+            "SSLv3_method"
           ]
         },
         "ciphers": {
@@ -431,18 +561,55 @@
           ]
         }
       },
-      "required": ["enabled"],
+      "required": [
+        "enabled"
+      ],
       "allOf": [
         {
-          "if" : { "properties" : { "enabled": { "enum": [true] } } },
-          "then" : { "required" : ["accept_invalid_cert", "ciphers"] }
+          "if": {
+            "properties": {
+              "enabled": {
+                "enum": [
+                  true
+                ]
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "accept_invalid_cert",
+              "ciphers"
+            ]
+          }
         },
         {
-          "if" : { "allOf": [
-            { "properties" : { "enabled": { "enum": [true] } } },
-            { "properties" : { "accept_invalid_cert": { "enum": [ false ] } } }
-          ] },
-          "then" : { "required" : ["ca_file"] }
+          "if": {
+            "allOf": [
+              {
+                "properties": {
+                  "enabled": {
+                    "enum": [
+                      true
+                    ]
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "accept_invalid_cert": {
+                    "enum": [
+                      false
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "then": {
+            "required": [
+              "ca_file"
+            ]
+          }
         }
       ]
     }

@@ -3,8 +3,8 @@
   "version": "0.1.1",
   "description": "This adapter integrates with system Salesforce",
   "main": "adapter.js",
-  "wizardVersion": "2.6.3",
-  "engineVersion": "1.3.8",
+  "wizardVersion": "2.28.6",
+  "engineVersion": "1.24.1",
   "scripts": {
     "preinstall": "node utils/setup.js",
     "lint": "eslint . --ext .json --ext .js",
@@ -13,15 +13,20 @@
     "test:cover": "nyc --reporter html --reporter text mocha --reporter dot test/*",
     "test": "npm run test:unit && npm run test:integration",
     "deploy": "npm publish --registry=http://registry.npmjs.org --access=public",
-    "build": "npm run deploy"
+    "build": "npm run deploy",
+    "artifactize": "npm i && node utils/packModificationScript.js"
   },
   "keywords": [
-    "IAP",
     "Itential",
+    "IAP",
     "Automation",
     "Integration",
-    "salesforce",
-    "Basic"
+    "App-Artifacts",
+    "Adapter",
+    "ITSM",
+    "Testing",
+    "Salesforce",
+    "Pre-Release"
   ],
   "license": "Apache-2.0",
   "engines": {
@@ -34,11 +39,12 @@
   "author": "Itential",
   "homepage": "https://gitlab.com:itentialopensource/adapters/adapter-salesforce#readme",
   "dependencies": {
-    "@itentialopensource/adapter-utils": "^4.6.0",
+    "@itentialopensource/adapter-utils": "^4.8.4",
     "ajv": "^6.10.0",
     "fs-extra": "^7.0.0",
     "readline-sync": "^1.4.9",
-    "xmldom": "^0.1.27"
+    "xmldom": "^0.1.27",
+    "package-json-validator": "^0.6.3"
   },
   "devDependencies": {
     "chai": "^4.1.2",
@@ -47,7 +53,7 @@
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-json": "^1.4.0",
     "mocha": "^5.2.0",
-    "nyc": "^14.0.0",
+    "nyc": "^14.1.1",
     "testdouble": "^3.8.1",
     "winston": "^2.4.0"
   },
