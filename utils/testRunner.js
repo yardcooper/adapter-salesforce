@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* @copyright Itential, LLC 2019 */
 
 const fs = require('fs-extra');
 const rl = require('readline-sync');
@@ -11,6 +12,8 @@ const execute = require('child_process').exec;
  */
 
 let stub = true;
+let isRapidFail = false;
+let isSaveMockData = false;
 let host = 'replace.hostorip.here';
 let username = 'username';
 let password = 'password';
@@ -19,6 +22,8 @@ let port = 80;
 let sslenable = false;
 let sslinvalid = false;
 const dstub = true;
+const disRapidFail = false;
+const disSaveMockData = false;
 const dhost = 'replace.hostorip.here';
 const dusername = 'username';
 const dpassword = 'password';
@@ -41,11 +46,29 @@ function replaceTestVars(test) {
 
   let intTest = fs.readFileSync(test, 'utf8');
 
-  // replace stub variable
+  // replace stub variable but check if it exists first
   let sindex = intTest.indexOf('const stub');
   let eindex = intTest.indexOf(';', sindex);
   let replStr = intTest.substring(sindex, eindex + 1);
-  intTest = intTest.replace(replStr, `const stub = ${stub};`);
+  if (sindex > -1) {
+    intTest = intTest.replace(replStr, `const stub = ${stub};`);
+  }
+
+  // replace isRapidFail variable but check if it exists first
+  sindex = intTest.indexOf('const isRapidFail');
+  eindex = intTest.indexOf(';', sindex);
+  replStr = intTest.substring(sindex, eindex + 1);
+  if (sindex > -1) {
+    intTest = intTest.replace(replStr, `const isRapidFail = ${isRapidFail};`);
+  }
+
+  // replace isSaveMockData variable but check if it exists first
+  sindex = intTest.indexOf('const isSaveMockData');
+  eindex = intTest.indexOf(';', sindex);
+  replStr = intTest.substring(sindex, eindex + 1);
+  if (sindex > -1) {
+    intTest = intTest.replace(replStr, `const isSaveMockData = ${isSaveMockData};`);
+  }
 
   // replace host variable
   sindex = intTest.indexOf('const host');
@@ -100,24 +123,26 @@ function replaceTestVars(test) {
 function runTest(callback) {
   replaceTestVars('test/integration/adapterTestIntegration.js');
 
-  const cmdPath = 'npm run test:integration';
+  let cmdPath = 'npm run test:integration';
   console.log('\nRUNNING INTEGRATION TESTS - THIS WILL TAKE SOME TIME AND WILL NOT PRINT UNTIL TEST IS COMPLETE!\n');
-  return execute(cmdPath, (cerror, stdout, stderr) => {
+  if (stderror) {
+    console.log('\nNOTE: standard error from tests is included - unless test failed, these may be expected errors:\n');
+    cmdPath += ' 2>&1';
+  } else {
+    console.log('stderr not shown');
+  }
+
+  return execute(cmdPath, (cerror, stdout) => {
     console.log('executed tests:\n');
     console.log(`${stdout}\n`);
-
-    if (stderror) {
-      console.log('\nstandard error from tests - unless test failed, these may be expected errors:\n');
-      console.log(`${stderr}\n`);
-    }
-
     if (cerror) {
-      console.log('\nexec error:\n');
-      console.log(`${cerror}\n`);
+      console.log('\x1b[31m%s\x1b[0m', '\nexec error:\n');
+      console.log('\x1b[31m%s\x1b[0m', `${cerror}\n`);
     }
-
     // reset the defaults
     stub = dstub;
+    isRapidFail = disRapidFail;
+    isSaveMockData = disSaveMockData;
     host = dhost;
     username = dusername;
     password = dpassword;
@@ -134,20 +159,23 @@ function runTest(callback) {
  * Updates the unit test file and runs the script
  */
 function runUnitTest(callback) {
-  const cmdPath = 'npm run test:unit';
+  let cmdPath = 'npm run test:unit';
   console.log('\nRUNNING UNIT TESTS - THIS WILL TAKE SOME TIME AND WILL NOT PRINT UNTIL TEST IS COMPLETE!\n');
-  return execute(cmdPath, (cerror, stdout, stderr) => {
+
+  if (stderror) {
+    console.log('\nNOTE: standard error from tests is included- unless test failed, these may be expected errors:\n');
+    cmdPath += ' 2>&1';
+  } else {
+    console.log('stderr not shown');
+  }
+
+  return execute(cmdPath, (cerror, stdout) => {
     console.log('executed tests:\n');
     console.log(`${stdout}\n`);
 
-    if (stderror) {
-      console.log('\nstandard error from tests - unless test failed, these may be expected errors:\n');
-      console.log(`${stderr}\n`);
-    }
-
     if (cerror) {
-      console.log('\nexec error:\n');
-      console.log(`${cerror}\n`);
+      console.log('\x1b[31m%s\x1b[0m', '\nexec error:\n');
+      console.log('\x1b[31m%s\x1b[0m', `${cerror}\n`);
     }
 
     return callback('done');
@@ -164,6 +192,8 @@ for (let a = 0; a < args.length; a += 1) {
     message += '\n';
     message += 'Options:\n';
     message += '-h, --help: Prints this message\n';
+    message += '-f, --failfast: Fail the test when the first test fails\n';
+    message += '-m, --mockdata: Update mock data files with the results from testing (only if running integrated)\n';
     message += '-r, --reset: Resets the variables back to stub settings and removes credentials\n';
     message += '-s, --stderror: Displays the standard error from the run, this can have data even if all the tests pass\n';
     message += '-u, --unit: Runs just the unit tests as well\n';
@@ -171,6 +201,12 @@ for (let a = 0; a < args.length; a += 1) {
     running = true;
   }
 
+  if (args[a].toUpperCase() === '-F' || args[a].toUpperCase() === '--FAILFAST') {
+    isRapidFail = true;
+  }
+  if (args[a].toUpperCase() === '-M' || args[a].toUpperCase() === '--MOCKDATA') {
+    isSaveMockData = true;
+  }
   if (args[a].toUpperCase() === '-R' || args[a].toUpperCase() === '--RESET') {
     running = true;
     replaceTestVars('test/integration/adapterTestIntegration.js');
@@ -231,8 +267,11 @@ if (!running) {
     }
 
     if (protocol === 'https') {
+      // if protocol is https, set default port to 443
+      port = 443;
       // need the port used with other system
       answer = rl.question('\nWhat is the port used to communicate with the system? (443): ');
+      port = 443; // update default answer to 443 for https
       if (answer) {
         port = Number(answer);
       }

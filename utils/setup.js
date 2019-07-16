@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* @copyright Itential, LLC 2019 */
 
 const fs = require('fs');
 

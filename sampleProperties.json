@@ -1,0 +1,35 @@
+{
+  "type": "Salesforce",
+  "id": "salesforce",
+  "properties": {
+    "authentication": {
+      "auth_method": "request_token",
+      "auth_field": "header.headers.X-AUTH-TOKEN",
+      "auth_field_format": "{token}",
+      "username": "username",
+      "password": "password",
+      "token_timeout": 1800000,
+      "token_cache": "local",
+      "invalid_token_error": 401
+    },
+    "healthcheck": {
+      "type": "startup"
+    },
+    "host": "salesforce",
+    "port": 443,
+    "base_path": "//api",
+    "version": "v1",
+    "cache_location": "none",
+    "protocol": "https",
+    "stub": true,
+    "request": {
+      "number_retries": 3,
+      "limit_retry_error": 0,
+      "attempt_timeout": 5000,
+      "healthcheck_on_timeout": true,
+      "archiving": false
+    }
+  },
+  "logLevel": "none",
+  "timeout": 60000
+}

@@ -1,18 +1,29 @@
+/* @copyright Itential, LLC 2019 (pre-modifications) */
+
 // Set globals
 /* global describe it log pronghornProps */
 /* eslint global-require:warn */
+/* eslint no-unused-vars: warn */
 
 // include required items for testing & logging
 const assert = require('assert');
 const fs = require('fs-extra');
-const winston = require('winston');
+const mocha = require('mocha');
 const path = require('path');
+const util = require('util');
+const winston = require('winston');
 const execute = require('child_process').execSync;
+const { expect } = require('chai');
+const { use } = require('chai');
+const td = require('testdouble');
+
+const anything = td.matchers.anything();
 
 // stub and attemptTimeout are used throughout the code so set them here
 let logLevel = 'none';
 const stub = true;
-const attemptTimeout = 5000;
+const isRapidFail = false;
+const attemptTimeout = 120000;
 
 // these variables can be changed to run in integrated mode so easier to set them here
 // always check these in with bogus data!!!
@@ -171,6 +182,22 @@ describe('[unit] Salesforce Adapter Test', () => {
       pronghornProps.adapterProps.adapters[0].properties
     );
 
+    if (isRapidFail) {
+      const state = {};
+      state.passed = true;
+
+      mocha.afterEach(function x() {
+        state.passed = state.passed
+        && (this.currentTest.state === 'passed');
+      });
+      mocha.beforeEach(function x() {
+        if (!state.passed) {
+          return this.currentTest.skip();
+        }
+        return true;
+      });
+    }
+
     describe('#class instance created', () => {
       it('should be a class with properties', (done) => {
         assert.notEqual(null, a);
@@ -196,8 +223,8 @@ describe('[unit] Salesforce Adapter Test', () => {
       it('should retrieve workflow functions', (done) => {
         const p = new Promise((resolve) => {
           wffunctions = a.getWorkflowFunctions();
-          resolve();
           assert.notEqual(0, wffunctions.length);
+          resolve();
           done();
         });
         // log just done to get rid of const lint issue!
@@ -211,6 +238,25 @@ describe('[unit] Salesforce Adapter Test', () => {
           assert.equal(true, val);
           done();
         });
+      });
+      it('package.json should be validated', (done) => {
+        const packageDotJson = require('../../package.json');
+        const { PJV } = require('package-json-validator');
+        const options = {
+          warnings: true, // show warnings
+          recommendations: true // show recommendations
+        };
+        const results = PJV.validate(JSON.stringify(packageDotJson), 'npm', options);
+
+        if (results.valid === false) {
+          log.error('The package.json contains the following errors: ');
+          log.error(util.inspect(results));
+          assert.equal(true, results.valid);
+        } else {
+          assert.equal(true, results.valid);
+        }
+
+        done();
       });
       it('package.json should be customized', (done) => {
         const packageDotJson = require('../../package.json');
@@ -247,7 +293,7 @@ describe('[unit] Salesforce Adapter Test', () => {
           for (let w = 0; w < wffunctions.length; w += 1) {
             if (pronghornDotJson.methods[m].name === wffunctions[w]) {
               found = true;
-              const methLine = execute(`grep "${wffunctions[w]}(" adapter.js | grep "{"`).toString();
+              const methLine = execute(`grep "${wffunctions[w]}(" adapter.js | grep "callback) {"`).toString();
               let wfparams = [];
 
               if (methLine.indexOf('(') >= 0 && methLine.indexOf(')') >= 0) {
@@ -255,6 +301,9 @@ describe('[unit] Salesforce Adapter Test', () => {
                 wfparams = temp.split(',');
 
                 for (let t = 0; t < wfparams.length; t += 1) {
+                  // remove default value from the parameter name
+                  wfparams[t] = wfparams[t].substring(0, wfparams[t].search(/=/) > 0 ? wfparams[t].search(/#|\?|=/) : wfparams[t].length);
+                  // remove spaces
                   wfparams[t] = wfparams[t].trim();
 
                   if (wfparams[t] === 'callback') {
@@ -275,7 +324,7 @@ describe('[unit] Salesforce Adapter Test', () => {
                 for (let p = 0; p < pronghornDotJson.methods[m].input.length; p += 1) {
                   let pfound = false;
                   for (let wfp = 0; wfp < wfparams.length; wfp += 1) {
-                    if (pronghornDotJson.methods[m].input[p].name === wfparams[wfp]) {
+                    if (pronghornDotJson.methods[m].input[p].name.toUpperCase() === wfparams[wfp].toUpperCase()) {
                       pfound = true;
                     }
                   }
@@ -287,7 +336,7 @@ describe('[unit] Salesforce Adapter Test', () => {
                 for (let wfp = 0; wfp < wfparams.length; wfp += 1) {
                   let pfound = false;
                   for (let p = 0; p < pronghornDotJson.methods[m].input.length; p += 1) {
-                    if (pronghornDotJson.methods[m].input[p].name === wfparams[wfp]) {
+                    if (pronghornDotJson.methods[m].input[p].name.toUpperCase() === wfparams[wfp].toUpperCase()) {
                       pfound = true;
                     }
                   }
@@ -415,13 +464,13 @@ describe('[unit] Salesforce Adapter Test', () => {
       it('should get base64 encoded property', (done) => {
         const p = new Promise((resolve) => {
           a.encryptProperty('testing', 'base64', (data, error) => {
-            resolve(data);
             assert.equal(undefined, error);
             assert.notEqual(undefined, data);
             assert.notEqual(null, data);
             assert.notEqual(undefined, data.response);
             assert.notEqual(null, data.response);
             assert.equal(0, data.response.indexOf('{code}'));
+            resolve(data);
             done();
           });
         });
@@ -431,13 +480,13 @@ describe('[unit] Salesforce Adapter Test', () => {
       it('should get encrypted property', (done) => {
         const p = new Promise((resolve) => {
           a.encryptProperty('testing', 'encrypt', (data, error) => {
-            resolve(data);
             assert.equal(undefined, error);
             assert.notEqual(undefined, data);
             assert.notEqual(null, data);
             assert.notEqual(undefined, data.response);
             assert.notEqual(null, data.response);
             assert.equal(0, data.response.indexOf('{crypt}'));
+            resolve(data);
             done();
           });
         });
@@ -454,8 +503,8 @@ describe('[unit] Salesforce Adapter Test', () => {
     //   it('should find entity', (done) => {
     //     const p = new Promise((resolve) => {
     //       a.hasEntity('template_entity', // 'a9e9c33dc61122760072455df62663d2', (data) => {
-    //         resolve(data);
     //         assert.equal(true, data[0]);
+    //         resolve(data);
     //         done();
     //       });
     //     });
@@ -465,8 +514,8 @@ describe('[unit] Salesforce Adapter Test', () => {
     //   it('should not find entity', (done) => {
     //     const p = new Promise((resolve) => {
     //       a.hasEntity('template_entity', 'blah', (data) => {
-    //         resolve(data);
     //         assert.equal(false, data[0]);
+    //         resolve(data);
     //         done();
     //       });
     //     });
@@ -474,6 +523,15 @@ describe('[unit] Salesforce Adapter Test', () => {
     //     log.debug(p);
     //   }).timeout(attemptTimeout);
     // });
+
+    /*
+    -----------------------------------------------------------------------
+    -----------------------------------------------------------------------
+    *** All code above this comment will be replaced during a migration ***
+    ******************* DO NOT REMOVE THIS COMMENT BLOCK ******************
+    -----------------------------------------------------------------------
+    -----------------------------------------------------------------------
+    */
 
     describe('#getLocalizations - errors', () => {
       it('should have a getLocalizations function', (done) => {

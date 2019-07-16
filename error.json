@@ -13,6 +13,12 @@
       "recommendation": "Verify the database connectivity, schema and permissions"
     },
     {
+      "key": "Database Credentials",
+      "icode": "AD.102",
+      "displayString": "Database Error: Invalid Credentials",
+      "recommendation": "Verify the database credentials"
+    },
+    {
       "key": "No Queue Item",
       "icode": "AD.110",
       "displayString": "Queue Item $VARIABLE$ not found in queue",
@@ -145,14 +151,20 @@
       "recommendation": "Verify the request is accurate via debug logs and postman"
     },
     {
-      "key": "Invalid Response",
+      "key": "Request Timeout",
       "icode": "AD.501",
+      "displayString": "The Adapter has run out of time for the request",
+      "recommendation": "Increase your adapter request.attempt_timeout property"
+    },
+    {
+      "key": "Invalid Response",
+      "icode": "AD.502",
       "displayString": "Invalid response received for $VARIABLE$",
       "recommendation": "Verify the request is accurate via debug logs and postman"
     },
     {
       "key": "Failure Response",
-      "icode": "AD.502",
+      "icode": "AD.503",
       "displayString": "Failure response received for $VARIABLE$",
       "recommendation": "Check the reason for failure in the stack trace"
     },

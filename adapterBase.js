@@ -49,7 +49,7 @@ class AdapterBase extends EventEmitterCl {
       this.requestHandlerInst = new RequestHandlerCl(this.id, this.allProps, __dirname);
     } catch (e) {
       // handle any exception
-      const origin = `${this.myid}-adapterBase-constructor`;
+      const origin = `${this.id}-adapterBase-constructor`;
       log.error(`${origin}: Adapter may not have started properly. ${e}`);
     }
   }
@@ -204,6 +204,7 @@ class AdapterBase extends EventEmitterCl {
         // if we were healthy, toggle health
         if (this.healthy) {
           this.emit('OFFLINE', { id: this.id });
+          this.emit('DEGRADED', { id: this.id });
           this.healthy = false;
           log.error(`${origin}: HEALTH CHECK - Error ${error}`);
         } else {
@@ -216,6 +217,7 @@ class AdapterBase extends EventEmitterCl {
 
       // if we were unhealthy, toggle health
       if (!this.healthy) {
+        this.emit('FIXED', { id: this.id });
         this.emit('ONLINE', { id: this.id });
         this.healthy = true;
         log.info(`${origin}: HEALTH CHECK SUCCESSFUL`);

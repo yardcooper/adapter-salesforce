@@ -1,4 +1,5 @@
 #!/bin/sh
+# @copyright Itential, LLC 2019
 
 #exit on any failure in the pipeline
 set -e
