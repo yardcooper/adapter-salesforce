@@ -4,7 +4,7 @@
       "name": "getToken",
       "protocol": "REST",
       "method": "POST",
-      "entitypath": "{base_path}/{version}//login{query}",
+      "entitypath": "{base_path}/{version}/login{query}",
       "schema": "schema.json",
       "headers": {},
       "responseObjects": []
@@ -13,7 +13,7 @@
       "name": "healthcheck",
       "protocol": "REST",
       "method": "GET",
-      "entitypath": "{base_path}/{version}//test{query}",
+      "entitypath": "{base_path}/{version}/test{query}",
       "schema": "schema.json",
       "headers": {},
       "responseObjects": [
