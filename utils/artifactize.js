@@ -4,10 +4,9 @@
 const fs = require('fs-extra');
 const path = require('path');
 
-async function createBundle(entryPathToAdapter) {
+async function createBundle(adapterOldDir) {
   // set directories
-  const adapterOldDir = entryPathToAdapter;
-  const artifactDir = path.join(entryPathToAdapter, '../artifactTemp');
+  const artifactDir = path.join(adapterOldDir, '../artifactTemp');
   const workflowsDir = path.join(adapterOldDir, 'workflows');
 
   // read adapter's package and set names
@@ -38,7 +37,7 @@ async function createBundle(entryPathToAdapter) {
   const artifactPackage = {
     name: artifactName,
     version: adapterPackage.version,
-    description: `A bundled version of the ${originalName} to be used in app-artifacts for easy installation`,
+    description: `A bundled version of the ${originalName} to be used in adapter-artifacts for easy installation`,
     scripts: {
       test: 'echo "Error: no test specified" && exit 1',
       deploy: 'npm publish --registry=http://registry.npmjs.org'
@@ -49,7 +48,7 @@ async function createBundle(entryPathToAdapter) {
       'Itential',
       'Pronghorn',
       'Adapter',
-      'App-Artifacts',
+      'Adapter-Artifacts',
       shortenedName
     ],
     author: 'Itential Artifacts',
@@ -96,7 +95,7 @@ async function createBundle(entryPathToAdapter) {
       ops.push(() => fs.copySync(workflowsDir, path.join(artifactDir, 'bundles', 'workflows')));
 
       // add workflows to manifest
-      Promise.all(workflowFileNames.map(async (filename) => {
+      workflowFileNames.forEach((filename) => {
         const [filenameNoExt, ext] = filename.split('.');
         if (ext === 'json') {
           manifest.artifacts.push({
@@ -110,7 +109,7 @@ async function createBundle(entryPathToAdapter) {
             }
           });
         }
-      }));
+      });
     }
   }
 
@@ -118,7 +117,7 @@ async function createBundle(entryPathToAdapter) {
 
   // Run the commands in parallel
   try {
-    await Promise.all(ops.map(op => op()));
+    await Promise.all(ops.map(async op => op()));
   } catch (e) {
     throw new Error(e);
   }
@@ -132,11 +131,13 @@ async function createBundle(entryPathToAdapter) {
 
 async function artifactize(entryPathToAdapter) {
   try {
+    const truePath = path.resolve(entryPathToAdapter);
+    const packagePath = path.join(truePath, 'package');
     // remove adapter from package and move bundle in
-    const pathObj = await createBundle(entryPathToAdapter);
+    const pathObj = await createBundle(packagePath);
     const { bundlePath } = pathObj;
-    fs.emptyDirSync(entryPathToAdapter);
-    fs.moveSync(bundlePath, entryPathToAdapter);
+    fs.removeSync(packagePath);
+    fs.moveSync(bundlePath, packagePath);
     return 'Bundle successfully created and old folder system removed';
   } catch (e) {
     throw e;
