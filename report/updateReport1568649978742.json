@@ -1,0 +1,95 @@
+{
+  "errors": [],
+  "statistics": [
+    {
+      "owner": "errorJson",
+      "description": "New adapter errors available for use",
+      "value": 0
+    },
+    {
+      "owner": "errorJson",
+      "description": "Adapter errors no longer available for use",
+      "value": 0
+    },
+    {
+      "owner": "errorJson",
+      "description": "Adapter errors that have been updated (e.g. recommendation changes)",
+      "value": 29
+    },
+    {
+      "owner": "packageJson",
+      "description": "Number of production dependencies",
+      "value": 6
+    },
+    {
+      "owner": "packageJson",
+      "description": "Number of development dependencies",
+      "value": 9
+    },
+    {
+      "owner": "packageJson",
+      "description": "Number of npm scripts",
+      "value": 9
+    },
+    {
+      "owner": "packageJson",
+      "description": "Runtime Library dependency",
+      "value": "^4.17.2"
+    },
+    {
+      "owner": "propertiesSchemaJson",
+      "description": "Adapter properties defined in the propertiesSchema file",
+      "value": 49
+    },
+    {
+      "owner": "readmeMd",
+      "description": "Number of lines in the README.md",
+      "value": 450
+    },
+    {
+      "owner": "unitTestJS",
+      "description": "Number of lines of code in unit tests",
+      "value": 1268
+    },
+    {
+      "owner": "unitTestJS",
+      "description": "Number of unit tests",
+      "value": 92
+    },
+    {
+      "owner": "integrationTestJS",
+      "description": "Number of lines of code in integration tests",
+      "value": 1307
+    },
+    {
+      "owner": "integrationTestJS",
+      "description": "Number of integration tests",
+      "value": 44
+    },
+    {
+      "owner": "staticFile",
+      "description": "Number of lines of code in adapterBase.js",
+      "value": 484
+    },
+    {
+      "owner": "staticFile",
+      "description": "Number of static files added",
+      "value": 18
+    },
+    {
+      "owner": "Overall",
+      "description": "Total lines of Code",
+      "value": 3059
+    },
+    {
+      "owner": "Overall",
+      "description": "Total Tests",
+      "value": 136
+    },
+    {
+      "owner": "Overall",
+      "description": "Total Files",
+      "value": 6
+    }
+  ]
+}

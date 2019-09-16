@@ -284,42 +284,74 @@ describe('[integration] Salesforce Adapter Test', () => {
 
     describe('#class instance created', () => {
       it('should be a class with properties', (done) => {
-        assert.notEqual(null, a);
-        assert.notEqual(undefined, a);
-        assert.notEqual(null, a.allProps);
-        const check = global.pronghornProps.adapterProps.adapters[0].properties.healthcheck.type;
-        assert.equal(check, a.healthcheckType);
-        done();
+        try {
+          assert.notEqual(null, a);
+          assert.notEqual(undefined, a);
+          assert.notEqual(null, a.allProps);
+          const check = global.pronghornProps.adapterProps.adapters[0].properties.healthcheck.type;
+          assert.equal(check, a.healthcheckType);
+          done();
+        } catch (error) {
+          log.error(`Test Failure: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#connect', () => {
       it('should get connected - no healthcheck', (done) => {
-        a.healthcheckType = 'none';
-        a.connect();
-        assert.equal(true, a.alive);
-        done();
+        try {
+          a.healthcheckType = 'none';
+          a.connect();
+
+          try {
+            assert.equal(true, a.alive);
+            done();
+          } catch (error) {
+            log.error(`Test Failure: ${error}`);
+            done(error);
+          }
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       });
       it('should get connected - startup healthcheck', (done) => {
-        a.healthcheckType = 'startup';
-        a.connect();
-        assert.equal(true, a.alive);
-        done();
+        try {
+          a.healthcheckType = 'startup';
+          a.connect();
+
+          try {
+            assert.equal(true, a.alive);
+            done();
+          } catch (error) {
+            log.error(`Test Failure: ${error}`);
+            done(error);
+          }
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       });
     });
 
     describe('#healthCheck', () => {
       it('should be healthy', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.healthCheck(null, (data) => {
-            assert.equal(true, a.healthy);
-            saveMockData('system', 'healthcheck', 'default', data);
-            resolve(data);
-            done();
+            try {
+              assert.equal(true, a.healthy);
+              saveMockData('system', 'healthcheck', 'default', data);
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
@@ -334,940 +366,1130 @@ describe('[integration] Salesforce Adapter Test', () => {
 
     describe('#getLocalizations - errors', () => {
       it('should work if integrated or standalone with mockdata', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.getLocalizations('fakedata', (data, error) => {
-            resolve(data);
-            runCommonAsserts(data, error);
-
-            if (stub) {
-              assert.equal('object', typeof data.response[0]);
-            } else {
+            try {
               runCommonAsserts(data, error);
-            }
 
-            done();
+              if (stub) {
+                assert.equal('object', typeof data.response[0]);
+              } else {
+                runCommonAsserts(data, error);
+              }
+
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#getIncidents - errors', () => {
       it('should work if integrated or standalone with mockdata', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.getIncidents('fakedata', 'fakedata', 'fakedata', 'fakedata', 'fakedata', 'fakedata', 'fakedata', 'fakedata', (data, error) => {
-            resolve(data);
-            runCommonAsserts(data, error);
-
-            if (stub) {
-              assert.equal('object', typeof data.response[0]);
-              assert.equal('object', typeof data.response[1]);
-            } else {
+            try {
               runCommonAsserts(data, error);
-            }
 
-            done();
+              if (stub) {
+                assert.equal('object', typeof data.response[0]);
+                assert.equal('object', typeof data.response[1]);
+              } else {
+                runCommonAsserts(data, error);
+              }
+
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#getIncidentsid - errors', () => {
       it('should work if integrated or standalone with mockdata', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.getIncidentsid('fakedata', 'fakedata', (data, error) => {
-            resolve(data);
-            runCommonAsserts(data, error);
-
-            if (stub) {
-              assert.equal(3, data.response.id);
-              assert.equal('object', typeof data.response.message);
-              assert.equal('object', typeof data.response.externalId);
-              assert.equal(true, data.response.affectsAll);
-              assert.equal(false, data.response.isCore);
-              assert.equal('object', typeof data.response.additionalInformation);
-              assert.equal(true, Array.isArray(data.response.serviceKeys));
-              assert.equal(true, Array.isArray(data.response.instanceKeys));
-              assert.equal(true, Array.isArray(data.response.IncidentImpacts));
-              assert.equal(true, Array.isArray(data.response.IncidentEvents));
-              assert.equal('string', data.response.createdAt);
-              assert.equal('string', data.response.updatedAt);
-            } else {
+            try {
               runCommonAsserts(data, error);
-            }
 
-            done();
+              if (stub) {
+                assert.equal(3, data.response.id);
+                assert.equal('object', typeof data.response.message);
+                assert.equal('object', typeof data.response.externalId);
+                assert.equal(true, data.response.affectsAll);
+                assert.equal(false, data.response.isCore);
+                assert.equal('object', typeof data.response.additionalInformation);
+                assert.equal(true, Array.isArray(data.response.serviceKeys));
+                assert.equal(true, Array.isArray(data.response.instanceKeys));
+                assert.equal(true, Array.isArray(data.response.IncidentImpacts));
+                assert.equal(true, Array.isArray(data.response.IncidentEvents));
+                assert.equal('string', data.response.createdAt);
+                assert.equal('string', data.response.updatedAt);
+              } else {
+                runCommonAsserts(data, error);
+              }
+
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#getIncidentsfields - errors', () => {
       it('should work if integrated or standalone with mockdata', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.getIncidentsfields('fakedata', (data, error) => {
-            resolve(data);
-            runCommonAsserts(data, error);
-
-            if (stub) {
-              assert.equal('object', typeof data.response[0]);
-              assert.equal('object', typeof data.response[1]);
-              assert.equal('object', typeof data.response[2]);
-            } else {
+            try {
               runCommonAsserts(data, error);
-            }
 
-            done();
+              if (stub) {
+                assert.equal('object', typeof data.response[0]);
+                assert.equal('object', typeof data.response[1]);
+                assert.equal('object', typeof data.response[2]);
+              } else {
+                runCommonAsserts(data, error);
+              }
+
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#getIncidentsimpactTypes - errors', () => {
       it('should work if integrated or standalone with mockdata', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.getIncidentsimpactTypes('fakedata', (data, error) => {
-            resolve(data);
-            runCommonAsserts(data, error);
-
-            if (stub) {
-              assert.equal('object', typeof data.response[0]);
-              assert.equal('object', typeof data.response[1]);
-            } else {
+            try {
               runCommonAsserts(data, error);
-            }
 
-            done();
+              if (stub) {
+                assert.equal('object', typeof data.response[0]);
+                assert.equal('object', typeof data.response[1]);
+              } else {
+                runCommonAsserts(data, error);
+              }
+
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#getIncidentseventTypes - errors', () => {
       it('should work if integrated or standalone with mockdata', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.getIncidentseventTypes('fakedata', (data, error) => {
-            resolve(data);
-            runCommonAsserts(data, error);
-
-            if (stub) {
-              assert.equal('object', typeof data.response[0]);
-              assert.equal('object', typeof data.response[1]);
-            } else {
+            try {
               runCommonAsserts(data, error);
-            }
 
-            done();
+              if (stub) {
+                assert.equal('object', typeof data.response[0]);
+                assert.equal('object', typeof data.response[1]);
+              } else {
+                runCommonAsserts(data, error);
+              }
+
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#getMaintenances - errors', () => {
       it('should work if integrated or standalone with mockdata', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.getMaintenances('fakedata', 'fakedata', 'fakedata', 'fakedata', 'fakedata', 'fakedata', 'fakedata', 'fakedata', 'fakedata', (data, error) => {
-            resolve(data);
-            runCommonAsserts(data, error);
-
-            if (stub) {
-              assert.equal('object', typeof data.response[0]);
-            } else {
+            try {
               runCommonAsserts(data, error);
-            }
 
-            done();
+              if (stub) {
+                assert.equal('object', typeof data.response[0]);
+              } else {
+                runCommonAsserts(data, error);
+              }
+
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#getMaintenancesid - errors', () => {
       it('should work if integrated or standalone with mockdata', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.getMaintenancesid('fakedata', 'fakedata', (data, error) => {
-            resolve(data);
-            runCommonAsserts(data, error);
-
-            if (stub) {
-              assert.equal(8, data.response.id);
-              assert.equal('object', typeof data.response.message);
-              assert.equal('object', typeof data.response.externalId);
-              assert.equal('object', typeof data.response.name);
-              assert.equal(false, data.response.affectsAll);
-              assert.equal(true, data.response.isCore);
-              assert.equal('object', typeof data.response.plannedStartTime);
-              assert.equal('object', typeof data.response.plannedEndTime);
-              assert.equal('object', typeof data.response.additionalInformation);
-              assert.equal(true, Array.isArray(data.response.serviceKeys));
-              assert.equal(true, Array.isArray(data.response.instanceKeys));
-              assert.equal(true, Array.isArray(data.response.MaintenanceImpacts));
-              assert.equal('string', data.response.createdAt);
-              assert.equal('string', data.response.updatedAt);
-            } else {
+            try {
               runCommonAsserts(data, error);
-            }
 
-            done();
+              if (stub) {
+                assert.equal(8, data.response.id);
+                assert.equal('object', typeof data.response.message);
+                assert.equal('object', typeof data.response.externalId);
+                assert.equal('object', typeof data.response.name);
+                assert.equal(false, data.response.affectsAll);
+                assert.equal(true, data.response.isCore);
+                assert.equal('object', typeof data.response.plannedStartTime);
+                assert.equal('object', typeof data.response.plannedEndTime);
+                assert.equal('object', typeof data.response.additionalInformation);
+                assert.equal(true, Array.isArray(data.response.serviceKeys));
+                assert.equal(true, Array.isArray(data.response.instanceKeys));
+                assert.equal(true, Array.isArray(data.response.MaintenanceImpacts));
+                assert.equal('string', data.response.createdAt);
+                assert.equal('string', data.response.updatedAt);
+              } else {
+                runCommonAsserts(data, error);
+              }
+
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#getMaintenancesfields - errors', () => {
       it('should work if integrated or standalone with mockdata', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.getMaintenancesfields('fakedata', (data, error) => {
-            resolve(data);
-            runCommonAsserts(data, error);
-
-            if (stub) {
-              assert.equal('object', typeof data.response[0]);
-            } else {
+            try {
               runCommonAsserts(data, error);
-            }
 
-            done();
+              if (stub) {
+                assert.equal('object', typeof data.response[0]);
+              } else {
+                runCommonAsserts(data, error);
+              }
+
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#getMaintenanceseventTypes - errors', () => {
       it('should work if integrated or standalone with mockdata', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.getMaintenanceseventTypes('fakedata', (data, error) => {
-            resolve(data);
-            runCommonAsserts(data, error);
-
-            if (stub) {
-              assert.equal('object', typeof data.response[0]);
-            } else {
+            try {
               runCommonAsserts(data, error);
-            }
 
-            done();
+              if (stub) {
+                assert.equal('object', typeof data.response[0]);
+              } else {
+                runCommonAsserts(data, error);
+              }
+
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#getGeneralMessages - errors', () => {
       it('should work if integrated or standalone with mockdata', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.getGeneralMessages('fakedata', 'fakedata', (data, error) => {
-            resolve(data);
-            runCommonAsserts(data, error);
-
-            if (stub) {
-              assert.equal('object', typeof data.response[0]);
-            } else {
+            try {
               runCommonAsserts(data, error);
-            }
 
-            done();
+              if (stub) {
+                assert.equal('object', typeof data.response[0]);
+              } else {
+                runCommonAsserts(data, error);
+              }
+
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#getGeneralMessagesid - errors', () => {
       it('should work if integrated or standalone with mockdata', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.getGeneralMessagesid('fakedata', (data, error) => {
-            resolve(data);
-            runCommonAsserts(data, error);
-
-            if (stub) {
-              assert.equal(1, data.response.id);
-              assert.equal('string', data.response.subject);
-              assert.equal('string', data.response.body);
-              assert.equal('string', data.response.startDate);
-              assert.equal('object', typeof data.response.endDate);
-            } else {
+            try {
               runCommonAsserts(data, error);
-            }
 
-            done();
+              if (stub) {
+                assert.equal(1, data.response.id);
+                assert.equal('string', data.response.subject);
+                assert.equal('string', data.response.body);
+                assert.equal('string', data.response.startDate);
+                assert.equal('object', typeof data.response.endDate);
+              } else {
+                runCommonAsserts(data, error);
+              }
+
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#getMetricValues - errors', () => {
       it('should work if integrated or standalone with mockdata', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.getMetricValues('fakedata', 'fakedata', 'fakedata', 'fakedata', (data, error) => {
-            resolve(data);
-            runCommonAsserts(data, error);
-
-            if (stub) {
-              assert.equal('object', typeof data.response[0]);
-            } else {
+            try {
               runCommonAsserts(data, error);
-            }
 
-            done();
+              if (stub) {
+                assert.equal('object', typeof data.response[0]);
+              } else {
+                runCommonAsserts(data, error);
+              }
+
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#getMetricValuesid - errors', () => {
       it('should work if integrated or standalone with mockdata', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.getMetricValuesid('fakedata', (data, error) => {
-            resolve(data);
-            runCommonAsserts(data, error);
-
-            if (stub) {
-              assert.equal('string', data.response.metricValueName);
-              assert.equal(1, data.response.value);
-              assert.equal('string', data.response.timestamp);
-              assert.equal('string', data.response.instanceKey);
-            } else {
+            try {
               runCommonAsserts(data, error);
-            }
 
-            done();
+              if (stub) {
+                assert.equal('string', data.response.metricValueName);
+                assert.equal(1, data.response.value);
+                assert.equal('string', data.response.timestamp);
+                assert.equal('string', data.response.instanceKey);
+              } else {
+                runCommonAsserts(data, error);
+              }
+
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#getLocales - errors', () => {
       it('should work if integrated or standalone with mockdata', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.getLocales('fakedata', (data, error) => {
-            resolve(data);
-            runCommonAsserts(data, error);
-
-            if (stub) {
-              assert.equal('object', typeof data.response[0]);
-            } else {
+            try {
               runCommonAsserts(data, error);
-            }
 
-            done();
+              if (stub) {
+                assert.equal('object', typeof data.response[0]);
+              } else {
+                runCommonAsserts(data, error);
+              }
+
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#getServices - errors', () => {
       it('should work if integrated or standalone with mockdata', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.getServices('fakedata', (data, error) => {
-            resolve(data);
-            runCommonAsserts(data, error);
-
-            if (stub) {
-              assert.equal('object', typeof data.response[0]);
-            } else {
+            try {
               runCommonAsserts(data, error);
-            }
 
-            done();
+              if (stub) {
+                assert.equal('object', typeof data.response[0]);
+              } else {
+                runCommonAsserts(data, error);
+              }
+
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#getInstances - errors', () => {
       it('should work if integrated but since no mockdata should error when run standalone', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.getInstances('fakedata', 'fakedata', 'fakedata', 'fakedata', 'fakedata', 'fakedata', (data, error) => {
-            resolve(data);
+            try {
+              if (stub) {
+                assert.notEqual(undefined, error);
+                assert.notEqual(null, error);
+                assert.equal(null, data);
+                assert.equal('AD.500', error.icode);
+                assert.equal('Error 400 received on request', error.IAPerror.displayString);
+                const temp = 'no mock data for';
+                assert.equal(0, error.IAPerror.raw_response.message.indexOf(temp));
+              } else {
+                runCommonAsserts(data, error);
+              }
 
-            if (stub) {
-              assert.notEqual(undefined, error);
-              assert.notEqual(null, error);
-              assert.equal(null, data);
-              assert.equal('AD.500', error.icode);
-              assert.equal('Error 400 received on request', error.IAPerror.displayString);
-              const temp = 'no mock data for';
-              assert.equal(0, error.IAPerror.raw_response.message.indexOf(temp));
-            } else {
-              runCommonAsserts(data, error);
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
             }
-
-            done();
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#getInstancesstatus - errors', () => {
       it('should work if integrated or standalone with mockdata', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.getInstancesstatus('fakedata', 'fakedata', 'fakedata', (data, error) => {
-            resolve(data);
-            runCommonAsserts(data, error);
-
-            if (stub) {
-              assert.equal('object', typeof data.response[0]);
-              assert.equal('object', typeof data.response[1]);
-              assert.equal('object', typeof data.response[2]);
-            } else {
+            try {
               runCommonAsserts(data, error);
-            }
 
-            done();
+              if (stub) {
+                assert.equal('object', typeof data.response[0]);
+                assert.equal('object', typeof data.response[1]);
+                assert.equal('object', typeof data.response[2]);
+              } else {
+                runCommonAsserts(data, error);
+              }
+
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#getInstancesstatuspreview - errors', () => {
       it('should work if integrated or standalone with mockdata', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.getInstancesstatuspreview('fakedata', 'fakedata', 'fakedata', (data, error) => {
-            resolve(data);
-            runCommonAsserts(data, error);
-
-            if (stub) {
-              assert.equal('object', typeof data.response[0]);
-              assert.equal('object', typeof data.response[1]);
-              assert.equal('object', typeof data.response[2]);
-            } else {
+            try {
               runCommonAsserts(data, error);
-            }
 
-            done();
+              if (stub) {
+                assert.equal('object', typeof data.response[0]);
+                assert.equal('object', typeof data.response[1]);
+                assert.equal('object', typeof data.response[2]);
+              } else {
+                runCommonAsserts(data, error);
+              }
+
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#getInstanceskeystatuspreview - errors', () => {
       it('should work if integrated or standalone with mockdata', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.getInstanceskeystatuspreview('fakedata', 'fakedata', 'fakedata', 'fakedata', (data, error) => {
-            resolve(data);
-            runCommonAsserts(data, error);
-
-            if (stub) {
-              assert.equal('object', typeof data.response[0]);
-              assert.equal('object', typeof data.response[1]);
-              assert.equal('object', typeof data.response[2]);
-              assert.equal('object', typeof data.response[3]);
-            } else {
+            try {
               runCommonAsserts(data, error);
-            }
 
-            done();
+              if (stub) {
+                assert.equal('object', typeof data.response[0]);
+                assert.equal('object', typeof data.response[1]);
+                assert.equal('object', typeof data.response[2]);
+                assert.equal('object', typeof data.response[3]);
+              } else {
+                runCommonAsserts(data, error);
+              }
+
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#getInstanceskeystatus - errors', () => {
       it('should work if integrated or standalone with mockdata', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.getInstanceskeystatus('fakedata', 'fakedata', 'fakedata', 'fakedata', (data, error) => {
-            resolve(data);
-            runCommonAsserts(data, error);
-
-            if (stub) {
-              assert.equal('object', typeof data.response[0]);
-              assert.equal('object', typeof data.response[1]);
-              assert.equal('object', typeof data.response[2]);
-            } else {
+            try {
               runCommonAsserts(data, error);
-            }
 
-            done();
+              if (stub) {
+                assert.equal('object', typeof data.response[0]);
+                assert.equal('object', typeof data.response[1]);
+                assert.equal('object', typeof data.response[2]);
+              } else {
+                runCommonAsserts(data, error);
+              }
+
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#getInstanceAliaseskeystatus - errors', () => {
       it('should work if integrated or standalone with mockdata', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.getInstanceAliaseskeystatus('fakedata', (data, error) => {
-            resolve(data);
-            runCommonAsserts(data, error);
-
-            if (stub) {
-              assert.equal('object', typeof data.response[0]);
-              assert.equal('object', typeof data.response[1]);
-              assert.equal('object', typeof data.response[2]);
-              assert.equal('object', typeof data.response[3]);
-            } else {
+            try {
               runCommonAsserts(data, error);
-            }
 
-            done();
+              if (stub) {
+                assert.equal('object', typeof data.response[0]);
+                assert.equal('object', typeof data.response[1]);
+                assert.equal('object', typeof data.response[2]);
+                assert.equal('object', typeof data.response[3]);
+              } else {
+                runCommonAsserts(data, error);
+              }
+
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#getInstanceAliaseskey - errors', () => {
       it('should work if integrated or standalone with mockdata', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.getInstanceAliaseskey('fakedata', (data, error) => {
-            resolve(data);
-            runCommonAsserts(data, error);
-
-            if (stub) {
-              assert.equal('string', data.response.key);
-              assert.equal('string', data.response.instanceKey);
-            } else {
+            try {
               runCommonAsserts(data, error);
-            }
 
-            done();
+              if (stub) {
+                assert.equal('string', data.response.key);
+                assert.equal('string', data.response.instanceKey);
+              } else {
+                runCommonAsserts(data, error);
+              }
+
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#getProducts - errors', () => {
       it('should work if integrated or standalone with mockdata', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.getProducts((data, error) => {
-            resolve(data);
-            runCommonAsserts(data, error);
-
-            if (stub) {
-              assert.equal('object', typeof data.response[0]);
-              assert.equal('object', typeof data.response[1]);
-            } else {
+            try {
               runCommonAsserts(data, error);
-            }
 
-            done();
+              if (stub) {
+                assert.equal('object', typeof data.response[0]);
+                assert.equal('object', typeof data.response[1]);
+              } else {
+                runCommonAsserts(data, error);
+              }
+
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#getProductskey - errors', () => {
       it('should work if integrated or standalone with mockdata', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.getProductskey('fakedata', (data, error) => {
-            resolve(data);
-            runCommonAsserts(data, error);
-
-            if (stub) {
-              assert.equal('string', data.response.key);
-              assert.equal(8, data.response.parentId);
-              assert.equal('string', data.response.parentName);
-              assert.equal(1, data.response.order);
-              assert.equal('string', data.response.path);
-              assert.equal(true, data.response.public);
-            } else {
+            try {
               runCommonAsserts(data, error);
-            }
 
-            done();
+              if (stub) {
+                assert.equal('string', data.response.key);
+                assert.equal(8, data.response.parentId);
+                assert.equal('string', data.response.parentName);
+                assert.equal(1, data.response.order);
+                assert.equal('string', data.response.path);
+                assert.equal(true, data.response.public);
+              } else {
+                runCommonAsserts(data, error);
+              }
+
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#postSubscribe - errors', () => {
       it('should work if integrated or standalone with mockdata', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.postSubscribe('fakedata', 'fakedata', (data, error) => {
-            resolve(data);
-            runCommonAsserts(data, error);
-
-            if (stub) {
-              assert.equal('string', data.response.emailAddress);
-              assert.equal('string', data.response.locale);
-              assert.equal(true, Array.isArray(data.response.subscription));
-              assert.equal(true, data.response.isActive);
-              assert.equal('string', data.response.createdAt);
-              assert.equal('string', data.response.updatedAt);
-            } else {
+            try {
               runCommonAsserts(data, error);
-            }
 
-            done();
+              if (stub) {
+                assert.equal('string', data.response.emailAddress);
+                assert.equal('string', data.response.locale);
+                assert.equal(true, Array.isArray(data.response.subscription));
+                assert.equal(true, data.response.isActive);
+                assert.equal('string', data.response.createdAt);
+                assert.equal('string', data.response.updatedAt);
+              } else {
+                runCommonAsserts(data, error);
+              }
+
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#patchUnsubscribe - errors', () => {
       it('should work if integrated or standalone with mockdata', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.patchUnsubscribe('fakedata', 'fakedata', (data, error) => {
-            resolve(data);
-            runCommonAsserts(data, error);
-
-            if (stub) {
-              assert.equal('string', data.response.emailAddress);
-              assert.equal('string', data.response.locale);
-              assert.equal(true, Array.isArray(data.response.subscription));
-              assert.equal(true, data.response.isActive);
-              assert.equal('string', data.response.createdAt);
-              assert.equal('string', data.response.updatedAt);
-            } else {
+            try {
               runCommonAsserts(data, error);
-            }
 
-            done();
+              if (stub) {
+                assert.equal('string', data.response.emailAddress);
+                assert.equal('string', data.response.locale);
+                assert.equal(true, Array.isArray(data.response.subscription));
+                assert.equal(true, data.response.isActive);
+                assert.equal('string', data.response.createdAt);
+                assert.equal('string', data.response.updatedAt);
+              } else {
+                runCommonAsserts(data, error);
+              }
+
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#postUnsubscribe - errors', () => {
       it('should work if integrated or standalone with mockdata', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.postUnsubscribe('fakedata', 'fakedata', (data, error) => {
-            resolve(data);
-            runCommonAsserts(data, error);
-
-            if (stub) {
-              assert.equal('string', data.response.emailAddress);
-              assert.equal('string', data.response.locale);
-              assert.equal(true, Array.isArray(data.response.subscription));
-              assert.equal(true, data.response.isActive);
-              assert.equal('string', data.response.createdAt);
-              assert.equal('string', data.response.updatedAt);
-            } else {
+            try {
               runCommonAsserts(data, error);
-            }
 
-            done();
+              if (stub) {
+                assert.equal('string', data.response.emailAddress);
+                assert.equal('string', data.response.locale);
+                assert.equal(true, Array.isArray(data.response.subscription));
+                assert.equal(true, data.response.isActive);
+                assert.equal('string', data.response.createdAt);
+                assert.equal('string', data.response.updatedAt);
+              } else {
+                runCommonAsserts(data, error);
+              }
+
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#postLogin - errors', () => {
       it('should work if integrated or standalone with mockdata', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.postLogin('fakedata', 'fakedata', (data, error) => {
-            resolve(data);
-            runCommonAsserts(data, error);
-
-            if (stub) {
-              assert.equal('string', data.response.emailAddress);
-            } else {
+            try {
               runCommonAsserts(data, error);
-            }
 
-            done();
+              if (stub) {
+                assert.equal('string', data.response.emailAddress);
+              } else {
+                runCommonAsserts(data, error);
+              }
+
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#getLogout - errors', () => {
       it('should work if integrated but since no mockdata should error when run standalone', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.getLogout('fakedata', (data, error) => {
-            resolve(data);
+            try {
+              if (stub) {
+                assert.notEqual(undefined, error);
+                assert.notEqual(null, error);
+                assert.equal(null, data);
+                assert.equal('AD.500', error.icode);
+                assert.equal('Error 400 received on request', error.IAPerror.displayString);
+                const temp = 'no mock data for';
+                assert.equal(0, error.IAPerror.raw_response.message.indexOf(temp));
+              } else {
+                runCommonAsserts(data, error);
+              }
 
-            if (stub) {
-              assert.notEqual(undefined, error);
-              assert.notEqual(null, error);
-              assert.equal(null, data);
-              assert.equal('AD.500', error.icode);
-              assert.equal('Error 400 received on request', error.IAPerror.displayString);
-              const temp = 'no mock data for';
-              assert.equal(0, error.IAPerror.raw_response.message.indexOf(temp));
-            } else {
-              runCommonAsserts(data, error);
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
             }
-
-            done();
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#getSubscribers - errors', () => {
       it('should work if integrated or standalone with mockdata', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.getSubscribers('fakedata', 'fakedata', (data, error) => {
-            resolve(data);
-            runCommonAsserts(data, error);
-
-            if (stub) {
-              assert.equal('string', data.response.emailAddress);
-              assert.equal('string', data.response.locale);
-              assert.equal(true, Array.isArray(data.response.subscription));
-              assert.equal(true, data.response.isActive);
-              assert.equal('string', data.response.createdAt);
-              assert.equal('string', data.response.updatedAt);
-            } else {
+            try {
               runCommonAsserts(data, error);
-            }
 
-            done();
+              if (stub) {
+                assert.equal('string', data.response.emailAddress);
+                assert.equal('string', data.response.locale);
+                assert.equal(true, Array.isArray(data.response.subscription));
+                assert.equal(true, data.response.isActive);
+                assert.equal('string', data.response.createdAt);
+                assert.equal('string', data.response.updatedAt);
+              } else {
+                runCommonAsserts(data, error);
+              }
+
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#patchSubscribers - errors', () => {
       it('should work if integrated or standalone with mockdata', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.patchSubscribers('fakedata', 'fakedata', 'fakedata', (data, error) => {
-            resolve(data);
-            runCommonAsserts(data, error);
-
-            if (stub) {
-              assert.equal('string', data.response.emailAddress);
-              assert.equal('string', data.response.locale);
-              assert.equal(true, Array.isArray(data.response.subscription));
-              assert.equal(false, data.response.isActive);
-              assert.equal('string', data.response.createdAt);
-              assert.equal('string', data.response.updatedAt);
-            } else {
+            try {
               runCommonAsserts(data, error);
-            }
 
-            done();
+              if (stub) {
+                assert.equal('string', data.response.emailAddress);
+                assert.equal('string', data.response.locale);
+                assert.equal(true, Array.isArray(data.response.subscription));
+                assert.equal(false, data.response.isActive);
+                assert.equal('string', data.response.createdAt);
+                assert.equal('string', data.response.updatedAt);
+              } else {
+                runCommonAsserts(data, error);
+              }
+
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#postSubscriberssubscriptionsid - errors', () => {
       it('should work if integrated or standalone with mockdata', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.postSubscriberssubscriptionsid('fakedata', 'fakedata', 'fakedata', (data, error) => {
-            resolve(data);
-            runCommonAsserts(data, error);
-
-            if (stub) {
-              assert.equal('string', data.response.emailAddress);
-              assert.equal('string', data.response.locale);
-              assert.equal(true, Array.isArray(data.response.subscription));
-              assert.equal(true, data.response.isActive);
-              assert.equal('string', data.response.createdAt);
-              assert.equal('string', data.response.updatedAt);
-            } else {
+            try {
               runCommonAsserts(data, error);
-            }
 
-            done();
+              if (stub) {
+                assert.equal('string', data.response.emailAddress);
+                assert.equal('string', data.response.locale);
+                assert.equal(true, Array.isArray(data.response.subscription));
+                assert.equal(true, data.response.isActive);
+                assert.equal('string', data.response.createdAt);
+                assert.equal('string', data.response.updatedAt);
+              } else {
+                runCommonAsserts(data, error);
+              }
+
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#patchSubscriberssubscriptionsid - errors', () => {
       it('should work if integrated or standalone with mockdata', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.patchSubscriberssubscriptionsid('fakedata', 'fakedata', 'fakedata', (data, error) => {
-            resolve(data);
-            runCommonAsserts(data, error);
-
-            if (stub) {
-              assert.equal('string', data.response.emailAddress);
-              assert.equal('string', data.response.locale);
-              assert.equal(true, Array.isArray(data.response.subscription));
-              assert.equal(false, data.response.isActive);
-              assert.equal('string', data.response.createdAt);
-              assert.equal('string', data.response.updatedAt);
-            } else {
+            try {
               runCommonAsserts(data, error);
-            }
 
-            done();
+              if (stub) {
+                assert.equal('string', data.response.emailAddress);
+                assert.equal('string', data.response.locale);
+                assert.equal(true, Array.isArray(data.response.subscription));
+                assert.equal(false, data.response.isActive);
+                assert.equal('string', data.response.createdAt);
+                assert.equal('string', data.response.updatedAt);
+              } else {
+                runCommonAsserts(data, error);
+              }
+
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#deleteSubscriberssubscriptionsid - errors', () => {
       it('should work if integrated or standalone with mockdata', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.deleteSubscriberssubscriptionsid('fakedata', 'fakedata', 'fakedata', (data, error) => {
-            resolve(data);
-            runCommonAsserts(data, error);
-
-            if (stub) {
-              assert.equal('string', data.response.emailAddress);
-              assert.equal('string', data.response.locale);
-              assert.equal(true, Array.isArray(data.response.subscription));
-              assert.equal(false, data.response.isActive);
-              assert.equal('string', data.response.createdAt);
-              assert.equal('string', data.response.updatedAt);
-            } else {
+            try {
               runCommonAsserts(data, error);
-            }
 
-            done();
+              if (stub) {
+                assert.equal('string', data.response.emailAddress);
+                assert.equal('string', data.response.locale);
+                assert.equal(true, Array.isArray(data.response.subscription));
+                assert.equal(false, data.response.isActive);
+                assert.equal('string', data.response.createdAt);
+                assert.equal('string', data.response.updatedAt);
+              } else {
+                runCommonAsserts(data, error);
+              }
+
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#getSearchkey - errors', () => {
       it('should work if integrated or standalone with mockdata', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.getSearchkey('fakedata', (data, error) => {
-            resolve(data);
-            runCommonAsserts(data, error);
-
-            if (stub) {
-              assert.equal('object', typeof data.response[0]);
-            } else {
+            try {
               runCommonAsserts(data, error);
-            }
 
-            done();
+              if (stub) {
+                assert.equal('object', typeof data.response[0]);
+              } else {
+                runCommonAsserts(data, error);
+              }
+
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#getTags - errors', () => {
       it('should work if integrated but since no mockdata should error when run standalone', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.getTags((data, error) => {
-            resolve(data);
+            try {
+              if (stub) {
+                assert.notEqual(undefined, error);
+                assert.notEqual(null, error);
+                assert.equal(null, data);
+                assert.equal('AD.500', error.icode);
+                assert.equal('Error 400 received on request', error.IAPerror.displayString);
+                const temp = 'no mock data for';
+                assert.equal(0, error.IAPerror.raw_response.message.indexOf(temp));
+              } else {
+                runCommonAsserts(data, error);
+              }
 
-            if (stub) {
-              assert.notEqual(undefined, error);
-              assert.notEqual(null, error);
-              assert.equal(null, data);
-              assert.equal('AD.500', error.icode);
-              assert.equal('Error 400 received on request', error.IAPerror.displayString);
-              const temp = 'no mock data for';
-              assert.equal(0, error.IAPerror.raw_response.message.indexOf(temp));
-            } else {
-              runCommonAsserts(data, error);
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
             }
-
-            done();
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#getTagsinstanceinstanceKey - errors', () => {
       it('should work if integrated but since no mockdata should error when run standalone', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.getTagsinstanceinstanceKey('fakedata', 'fakedata', (data, error) => {
-            resolve(data);
+            try {
+              if (stub) {
+                assert.notEqual(undefined, error);
+                assert.notEqual(null, error);
+                assert.equal(null, data);
+                assert.equal('AD.500', error.icode);
+                assert.equal('Error 400 received on request', error.IAPerror.displayString);
+                const temp = 'no mock data for';
+                assert.equal(0, error.IAPerror.raw_response.message.indexOf(temp));
+              } else {
+                runCommonAsserts(data, error);
+              }
 
-            if (stub) {
-              assert.notEqual(undefined, error);
-              assert.notEqual(null, error);
-              assert.equal(null, data);
-              assert.equal('AD.500', error.icode);
-              assert.equal('Error 400 received on request', error.IAPerror.displayString);
-              const temp = 'no mock data for';
-              assert.equal(0, error.IAPerror.raw_response.message.indexOf(temp));
-            } else {
-              runCommonAsserts(data, error);
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
             }
-
-            done();
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
 
     describe('#getTagTypes - errors', () => {
       it('should work if integrated but since no mockdata should error when run standalone', (done) => {
-        const p = new Promise((resolve) => {
+        try {
           a.getTagTypes((data, error) => {
-            resolve(data);
+            try {
+              if (stub) {
+                assert.notEqual(undefined, error);
+                assert.notEqual(null, error);
+                assert.equal(null, data);
+                assert.equal('AD.500', error.icode);
+                assert.equal('Error 400 received on request', error.IAPerror.displayString);
+                const temp = 'no mock data for';
+                assert.equal(0, error.IAPerror.raw_response.message.indexOf(temp));
+              } else {
+                runCommonAsserts(data, error);
+              }
 
-            if (stub) {
-              assert.notEqual(undefined, error);
-              assert.notEqual(null, error);
-              assert.equal(null, data);
-              assert.equal('AD.500', error.icode);
-              assert.equal('Error 400 received on request', error.IAPerror.displayString);
-              const temp = 'no mock data for';
-              assert.equal(0, error.IAPerror.raw_response.message.indexOf(temp));
-            } else {
-              runCommonAsserts(data, error);
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
             }
-
-            done();
           });
-        });
-        // log just done to get rid of const lint issue!
-        log.debug(p);
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
       }).timeout(attemptTimeout);
     });
   });

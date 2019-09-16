@@ -284,7 +284,7 @@
         "frequency": {
           "type": "integer",
           "description": "How often the healthcheck should run (in milliseconds).",
-          "default": 3000000,
+          "default": 300000,
           "minimum": 60000,
           "maximum": 3600000
         },
@@ -410,6 +410,13 @@
     "request": {
       "type": "object",
       "properties": {
+        "number_redirects": {
+          "type": "integer",
+          "description": "how many redirects before it gives up on the request",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 20
+        },
         "number_retries": {
           "type": "integer",
           "description": "how many attempt to make before it gives up on the request",
@@ -437,6 +444,28 @@
           "default": 5000,
           "minimum": 1000,
           "maximum": 3600000
+        },
+        "global_request": {
+          "type": "object",
+          "description": "Global Request data that is overriden by the request object",
+          "properties": {
+            "payload": {
+              "type": "object",
+              "description": "payload fields that will be appended to the provided payload (excluding GET calls)"
+            },
+            "uriOptions": {
+              "type": "object",
+              "description": "options that will be appended to all GET calls"
+            },
+            "addlHeaders": {
+              "type": "object",
+              "description": "headers that will be appended to the headers for the call"
+            },
+            "authData": {
+              "type": "object",
+              "description": "authentication data that will be appended to the payload for authentication calls"
+            }
+          }
         },
         "healthcheck_on_timeout": {
           "type": "boolean",

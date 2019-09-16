@@ -59,19 +59,15 @@ integration:
     - node_setup
     - npm run test:integration
 
-prerelease:
-  stage: deploy
-  only:
-    - /(major\/)/
-  script:
-    - node_setup
-    - prerelease
-
 publish:
   stage: deploy
   only:
     - master
     - /(release\/)/
+  before_script:
+    - echo "Check if current open-source adapter repo is public (and publish to npmjs)"
+    - URL="${CI_REPOSITORY_URL##h*@}/info/refs?service=git-upload-pack"
+    - wget $URL
   script:
     - node_setup
     - deploy
