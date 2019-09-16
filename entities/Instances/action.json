@@ -5,16 +5,32 @@
       "protocol": "REST",
       "method": "GET",
       "entitypath": "{base_path}/{version}/instances{query}",
-      "schema": "schema.json",
+      "requestSchema": "schema.json",
+      "responseSchema": "schema.json",
+      "timeout": 0,
+      "sendEmpty": false,
+      "requestDatatype": "JSON",
+      "responseDatatype": "JSON",
       "headers": {},
-      "responseObjects": []
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": ""
+        }
+      ]
     },
     {
       "name": "getInstancesstatus",
       "protocol": "REST",
       "method": "GET",
       "entitypath": "{base_path}/{version}/instances/status{query}",
-      "schema": "schema.json",
+      "requestSchema": "schema.json",
+      "responseSchema": "schema.json",
+      "timeout": 0,
+      "sendEmpty": false,
+      "requestDatatype": "JSON",
+      "responseDatatype": "JSON",
       "headers": {},
       "responseObjects": [
         {
@@ -29,7 +45,12 @@
       "protocol": "REST",
       "method": "GET",
       "entitypath": "{base_path}/{version}/instances/status/preview{query}",
-      "schema": "schema.json",
+      "requestSchema": "schema.json",
+      "responseSchema": "schema.json",
+      "timeout": 0,
+      "sendEmpty": false,
+      "requestDatatype": "JSON",
+      "responseDatatype": "JSON",
       "headers": {},
       "responseObjects": [
         {
@@ -44,7 +65,12 @@
       "protocol": "REST",
       "method": "GET",
       "entitypath": "{base_path}/{version}/instances/{pathv1}/status/preview{query}",
-      "schema": "schema.json",
+      "requestSchema": "schema.json",
+      "responseSchema": "schema.json",
+      "timeout": 0,
+      "sendEmpty": false,
+      "requestDatatype": "JSON",
+      "responseDatatype": "JSON",
       "headers": {},
       "responseObjects": [
         {
@@ -59,7 +85,12 @@
       "protocol": "REST",
       "method": "GET",
       "entitypath": "{base_path}/{version}/instances/{pathv1}/status{query}",
-      "schema": "schema.json",
+      "requestSchema": "schema.json",
+      "responseSchema": "schema.json",
+      "timeout": 0,
+      "sendEmpty": false,
+      "requestDatatype": "JSON",
+      "responseDatatype": "JSON",
       "headers": {},
       "responseObjects": [
         {
@@ -74,7 +105,12 @@
       "protocol": "REST",
       "method": "GET",
       "entitypath": "{base_path}/{version}/instanceAliases/{pathv1}/status{query}",
-      "schema": "schema.json",
+      "requestSchema": "schema.json",
+      "responseSchema": "schema.json",
+      "timeout": 0,
+      "sendEmpty": false,
+      "requestDatatype": "JSON",
+      "responseDatatype": "JSON",
       "headers": {},
       "responseObjects": [
         {
@@ -89,7 +125,12 @@
       "protocol": "REST",
       "method": "GET",
       "entitypath": "{base_path}/{version}/instanceAliases/{pathv1}{query}",
-      "schema": "schema.json",
+      "requestSchema": "schema.json",
+      "responseSchema": "schema.json",
+      "timeout": 0,
+      "sendEmpty": false,
+      "requestDatatype": "JSON",
+      "responseDatatype": "JSON",
       "headers": {},
       "responseObjects": [
         {

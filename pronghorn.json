@@ -29,6 +29,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/getLocalizations"
+      },
       "task": true
     },
     {
@@ -93,6 +97,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/getIncidents"
+      },
       "task": true
     },
     {
@@ -121,6 +129,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/getIncidentsid"
+      },
       "task": true
     },
     {
@@ -143,6 +155,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/getIncidentsfields"
+      },
       "task": true
     },
     {
@@ -165,6 +181,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/getIncidentsimpactTypes"
+      },
       "task": true
     },
     {
@@ -187,6 +207,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/getIncidentseventTypes"
+      },
       "task": true
     },
     {
@@ -257,6 +281,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/getMaintenances"
+      },
       "task": true
     },
     {
@@ -285,6 +313,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/getMaintenancesid"
+      },
       "task": true
     },
     {
@@ -307,6 +339,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/getMaintenancesfields"
+      },
       "task": true
     },
     {
@@ -329,6 +365,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/getMaintenanceseventTypes"
+      },
       "task": true
     },
     {
@@ -357,6 +397,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/getGeneralMessages"
+      },
       "task": true
     },
     {
@@ -379,6 +423,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/getGeneralMessagesid"
+      },
       "task": true
     },
     {
@@ -419,6 +467,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/getMetricValues"
+      },
       "task": true
     },
     {
@@ -441,6 +493,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/getMetricValuesid"
+      },
       "task": true
     },
     {
@@ -463,6 +519,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/getLocales"
+      },
       "task": true
     },
     {
@@ -485,6 +545,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/getServices"
+      },
       "task": true
     },
     {
@@ -537,6 +601,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/getInstances"
+      },
       "task": true
     },
     {
@@ -571,6 +639,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/getInstancesstatus"
+      },
       "task": true
     },
     {
@@ -605,6 +677,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/getInstancesstatuspreview"
+      },
       "task": true
     },
     {
@@ -645,6 +721,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/getInstanceskeystatuspreview"
+      },
       "task": true
     },
     {
@@ -685,6 +765,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/getInstanceskeystatus"
+      },
       "task": true
     },
     {
@@ -707,6 +791,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/getInstanceAliaseskeystatus"
+      },
       "task": true
     },
     {
@@ -729,6 +817,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/getInstanceAliaseskey"
+      },
       "task": true
     },
     {
@@ -744,6 +836,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "GET",
+        "path": "/getProducts"
+      },
       "task": true
     },
     {
@@ -766,6 +862,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/getProductskey"
+      },
       "task": true
     },
     {
@@ -794,6 +894,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/postSubscribe"
+      },
       "task": true
     },
     {
@@ -822,6 +926,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/patchUnsubscribe"
+      },
       "task": true
     },
     {
@@ -850,6 +958,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/postUnsubscribe"
+      },
       "task": true
     },
     {
@@ -878,6 +990,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/postLogin"
+      },
       "task": true
     },
     {
@@ -900,6 +1016,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/getLogout"
+      },
       "task": true
     },
     {
@@ -928,6 +1048,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/getSubscribers"
+      },
       "task": true
     },
     {
@@ -962,6 +1086,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/patchSubscribers"
+      },
       "task": true
     },
     {
@@ -996,6 +1124,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/postSubscriberssubscriptionsid"
+      },
       "task": true
     },
     {
@@ -1030,6 +1162,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/patchSubscriberssubscriptionsid"
+      },
       "task": true
     },
     {
@@ -1064,6 +1200,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/deleteSubscriberssubscriptionsid"
+      },
       "task": true
     },
     {
@@ -1086,6 +1226,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/getSearchkey"
+      },
       "task": true
     },
     {
@@ -1101,6 +1245,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "GET",
+        "path": "/getTags"
+      },
       "task": true
     },
     {
@@ -1129,6 +1277,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "POST",
+        "path": "/getTagsinstanceinstanceKey"
+      },
       "task": true
     },
     {
@@ -1144,6 +1296,10 @@
       "roles": [
         "admin"
       ],
+      "route": {
+        "verb": "GET",
+        "path": "/getTagTypes"
+      },
       "task": true
     }
   ]

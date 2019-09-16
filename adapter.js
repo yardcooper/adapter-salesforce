@@ -249,8 +249,6 @@ class Salesforce extends AdapterBaseCl {
     /* HERE IS WHERE YOU VALIDATE DATA */
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = { locale };
     const queryParams = {};
     const pathVars = [];
@@ -258,11 +256,13 @@ class Salesforce extends AdapterBaseCl {
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -319,8 +319,6 @@ class Salesforce extends AdapterBaseCl {
     /* HERE IS WHERE YOU VALIDATE DATA */
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = { startTime, service, instance, limit, offset, sort, order, locale };
     const queryParams = {};
     const pathVars = [];
@@ -328,11 +326,13 @@ class Salesforce extends AdapterBaseCl {
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -381,15 +381,13 @@ class Salesforce extends AdapterBaseCl {
     log.trace(origin);
 
     /* HERE IS WHERE YOU VALIDATE DATA */
-    if (!id) {
+    if (id === undefined || id === null || id === '') {
       const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['id'], null, null, null);
       log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
       return callback(null, errorObj);
     }
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = { locale };
     const queryParams = {};
     const pathVars = [id];
@@ -397,11 +395,13 @@ class Salesforce extends AdapterBaseCl {
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -451,8 +451,6 @@ class Salesforce extends AdapterBaseCl {
     /* HERE IS WHERE YOU VALIDATE DATA */
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = { locale };
     const queryParams = {};
     const pathVars = [];
@@ -460,11 +458,13 @@ class Salesforce extends AdapterBaseCl {
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -514,8 +514,6 @@ class Salesforce extends AdapterBaseCl {
     /* HERE IS WHERE YOU VALIDATE DATA */
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = { locale };
     const queryParams = {};
     const pathVars = [];
@@ -523,11 +521,13 @@ class Salesforce extends AdapterBaseCl {
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -577,8 +577,6 @@ class Salesforce extends AdapterBaseCl {
     /* HERE IS WHERE YOU VALIDATE DATA */
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = { locale };
     const queryParams = {};
     const pathVars = [];
@@ -586,11 +584,13 @@ class Salesforce extends AdapterBaseCl {
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -648,8 +648,6 @@ class Salesforce extends AdapterBaseCl {
     /* HERE IS WHERE YOU VALIDATE DATA */
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = { startTime, service, instance, name, limit, offset, sort, order, locale };
     const queryParams = {};
     const pathVars = [];
@@ -657,11 +655,13 @@ class Salesforce extends AdapterBaseCl {
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -710,15 +710,13 @@ class Salesforce extends AdapterBaseCl {
     log.trace(origin);
 
     /* HERE IS WHERE YOU VALIDATE DATA */
-    if (!id) {
+    if (id === undefined || id === null || id === '') {
       const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['id'], null, null, null);
       log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
       return callback(null, errorObj);
     }
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = { locale };
     const queryParams = {};
     const pathVars = [id];
@@ -726,11 +724,13 @@ class Salesforce extends AdapterBaseCl {
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -780,8 +780,6 @@ class Salesforce extends AdapterBaseCl {
     /* HERE IS WHERE YOU VALIDATE DATA */
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = { locale };
     const queryParams = {};
     const pathVars = [];
@@ -789,11 +787,13 @@ class Salesforce extends AdapterBaseCl {
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -843,8 +843,6 @@ class Salesforce extends AdapterBaseCl {
     /* HERE IS WHERE YOU VALIDATE DATA */
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = { locale };
     const queryParams = {};
     const pathVars = [];
@@ -852,11 +850,13 @@ class Salesforce extends AdapterBaseCl {
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -907,8 +907,6 @@ class Salesforce extends AdapterBaseCl {
     /* HERE IS WHERE YOU VALIDATE DATA */
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = { limit, offset };
     const queryParams = {};
     const pathVars = [];
@@ -916,11 +914,13 @@ class Salesforce extends AdapterBaseCl {
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -968,15 +968,13 @@ class Salesforce extends AdapterBaseCl {
     log.trace(origin);
 
     /* HERE IS WHERE YOU VALIDATE DATA */
-    if (!id) {
+    if (id === undefined || id === null || id === '') {
       const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['id'], null, null, null);
       log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
       return callback(null, errorObj);
     }
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = {};
     const queryParams = {};
     const pathVars = [id];
@@ -984,11 +982,13 @@ class Salesforce extends AdapterBaseCl {
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -1041,8 +1041,6 @@ class Salesforce extends AdapterBaseCl {
     /* HERE IS WHERE YOU VALIDATE DATA */
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = { startTime, endTime, metricName, instanceKey };
     const queryParams = {};
     const pathVars = [];
@@ -1050,11 +1048,13 @@ class Salesforce extends AdapterBaseCl {
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -1102,15 +1102,13 @@ class Salesforce extends AdapterBaseCl {
     log.trace(origin);
 
     /* HERE IS WHERE YOU VALIDATE DATA */
-    if (!id) {
+    if (id === undefined || id === null || id === '') {
       const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['id'], null, null, null);
       log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
       return callback(null, errorObj);
     }
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = {};
     const queryParams = {};
     const pathVars = [id];
@@ -1118,11 +1116,13 @@ class Salesforce extends AdapterBaseCl {
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -1172,8 +1172,6 @@ class Salesforce extends AdapterBaseCl {
     /* HERE IS WHERE YOU VALIDATE DATA */
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = { locale };
     const queryParams = {};
     const pathVars = [];
@@ -1181,11 +1179,13 @@ class Salesforce extends AdapterBaseCl {
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -1235,8 +1235,6 @@ class Salesforce extends AdapterBaseCl {
     /* HERE IS WHERE YOU VALIDATE DATA */
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = { locale };
     const queryParams = {};
     const pathVars = [];
@@ -1244,11 +1242,13 @@ class Salesforce extends AdapterBaseCl {
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -1303,8 +1303,6 @@ class Salesforce extends AdapterBaseCl {
     /* HERE IS WHERE YOU VALIDATE DATA */
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = { sort, order, products, tags, childProducts, locale };
     const queryParams = {};
     const pathVars = [];
@@ -1312,11 +1310,13 @@ class Salesforce extends AdapterBaseCl {
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -1389,8 +1389,6 @@ Return all instances and associated incidents
     /* HERE IS WHERE YOU VALIDATE DATA */
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = { products, childProducts, locale };
     const queryParams = {};
     const pathVars = [];
@@ -1398,11 +1396,13 @@ Return all instances and associated incidents
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -1487,8 +1487,6 @@ Status Enums
     /* HERE IS WHERE YOU VALIDATE DATA */
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = { products, childProducts, locale };
     const queryParams = {};
     const pathVars = [];
@@ -1496,11 +1494,13 @@ Status Enums
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -1595,15 +1595,13 @@ Status Enums
     log.trace(origin);
 
     /* HERE IS WHERE YOU VALIDATE DATA */
-    if (!key) {
+    if (key === undefined || key === null || key === '') {
       const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['key'], null, null, null);
       log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
       return callback(null, errorObj);
     }
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = { productKey, childProducts, locale };
     const queryParams = {};
     const pathVars = [key];
@@ -1611,11 +1609,13 @@ Status Enums
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -1710,15 +1710,13 @@ Status Enums:
     log.trace(origin);
 
     /* HERE IS WHERE YOU VALIDATE DATA */
-    if (!key) {
+    if (key === undefined || key === null || key === '') {
       const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['key'], null, null, null);
       log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
       return callback(null, errorObj);
     }
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = { productKey, childProducts, locale };
     const queryParams = {};
     const pathVars = [key];
@@ -1726,11 +1724,13 @@ Status Enums:
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -1789,15 +1789,13 @@ Status Enums:
     log.trace(origin);
 
     /* HERE IS WHERE YOU VALIDATE DATA */
-    if (!key) {
+    if (key === undefined || key === null || key === '') {
       const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['key'], null, null, null);
       log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
       return callback(null, errorObj);
     }
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = {};
     const queryParams = {};
     const pathVars = [key];
@@ -1805,11 +1803,13 @@ Status Enums:
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -1857,15 +1857,13 @@ Status Enums:
     log.trace(origin);
 
     /* HERE IS WHERE YOU VALIDATE DATA */
-    if (!key) {
+    if (key === undefined || key === null || key === '') {
       const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['key'], null, null, null);
       log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
       return callback(null, errorObj);
     }
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = {};
     const queryParams = {};
     const pathVars = [key];
@@ -1873,11 +1871,13 @@ Status Enums:
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -1927,7 +1927,6 @@ Status Enums:
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
     // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const reqObj = null;
 
     try {
@@ -1971,15 +1970,13 @@ Status Enums:
     log.trace(origin);
 
     /* HERE IS WHERE YOU VALIDATE DATA */
-    if (!key) {
+    if (key === undefined || key === null || key === '') {
       const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['key'], null, null, null);
       log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
       return callback(null, errorObj);
     }
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = {};
     const queryParams = {};
     const pathVars = [key];
@@ -1987,11 +1984,13 @@ Status Enums:
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -2040,15 +2039,13 @@ Status Enums:
     log.trace(origin);
 
     /* HERE IS WHERE YOU VALIDATE DATA */
-    if (!body) {
+    if (body === undefined || body === null || body === '') {
       const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['body'], null, null, null);
       log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
       return callback(null, errorObj);
     }
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = {};
     const queryParams = {};
     const pathVars = [];
@@ -2056,11 +2053,13 @@ Status Enums:
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -2111,8 +2110,6 @@ Status Enums:
     /* HERE IS WHERE YOU VALIDATE DATA */
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = { token };
     const queryParams = {};
     const pathVars = [];
@@ -2120,11 +2117,13 @@ Status Enums:
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -2175,8 +2174,6 @@ Status Enums:
     /* HERE IS WHERE YOU VALIDATE DATA */
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = { token };
     const queryParams = {};
     const pathVars = [];
@@ -2184,11 +2181,13 @@ Status Enums:
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -2237,15 +2236,13 @@ Status Enums:
     log.trace(origin);
 
     /* HERE IS WHERE YOU VALIDATE DATA */
-    if (!body) {
+    if (body === undefined || body === null || body === '') {
       const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['body'], null, null, null);
       log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
       return callback(null, errorObj);
     }
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = {};
     const queryParams = {};
     const pathVars = [];
@@ -2253,11 +2250,13 @@ Status Enums:
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -2305,15 +2304,13 @@ Status Enums:
     log.trace(origin);
 
     /* HERE IS WHERE YOU VALIDATE DATA */
-    if (!token) {
+    if (token === undefined || token === null || token === '') {
       const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['token'], null, null, null);
       log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
       return callback(null, errorObj);
     }
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = { token };
     const queryParams = {};
     const pathVars = [];
@@ -2321,11 +2318,13 @@ Status Enums:
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -2374,15 +2373,13 @@ Status Enums:
     log.trace(origin);
 
     /* HERE IS WHERE YOU VALIDATE DATA */
-    if (!token) {
+    if (token === undefined || token === null || token === '') {
       const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['token'], null, null, null);
       log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
       return callback(null, errorObj);
     }
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = { token, normalize };
     const queryParams = {};
     const pathVars = [];
@@ -2390,11 +2387,13 @@ Status Enums:
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -2444,20 +2443,18 @@ Status Enums:
     log.trace(origin);
 
     /* HERE IS WHERE YOU VALIDATE DATA */
-    if (!token) {
+    if (token === undefined || token === null || token === '') {
       const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['token'], null, null, null);
       log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
       return callback(null, errorObj);
     }
-    if (!body) {
+    if (body === undefined || body === null || body === '') {
       const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['body'], null, null, null);
       log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
       return callback(null, errorObj);
     }
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = { token };
     const queryParams = {};
     const pathVars = [];
@@ -2465,11 +2462,13 @@ Status Enums:
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -2519,25 +2518,23 @@ Status Enums:
     log.trace(origin);
 
     /* HERE IS WHERE YOU VALIDATE DATA */
-    if (!id) {
+    if (id === undefined || id === null || id === '') {
       const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['id'], null, null, null);
       log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
       return callback(null, errorObj);
     }
-    if (!token) {
+    if (token === undefined || token === null || token === '') {
       const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['token'], null, null, null);
       log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
       return callback(null, errorObj);
     }
-    if (!body) {
+    if (body === undefined || body === null || body === '') {
       const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['body'], null, null, null);
       log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
       return callback(null, errorObj);
     }
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = { token };
     const queryParams = {};
     const pathVars = [id];
@@ -2545,11 +2542,13 @@ Status Enums:
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -2599,25 +2598,23 @@ Status Enums:
     log.trace(origin);
 
     /* HERE IS WHERE YOU VALIDATE DATA */
-    if (!id) {
+    if (id === undefined || id === null || id === '') {
       const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['id'], null, null, null);
       log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
       return callback(null, errorObj);
     }
-    if (!token) {
+    if (token === undefined || token === null || token === '') {
       const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['token'], null, null, null);
       log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
       return callback(null, errorObj);
     }
-    if (!body) {
+    if (body === undefined || body === null || body === '') {
       const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['body'], null, null, null);
       log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
       return callback(null, errorObj);
     }
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = { token };
     const queryParams = {};
     const pathVars = [id];
@@ -2625,11 +2622,13 @@ Status Enums:
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -2679,25 +2678,23 @@ Status Enums:
     log.trace(origin);
 
     /* HERE IS WHERE YOU VALIDATE DATA */
-    if (!id) {
+    if (id === undefined || id === null || id === '') {
       const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['id'], null, null, null);
       log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
       return callback(null, errorObj);
     }
-    if (!token) {
+    if (token === undefined || token === null || token === '') {
       const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['token'], null, null, null);
       log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
       return callback(null, errorObj);
     }
-    if (!body) {
+    if (body === undefined || body === null || body === '') {
       const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['body'], null, null, null);
       log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
       return callback(null, errorObj);
     }
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = { token };
     const queryParams = {};
     const pathVars = [id];
@@ -2705,11 +2702,13 @@ Status Enums:
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -2757,15 +2756,13 @@ Status Enums:
     log.trace(origin);
 
     /* HERE IS WHERE YOU VALIDATE DATA */
-    if (!key) {
+    if (key === undefined || key === null || key === '') {
       const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['key'], null, null, null);
       log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
       return callback(null, errorObj);
     }
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = {};
     const queryParams = {};
     const pathVars = [key];
@@ -2773,11 +2770,13 @@ Status Enums:
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -2827,7 +2826,6 @@ Status Enums:
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
     // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const reqObj = null;
 
     try {
@@ -2872,15 +2870,13 @@ Status Enums:
     log.trace(origin);
 
     /* HERE IS WHERE YOU VALIDATE DATA */
-    if (!instanceKey) {
+    if (instanceKey === undefined || instanceKey === null || instanceKey === '') {
       const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['instanceKey'], null, null, null);
       log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
       return callback(null, errorObj);
     }
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
-    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const queryParamsAvailable = { instances };
     const queryParams = {};
     const pathVars = [instanceKey];
@@ -2888,11 +2884,13 @@ Status Enums:
 
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
-      if (queryParamsAvailable[thisKeyInQueryParamsAvailable]) {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
 
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
     const reqObj = {
       payload: bodyVars,
       uriPathVars: pathVars,
@@ -2942,7 +2940,6 @@ Status Enums:
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
     // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
-
     const reqObj = null;
 
     try {

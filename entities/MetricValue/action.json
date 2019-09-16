@@ -5,7 +5,12 @@
       "protocol": "REST",
       "method": "GET",
       "entitypath": "{base_path}/{version}/metricValues{query}",
-      "schema": "schema.json",
+      "requestSchema": "schema.json",
+      "responseSchema": "schema.json",
+      "timeout": 0,
+      "sendEmpty": false,
+      "requestDatatype": "JSON",
+      "responseDatatype": "JSON",
       "headers": {},
       "responseObjects": [
         {
@@ -20,7 +25,12 @@
       "protocol": "REST",
       "method": "GET",
       "entitypath": "{base_path}/{version}/metricValues/{pathv1}{query}",
-      "schema": "schema.json",
+      "requestSchema": "schema.json",
+      "responseSchema": "schema.json",
+      "timeout": 0,
+      "sendEmpty": false,
+      "requestDatatype": "JSON",
+      "responseDatatype": "JSON",
       "headers": {},
       "responseObjects": [
         {

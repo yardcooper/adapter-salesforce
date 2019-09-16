@@ -5,16 +5,32 @@
       "protocol": "REST",
       "method": "POST",
       "entitypath": "{base_path}/{version}/login{query}",
-      "schema": "schema.json",
+      "requestSchema": "schema.json",
+      "responseSchema": "schema.json",
+      "timeout": 0,
+      "sendEmpty": false,
+      "requestDatatype": "JSON",
+      "responseDatatype": "JSON",
       "headers": {},
-      "responseObjects": []
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": "mockdatafiles/token-default.json"
+        }
+      ]
     },
     {
       "name": "healthcheck",
       "protocol": "REST",
       "method": "GET",
       "entitypath": "{base_path}/{version}/test{query}",
-      "schema": "schema.json",
+      "requestSchema": "schema.json",
+      "responseSchema": "schema.json",
+      "timeout": 0,
+      "sendEmpty": false,
+      "requestDatatype": "JSON",
+      "responseDatatype": "JSON",
       "headers": {},
       "responseObjects": [
         {
