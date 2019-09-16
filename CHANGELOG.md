@@ -1,3 +1,11 @@
+
+## 0.6.0 [09-16-2019]
+
+* september migration
+
+See merge request itentialopensource/adapters/itsm-testing/adapter-salesforce!2
+
+---
 ## 0.5.0 [07-30-2019]
 * migrate, categorize and artifactize
 
