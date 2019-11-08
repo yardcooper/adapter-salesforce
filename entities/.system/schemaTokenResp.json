@@ -1,0 +1,62 @@
+{
+  "$id": "token_response_example",
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "translate": true,
+  "properties": {
+    "ph_request_type": {
+      "type": "string",
+      "description": "type of request (internal to adapter)",
+      "default": "getToken",
+      "enum": [
+        "getToken"
+      ],
+      "external_name": "ph_request_type"
+    },
+    "code": {
+      "type": "number",
+      "description": "the https/http code",
+      "parse": false,
+      "encode": false,
+      "encrypt": {
+        "type": "AES",
+        "key": ""
+      },
+      "external_name": "code"
+    },
+    "success": {
+      "type": "boolean",
+      "description": "the api execution",
+      "parse": false,
+      "encode": false,
+      "encrypt": {
+        "type": "AES",
+        "key": ""
+      },
+      "external_name": "success"
+    },
+    "token": {
+      "type": "string",
+      "description": "the token returned from system",
+      "parse": false,
+      "encode": false,
+      "encrypt": {
+        "type": "AES",
+        "key": ""
+      },
+      "external_name": "data.token"
+    },
+    "expires": {
+      "type": "string",
+      "description": "the command being run on the device",
+      "parse": false,
+      "encode": false,
+      "encrypt": {
+        "type": "AES",
+        "key": ""
+      },
+      "external_name": "data.expires"
+    }
+  },
+  "definitions": {}
+}

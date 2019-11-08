@@ -46,6 +46,11 @@
         "none"
       ]
     },
+    "save_metric": {
+      "type": "boolean",
+      "description": "When true the metrics collected by the adapter will be stored in mongo or on the filesystem",
+      "default": false
+    },
     "stub": {
       "type": "boolean",
       "description": "When true will not connect to the remote server, but will use a static object for all responses",
@@ -77,6 +82,9 @@
     },
     "ssl": {
       "$ref": "#/definitions/ssl"
+    },
+    "mongo": {
+      "$ref": "#/definitions/mongo"
     }
   },
   "required": [
@@ -472,6 +480,11 @@
           "description": "Should the system run a healthcheck on timeout",
           "default": false
         },
+        "return_raw": {
+          "type": "boolean",
+          "description": "Will include the raw response with the data that is returned",
+          "default": false
+        },
         "archiving": {
           "type": "boolean",
           "description": "Archives each request/response and corresponding metrics",
@@ -641,6 +654,50 @@
           }
         }
       ]
+    },
+    "mongo": {
+      "type": "object",
+      "properties": {
+        "host": {
+          "type": "string",
+          "description": "host where mongo database can be found",
+          "default": "",
+          "examples": [
+            "localhost"
+          ]
+        },
+        "port": {
+          "type": "integer",
+          "description": "port on which to connect to the mongo database",
+          "default": 443,
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "database": {
+          "type": "string",
+          "description": "The name of the database to store adapter information in",
+          "default": "",
+          "examples": [
+            "adapter-xyz"
+          ]
+        },
+        "username": {
+          "type": "string",
+          "description": "The user to connect to the database with",
+          "default": "",
+          "examples": [
+            "username"
+          ]
+        },
+        "password": {
+          "type": "string",
+          "description": "The password to connect to the database with",
+          "default": "",
+          "examples": [
+            "password"
+          ]
+        }
+      }
     }
   }
 }

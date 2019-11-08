@@ -28,10 +28,14 @@ async function createBundle(adapterOldDir) {
   ops.push(() => fs.copySync(path.join(adapterOldDir, 'README.md'), path.join(artifactDir, 'README.md')));
 
   // copy changelog
-  ops.push(() => fs.copySync(path.join(adapterOldDir, 'CHANGELOG.md'), path.join(artifactDir, 'CHANGELOG.md')));
+  if (fs.existsSync(path.join(adapterOldDir, 'CHANGELOG.md'))) {
+    ops.push(() => fs.copySync(path.join(adapterOldDir, 'CHANGELOG.md'), path.join(artifactDir, 'CHANGELOG.md')));
+  }
 
   // copy license
-  ops.push(() => fs.copySync(path.join(adapterOldDir, 'LICENSE'), path.join(artifactDir, 'LICENSE')));
+  if (fs.existsSync(path.join(adapterOldDir, 'LICENSE'))) {
+    ops.push(() => fs.copySync(path.join(adapterOldDir, 'LICENSE'), path.join(artifactDir, 'LICENSE')));
+  }
 
   // create package
   const artifactPackage = {

@@ -7,6 +7,7 @@
     "base_path": "//api",
     "version": "v1",
     "cache_location": "none",
+    "save_metric": true,
     "stub": true,
     "protocol": "https",
     "authentication": {
@@ -46,6 +47,7 @@
         "authData": {}
       },
       "healthcheck_on_timeout": false,
+      "return_raw": false,
       "archiving": false
     },
     "proxy": {
@@ -61,6 +63,13 @@
       "ca_file": "",
       "secure_protocol": "",
       "ciphers": ""
+    },
+    "mongo": {
+      "host": "",
+      "port": 0,
+      "database": "",
+      "username": "",
+      "password": ""
     }
   },
   "groups": [],
