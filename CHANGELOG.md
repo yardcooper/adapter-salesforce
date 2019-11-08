@@ -1,4 +1,12 @@
 
+## 0.7.0 [11-08-2019]
+
+* update the adapter to the latest foundation
+
+See merge request itentialopensource/adapters/itsm-testing/adapter-salesforce!3
+
+---
+
 ## 0.6.0 [09-16-2019]
 
 * september migration
