@@ -40,7 +40,7 @@ The following list of packages are required for Itential product adapters or cus
 | @itentialopensource/adapter-utils | Runtime library classes for all adapters;  includes request handling, connection, throttling, and translation. |
 | ajv | Required for validation of adapter properties to integrate with Salesforce. |
 | fs-extra | Utilized by the node scripts that are included with the adapter; helps to build and extend the functionality. |
-| eadline-sync | Utilized by the testRunner script that comes with the adapter;  helps to test unit and integration functionality. |
+| readline-sync | Utilized by the testRunner script that comes with the adapter;  helps to test unit and integration functionality. |
 
 ### Additional Prerequisites for Development and Testing
 
@@ -80,6 +80,7 @@ This section defines **all** the properties that are available for the adapter, 
       "base_path": "/",
       "version": "v1",
       "cache_location": "local",
+      "save_metric": true,
       "stub": false,
       "protocol": "https",
       "authentication": {
@@ -102,7 +103,14 @@ This section defines **all** the properties that are available for the adapter, 
         "limit_retry_error": 401,
         "failover_codes": [404, 405],
         "attempt_timeout": 5000,
+        "global_request": {
+          "payload": {},
+          "uriOptions": {},
+          "addlHeaders": {},
+          "authData": {}
+        },
         "healthcheck_on_timeout": false,
+        "return_raw": false,
         "archiving": false
       },
       "ssl": {
@@ -127,6 +135,13 @@ This section defines **all** the properties that are available for the adapter, 
         "host": "localhost",
         "port": 9999,
         "protocol": "http"
+      },
+      "mongo": {
+        "host": "",
+        "port": 0,
+        "database": "",
+        "username": "",
+        "password": ""
       }
     },
     "type": "YOUR ADAPTER CLASS"
@@ -143,7 +158,8 @@ These base properties are used to connect to Salesforce upon the adapter initial
 | port | Required. Used to connect to the server.|
 | base_path | Optional. Used to define part of a path that is consistent for all or most endpoints. It makes the URIs easier to use and maintain but can be overridden on individual calls. An example **base_path** might be `/rest/api`. Default is ``.|
 | version | Optional. Used to set a global version for action endpoints. This makes it faster to update the adapter when endpoints change. As with the base-path, version can be overridden on individual endpoints. Default is ``.|
-| cache_location | Optional. Used to define where the adapter cache is located. The cache is used to maintain an entity list to improve performance. Storage locally is lost when the adapter is restarted. Storage in Redis is preserved upon adapter restart. Default is none which means no caching of the entity list.|
+| cache\_location | Optional. Used to define where the adapter cache is located. The cache is used to maintain an entity list to improve performance. Storage locally is lost when the adapter is restarted. Storage in Redis is preserved upon adapter restart. Default is none which means no caching of the entity list.|
+| save\_metric | Optional. Used to tell the adapter to save metric information (this does not impact metrics returned on calls). This allows the adapter to gather metrics over time. Metric data can be stored in a database or on the file system.|
 | stub | Optional. Indicates whether the stub should run instead of making calls to Salesforce (very useful during basic testing). Default is false (which means connect to Salesforce).|
 | protocol | Optional. Notifies the adapter whether to use HTTP or HTTPS. Default is HTTP.|
 
@@ -199,7 +215,13 @@ The request section defines properties to help handle requests.
 | limit\_retry\_error | Optional. Indicates the http error status number to define that no capacity was available and, after waiting a short interval, the adapter can retry the request. Default is 0.|
 | failover\_codes | An array of error codes for which the adapter will send back a failover flag to IAP so that the Platform can attempt the action in another adapter.|
 | attempt\_timeout | Optional. Tells how long the adapter should wait before aborting the attempt. On abort, the adapter will do one of two things: 1) return the error; or 2) if **healthcheck\_on\_timeout** is set to true, it will abort the request and run a Healthcheck until it re-establishes connectivity to Salesforce, and then will re-attempt the request that aborted. Default is 5000 milliseconds.|
+| global\_request | Optional. This is information that the adapter can include in all requests to the other system. This is easier to define and maintain than adding this information in either the code (adapter.js) or the action files.|
+| global\_request -> payload | Optional. Defines any information that should be included on all requests sent to the other system that have a payload/body.|
+| global\_request -> uriOptions | Optional. Defines any information that should be sent as untranslated  query options (e.g. page, size) on all requests to the other system.|
+| global\_request -> addlHeaders | Optioonal. Defines any headers that should be sent on all requests to the other system.|
+| global\_request -> authData | Optional. Defines any additional authentication data used to authentice with the other system. This authData needs to be consistent on every request.|
 | healthcheck\_on\_timeout | Required. Defines if the adapter should run a health check on timeout. If set to true, the adapter will abort the request and run a health check until it re-establishes connectivity and then it will re-attempt the request.|
+| return\_raw | Optional. Tells the adapter whether the raw response should be returned as well as the IAP response. This is helpful when running integration tests to save mock data. It does add overhead to the response object so it is not ideal from production.|
 | archiving | Optional flag. Default is false. It archives the request, the results and the various times (wait time, Salesforce time and overall time) in the `adapterid_results` collection in MongoDB. Although archiving might be desirable, be sure to develop a strategy before enabling this capability. Consider how much to archive and what strategy to use for cleaning up the collection in the database so that it does not become too large, especially if the responses are large.|
 
 ### SSL Properties
@@ -239,6 +261,18 @@ The proxy section defines the properties to utilize when Salesforce is behind a 
 | host | Host information for the proxy server. Required if `enabled` is true.|
 | port | Port information for the proxy server. Required if `enabled` is true.|
 | protocol | The protocol (i.e., http, https, etc.) used to connect to the proxy. Default is http.|
+
+### Mongo Properties
+
+The mongo section defines the properties used to connect to a Mongo database. Mongo can be used for throttling as well as to persist metric data. If not provided, metrics will be stored in the file system.
+
+| Property | Description |
+| ------- | ------- |
+| host | Optional. Host information for the mongo server.|
+| port | Optional. Port information for the mongo server.|
+| database | Optional. The database for the adapter to use for its data.|
+| username | Optional. If credentials are required to access mongo, this is the user to login as.|
+| password | Optional. If credentials are required to access mongo, this is the password to login with.|
 
 ## Testing an Itential Product Adapter
 
@@ -290,6 +324,8 @@ Test should also be written to clean up after themselves. However, it is importa
 
 ## Installing an Itential Product Adapter
 
+If you have App-Artifact installed in IAP, you can follow the instruction for that application to install the adapter into IAP. If not, follow these instructions.
+
 1. Set up the name space location in your IAP node_modules.
 
 ```json
@@ -312,8 +348,8 @@ cd adapter-salesforce
 npm install
 ```
 
-1. Add the adapter properties for Salesforce (created from Adapter Builder) to the `properties.json` file for your Itential build. You will need to change the credentials and possibly the host information below.
-[Salesforce sample properties](sampleProperties.json)
+1. If you are running IAP 2019.1 or older, add the adapter properties for Salesforce (created from Adapter Builder) to the `properties.json` file for your Itential build. You will need to change the credentials and possibly the host information below.
+[Salesforce sample properties](sampleProperties.json). If you are running IAP 2019.2 the adapter properties need to go into the database. You can review IAP documentation for how to do this.
 
 1. Restart IAP
 

@@ -3,8 +3,8 @@
   "version": "0.6.0",
   "description": "This adapter integrates with system Salesforce",
   "main": "adapter.js",
-  "wizardVersion": "2.34.6",
-  "engineVersion": "1.36.0",
+  "wizardVersion": "2.41.0",
+  "engineVersion": "1.44.2",
   "scripts": {
     "artifactize": "npm i && node utils/packModificationScript.js",
     "preinstall": "node utils/setup.js",
@@ -39,7 +39,7 @@
   "author": "Itential",
   "homepage": "https://gitlab.com/itentialopensource/adapters/itsm-testing/adapter-salesforce#readme",
   "dependencies": {
-    "@itentialopensource/adapter-utils": "^4.17.2",
+    "@itentialopensource/adapter-utils": "^4.24.3",
     "ajv": "^6.10.0",
     "fs-extra": "^7.0.0",
     "readline-sync": "^1.4.9",

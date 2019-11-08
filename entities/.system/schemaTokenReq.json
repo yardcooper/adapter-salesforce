@@ -1,0 +1,44 @@
+{
+  "$id": "token_request_example",
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "translate": true,
+  "properties": {
+    "ph_request_type": {
+      "type": "string",
+      "description": "type of request (internal to adapter)",
+      "default": "getToken",
+      "enum": [
+        "getToken"
+      ],
+      "external_name": "ph_request_type"
+    },
+    "username": {
+      "type": "string",
+      "description": "username to log in with",
+      "parse": false,
+      "encode": false,
+      "encrypt": {
+        "type": "AES",
+        "key": ""
+      },
+      "external_name": "username"
+    },
+    "password": {
+      "type": "string",
+      "description": "password to log in with",
+      "parse": false,
+      "encode": false,
+      "encrypt": {
+        "type": "AES",
+        "key": ""
+      },
+      "external_name": "password"
+    }
+  },
+  "required": [
+    "username",
+    "password"
+  ],
+  "definitions": {}
+}

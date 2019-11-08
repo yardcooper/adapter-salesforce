@@ -2,7 +2,7 @@
 
 // Set globals
 /* global describe it log pronghornProps */
-/* eslint global-require:warn */
+/* eslint global-require: warn */
 /* eslint no-unused-vars: warn */
 
 // include required items for testing & logging
@@ -51,10 +51,11 @@ global.pronghornProps = {
         base_path: '//api',
         version: 'v1',
         cache_location: 'none',
+        save_metric: false,
         protocol,
         stub,
         authentication: {
-          auth_method: 'request_token',
+          auth_method: 'no_authentication',
           username,
           password,
           token: '',
@@ -78,11 +79,19 @@ global.pronghornProps = {
           avg_runtime: 200
         },
         request: {
+          number_redirects: 0,
           number_retries: 3,
           limit_retry_error: 0,
           failover_codes: [],
           attempt_timeout: attemptTimeout,
+          global_request: {
+            payload: {},
+            uriOptions: {},
+            addlHeaders: {},
+            authData: {}
+          },
           healthcheck_on_timeout: true,
+          raw_return: true,
           archiving: false
         },
         proxy: {
@@ -98,6 +107,13 @@ global.pronghornProps = {
           ca_file: '',
           secure_protocol: '',
           ciphers: ''
+        },
+        mongo: {
+          host: '',
+          port: 0,
+          database: '',
+          username: '',
+          password: ''
         }
       }
     }]

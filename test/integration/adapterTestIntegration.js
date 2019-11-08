@@ -49,6 +49,7 @@ global.pronghornProps = {
         base_path: '//api',
         version: 'v1',
         cache_location: 'none',
+        save_metric: false,
         protocol,
         stub,
         authentication: {
@@ -76,11 +77,19 @@ global.pronghornProps = {
           avg_runtime: 200
         },
         request: {
+          number_redirects: 0,
           number_retries: 3,
           limit_retry_error: 0,
           failover_codes: [],
           attempt_timeout: attemptTimeout,
+          global_request: {
+            payload: {},
+            uriOptions: {},
+            addlHeaders: {},
+            authData: {}
+          },
           healthcheck_on_timeout: true,
+          raw_return: true,
           archiving: false
         },
         proxy: {
@@ -96,6 +105,13 @@ global.pronghornProps = {
           ca_file: '',
           secure_protocol: '',
           ciphers: ''
+        },
+        mongo: {
+          host: '',
+          port: 0,
+          database: '',
+          username: '',
+          password: ''
         }
       }
     }]
@@ -185,11 +201,28 @@ function saveMockData(entityName, actionName, descriptor, responseData) {
 
   // must have a response in order to store the response
   if (responseData && responseData.response) {
-    const data = responseData.response;
+    let data = responseData.response;
+
+    // if there was a raw response that one is better as it is untranslated
+    if (responseData.raw) {
+      data = responseData.raw;
+
+      try {
+        const temp = JSON.parse(data);
+        data = temp;
+      } catch (pex) {
+        // do not care if it did not parse as we will just use data
+      }
+    }
 
     try {
-      const base = `./entities/${entityName}/`;
+      const base = path.join(__dirname, `../../entities/${entityName}/`);
+      const mockdatafolder = 'mockdatafiles';
       const filename = `mockdatafiles/${actionName}-${descriptor}.json`;
+
+      if (!fs.existsSync(base + mockdatafolder)) {
+        fs.mkdirSync(base + mockdatafolder);
+      }
 
       // write the data we retrieved
       fs.writeFile(base + filename, JSON.stringify(data, null, 2), 'utf8', (errWritingMock) => {
@@ -226,7 +259,7 @@ function saveMockData(entityName, actionName, descriptor, responseData) {
             const defaultResponseObj = currentMethodAction.responseObjects.find(obj => obj.type === 'default');
 
             // save the default key into the new response object
-            if (!defaultResponseObj) {
+            if (defaultResponseObj) {
               responseObj.key = defaultResponseObj.key;
             }
 
