@@ -4,7 +4,7 @@
       "name": "getLocales",
       "protocol": "REST",
       "method": "GET",
-      "entitypath": "{base_path}/{version}/locales{query}",
+      "entitypath": "{base_path}/{version}/locales?{query}",
       "requestSchema": "schema.json",
       "responseSchema": "schema.json",
       "timeout": 0,

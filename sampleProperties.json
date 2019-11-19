@@ -4,8 +4,8 @@
   "properties": {
     "host": "salesforce",
     "port": 443,
-    "base_path": "//api",
-    "version": "v1",
+    "base_path": "/",
+    "version": "",
     "cache_location": "none",
     "save_metric": true,
     "stub": true,

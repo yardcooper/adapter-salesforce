@@ -4,7 +4,7 @@
       "name": "getLocalizations",
       "protocol": "REST",
       "method": "GET",
-      "entitypath": "{base_path}/{version}/localizations{query}",
+      "entitypath": "{base_path}/{version}/localizations?{query}",
       "requestSchema": "schema.json",
       "responseSchema": "schema.json",
       "timeout": 0,

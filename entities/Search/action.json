@@ -4,7 +4,7 @@
       "name": "getSearchkey",
       "protocol": "REST",
       "method": "GET",
-      "entitypath": "{base_path}/{version}/search/{pathv1}{query}",
+      "entitypath": "{base_path}/{version}/search/{pathv1}?{query}",
       "requestSchema": "schema.json",
       "responseSchema": "schema.json",
       "timeout": 0,
