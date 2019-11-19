@@ -4,7 +4,7 @@
       "name": "getServices",
       "protocol": "REST",
       "method": "GET",
-      "entitypath": "{base_path}/{version}/services{query}",
+      "entitypath": "{base_path}/{version}/services?{query}",
       "requestSchema": "schema.json",
       "responseSchema": "schema.json",
       "timeout": 0,
