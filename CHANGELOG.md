@@ -1,4 +1,12 @@
 
+## 0.7.1 [11-19-2019]
+
+* update the healthcheck url
+
+See merge request itentialopensource/adapters/itsm-testing/adapter-salesforce!4
+
+---
+
 ## 0.7.0 [11-08-2019]
 
 * update the adapter to the latest foundation
