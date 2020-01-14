@@ -2,7 +2,6 @@
   "id": "@itentialopensource/adapter-salesforce",
   "type": "Adapter",
   "export": "Salesforce",
-  "displayName": "Salesforce",
   "title": "Salesforce",
   "src": "adapter.js",
   "roles": [
@@ -18,13 +17,21 @@
           "name": "locale",
           "type": "string",
           "info": "Returns object of localized text",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "locale",
+            "type": "string"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -44,55 +51,91 @@
           "name": "startTime",
           "type": "string",
           "info": "Returns an array of Incident objects. Defaults to last 30 days.",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "startTime",
+            "type": "string"
+          }
         },
         {
           "name": "service",
           "type": "string",
           "info": "Returns an array of Incident objects. Defaults to last 30 days.",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "service",
+            "type": "string"
+          }
         },
         {
           "name": "instance",
           "type": "string",
           "info": "Returns an array of Incident objects. Defaults to last 30 days.",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "instance",
+            "type": "string"
+          }
         },
         {
           "name": "limit",
           "type": "number",
           "info": "Returns an array of Incident objects. Defaults to last 30 days.",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "limit",
+            "type": "number"
+          }
         },
         {
           "name": "offset",
           "type": "number",
           "info": "Returns an array of Incident objects. Defaults to last 30 days.",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "offset",
+            "type": "number"
+          }
         },
         {
           "name": "sort",
           "type": "string",
           "info": "Returns an array of Incident objects. Defaults to last 30 days.",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "sort",
+            "type": "string"
+          }
         },
         {
           "name": "order",
           "type": "string",
           "info": "Returns an array of Incident objects. Defaults to last 30 days.",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "order",
+            "type": "string"
+          }
         },
         {
           "name": "locale",
           "type": "string",
           "info": "Returns an array of Incident objects. Defaults to last 30 days.",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "locale",
+            "type": "string"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -112,19 +155,31 @@
           "name": "id",
           "type": "string",
           "info": "Returns an Incident based on Id.",
-          "required": true
+          "required": true,
+          "schema": {
+            "title": "id",
+            "type": "string"
+          }
         },
         {
           "name": "locale",
           "type": "string",
           "info": "Returns an Incident based on Id.",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "locale",
+            "type": "string"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -144,13 +199,21 @@
           "name": "locale",
           "type": "string",
           "info": "Returns an array of Incident fields.",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "locale",
+            "type": "string"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -170,13 +233,21 @@
           "name": "locale",
           "type": "string",
           "info": "Returns an array of incident imapct type fields.",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "locale",
+            "type": "string"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -196,13 +267,21 @@
           "name": "locale",
           "type": "string",
           "info": "Returns an array of incident imapct type fields.",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "locale",
+            "type": "string"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -222,61 +301,101 @@
           "name": "startTime",
           "type": "string",
           "info": "Returns an array of Maintenance objects. Defaults to last 30 days.",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "startTime",
+            "type": "string"
+          }
         },
         {
           "name": "service",
           "type": "string",
           "info": "Returns an array of Maintenance objects. Defaults to last 30 days.",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "service",
+            "type": "string"
+          }
         },
         {
           "name": "instance",
           "type": "string",
           "info": "Returns an array of Maintenance objects. Defaults to last 30 days.",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "instance",
+            "type": "string"
+          }
         },
         {
           "name": "name",
           "type": "string",
           "info": "Returns an array of Maintenance objects. Defaults to last 30 days.",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "name",
+            "type": "string"
+          }
         },
         {
           "name": "limit",
           "type": "number",
           "info": "Returns an array of Maintenance objects. Defaults to last 30 days.",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "limit",
+            "type": "number"
+          }
         },
         {
           "name": "offset",
           "type": "number",
           "info": "Returns an array of Maintenance objects. Defaults to last 30 days.",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "offset",
+            "type": "number"
+          }
         },
         {
           "name": "sort",
           "type": "string",
           "info": "Returns an array of Maintenance objects. Defaults to last 30 days.",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "sort",
+            "type": "string"
+          }
         },
         {
           "name": "order",
           "type": "string",
           "info": "Returns an array of Maintenance objects. Defaults to last 30 days.",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "order",
+            "type": "string"
+          }
         },
         {
           "name": "locale",
           "type": "string",
           "info": "Returns an array of Maintenance objects. Defaults to last 30 days.",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "locale",
+            "type": "string"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -296,19 +415,31 @@
           "name": "id",
           "type": "string",
           "info": "Returns a Maintenance based on Id.",
-          "required": true
+          "required": true,
+          "schema": {
+            "title": "id",
+            "type": "string"
+          }
         },
         {
           "name": "locale",
           "type": "string",
           "info": "Returns a Maintenance based on Id.",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "locale",
+            "type": "string"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -328,13 +459,21 @@
           "name": "locale",
           "type": "string",
           "info": "Returns an array of Maintenance fields.",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "locale",
+            "type": "string"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -354,13 +493,21 @@
           "name": "locale",
           "type": "string",
           "info": "Returns an array of maintenance imapct type fields.",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "locale",
+            "type": "string"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -380,19 +527,31 @@
           "name": "limit",
           "type": "number",
           "info": "Returns an array of GeneralMessage objects.",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "limit",
+            "type": "number"
+          }
         },
         {
           "name": "offset",
           "type": "number",
           "info": "Returns an array of GeneralMessage objects.",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "offset",
+            "type": "number"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -412,13 +571,21 @@
           "name": "id",
           "type": "string",
           "info": "Returns a GeneralMessage based on Id.",
-          "required": true
+          "required": true,
+          "schema": {
+            "title": "id",
+            "type": "string"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -438,31 +605,51 @@
           "name": "startTime",
           "type": "string",
           "info": "Returns an array of MetricValue objects.",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "startTime",
+            "type": "string"
+          }
         },
         {
           "name": "endTime",
           "type": "string",
           "info": "Returns an array of MetricValue objects.",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "endTime",
+            "type": "string"
+          }
         },
         {
           "name": "metricName",
           "type": "string",
           "info": "Returns an array of MetricValue objects.",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "metricName",
+            "type": "string"
+          }
         },
         {
           "name": "instanceKey",
           "type": "string",
           "info": "Returns an array of MetricValue objects.",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "instanceKey",
+            "type": "string"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -482,13 +669,21 @@
           "name": "id",
           "type": "string",
           "info": "Returns a MetricValue based on Id.",
-          "required": true
+          "required": true,
+          "schema": {
+            "title": "id",
+            "type": "string"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -508,13 +703,21 @@
           "name": "locale",
           "type": "string",
           "info": "Return all locales",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "locale",
+            "type": "string"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -534,13 +737,21 @@
           "name": "locale",
           "type": "string",
           "info": "Return all locales",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "locale",
+            "type": "string"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -560,43 +771,71 @@
           "name": "sort",
           "type": "string",
           "info": "Return all locales",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "sort",
+            "type": "string"
+          }
         },
         {
           "name": "order",
           "type": "string",
           "info": "Return all locales",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "order",
+            "type": "string"
+          }
         },
         {
           "name": "products",
           "type": "string",
           "info": "Return all locales",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "products",
+            "type": "string"
+          }
         },
         {
           "name": "tags",
           "type": "array",
           "info": "Return all locales",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "tags",
+            "type": "array"
+          }
         },
         {
           "name": "childProducts",
           "type": "boolean",
           "info": "Return all locales",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "childProducts",
+            "type": "boolean"
+          }
         },
         {
           "name": "locale",
           "type": "string",
           "info": "Return all locales",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "locale",
+            "type": "string"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -616,25 +855,41 @@
           "name": "products",
           "type": "string",
           "info": "DEPRECATED WARNING ROUTE WILL BE REMOVED\nUse /instance/status/preview for overall current status and\ncurrently ongoing incidents, maintenances, and general messages.\nUse /instances/{key}/status for current status and recent\nhistory of incidents, maintenances, and general messages for\nsepcific instance\n\nReturn all instances and associated incidents",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "products",
+            "type": "string"
+          }
         },
         {
           "name": "childProducts",
           "type": "boolean",
           "info": "DEPRECATED WARNING ROUTE WILL BE REMOVED\nUse /instance/status/preview for overall current status and\ncurrently ongoing incidents, maintenances, and general messages.\nUse /instances/{key}/status for current status and recent\nhistory of incidents, maintenances, and general messages for\nsepcific instance\n\nReturn all instances and associated incidents",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "childProducts",
+            "type": "boolean"
+          }
         },
         {
           "name": "locale",
           "type": "string",
           "info": "DEPRECATED WARNING ROUTE WILL BE REMOVED\nUse /instance/status/preview for overall current status and\ncurrently ongoing incidents, maintenances, and general messages.\nUse /instances/{key}/status for current status and recent\nhistory of incidents, maintenances, and general messages for\nsepcific instance\n\nReturn all instances and associated incidents",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "locale",
+            "type": "string"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -654,25 +909,41 @@
           "name": "products",
           "type": "string",
           "info": "Return all instances and associated incidents, maintenances, and general messages.\nFor each instance returns a state enum indicating the most\nsevere ongoing event, and if it effects a core service.\n\nStatus Enums\n* OK\n* MAJOR_INCIDENT_CORE\n* MINOR_INCIDENT_CORE\n* MAINTENANCE_CORE\n* MAJOR_INCIDENT_NONCORE\n* MINOR_INCIDENT_NONCORE\n* MAINTENANCE_NONCORE",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "products",
+            "type": "string"
+          }
         },
         {
           "name": "childProducts",
           "type": "boolean",
           "info": "Return all instances and associated incidents, maintenances, and general messages.\nFor each instance returns a state enum indicating the most\nsevere ongoing event, and if it effects a core service.\n\nStatus Enums\n* OK\n* MAJOR_INCIDENT_CORE\n* MINOR_INCIDENT_CORE\n* MAINTENANCE_CORE\n* MAJOR_INCIDENT_NONCORE\n* MINOR_INCIDENT_NONCORE\n* MAINTENANCE_NONCORE",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "childProducts",
+            "type": "boolean"
+          }
         },
         {
           "name": "locale",
           "type": "string",
           "info": "Return all instances and associated incidents, maintenances, and general messages.\nFor each instance returns a state enum indicating the most\nsevere ongoing event, and if it effects a core service.\n\nStatus Enums\n* OK\n* MAJOR_INCIDENT_CORE\n* MINOR_INCIDENT_CORE\n* MAINTENANCE_CORE\n* MAJOR_INCIDENT_NONCORE\n* MINOR_INCIDENT_NONCORE\n* MAINTENANCE_NONCORE",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "locale",
+            "type": "string"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -692,31 +963,51 @@
           "name": "key",
           "type": "string",
           "info": "Rerurn an instance with associated incidents, maintenances, and general messages.\nFor a given instance returns a state enum indicating the most\nsevere ongoing event, and if it effects a core service.\n\nStatus Enums\n* OK\n* MAJOR_INCIDENT_CORE\n* MINOR_INCIDENT_CORE\n* MAINTENANCE_CORE\n* MAJOR_INCIDENT_NONCORE\n* MINOR_INCIDENT_NONCORE\n* MAINTENANCE_NONCORE",
-          "required": true
+          "required": true,
+          "schema": {
+            "title": "key",
+            "type": "string"
+          }
         },
         {
           "name": "productKey",
           "type": "string",
           "info": "Rerurn an instance with associated incidents, maintenances, and general messages.\nFor a given instance returns a state enum indicating the most\nsevere ongoing event, and if it effects a core service.\n\nStatus Enums\n* OK\n* MAJOR_INCIDENT_CORE\n* MINOR_INCIDENT_CORE\n* MAINTENANCE_CORE\n* MAJOR_INCIDENT_NONCORE\n* MINOR_INCIDENT_NONCORE\n* MAINTENANCE_NONCORE",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "productKey",
+            "type": "string"
+          }
         },
         {
           "name": "childProducts",
           "type": "boolean",
           "info": "Rerurn an instance with associated incidents, maintenances, and general messages.\nFor a given instance returns a state enum indicating the most\nsevere ongoing event, and if it effects a core service.\n\nStatus Enums\n* OK\n* MAJOR_INCIDENT_CORE\n* MINOR_INCIDENT_CORE\n* MAINTENANCE_CORE\n* MAJOR_INCIDENT_NONCORE\n* MINOR_INCIDENT_NONCORE\n* MAINTENANCE_NONCORE",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "childProducts",
+            "type": "boolean"
+          }
         },
         {
           "name": "locale",
           "type": "string",
           "info": "Rerurn an instance with associated incidents, maintenances, and general messages.\nFor a given instance returns a state enum indicating the most\nsevere ongoing event, and if it effects a core service.\n\nStatus Enums\n* OK\n* MAJOR_INCIDENT_CORE\n* MINOR_INCIDENT_CORE\n* MAINTENANCE_CORE\n* MAJOR_INCIDENT_NONCORE\n* MINOR_INCIDENT_NONCORE\n* MAINTENANCE_NONCORE",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "locale",
+            "type": "string"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -736,31 +1027,51 @@
           "name": "key",
           "type": "string",
           "info": "Return an by instance with associated incidents, maintenances, and general messages.\nReturns a state enum indicating the most\nsevere ongoing event, and if it effects a core service.\n\nStatus Enums:\n* OK\n* MAJOR_INCIDENT_CORE\n* MINOR_INCIDENT_CORE\n* MAINTENANCE_CORE\n* MAJOR_INCIDENT_NONCORE\n* MINOR_INCIDENT_NONCORE\n* MAINTENANCE_NONCORE",
-          "required": true
+          "required": true,
+          "schema": {
+            "title": "key",
+            "type": "string"
+          }
         },
         {
           "name": "productKey",
           "type": "string",
           "info": "Return an by instance with associated incidents, maintenances, and general messages.\nReturns a state enum indicating the most\nsevere ongoing event, and if it effects a core service.\n\nStatus Enums:\n* OK\n* MAJOR_INCIDENT_CORE\n* MINOR_INCIDENT_CORE\n* MAINTENANCE_CORE\n* MAJOR_INCIDENT_NONCORE\n* MINOR_INCIDENT_NONCORE\n* MAINTENANCE_NONCORE",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "productKey",
+            "type": "string"
+          }
         },
         {
           "name": "childProducts",
           "type": "boolean",
           "info": "Return an by instance with associated incidents, maintenances, and general messages.\nReturns a state enum indicating the most\nsevere ongoing event, and if it effects a core service.\n\nStatus Enums:\n* OK\n* MAJOR_INCIDENT_CORE\n* MINOR_INCIDENT_CORE\n* MAINTENANCE_CORE\n* MAJOR_INCIDENT_NONCORE\n* MINOR_INCIDENT_NONCORE\n* MAINTENANCE_NONCORE",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "childProducts",
+            "type": "boolean"
+          }
         },
         {
           "name": "locale",
           "type": "string",
           "info": "Return an by instance with associated incidents, maintenances, and general messages.\nReturns a state enum indicating the most\nsevere ongoing event, and if it effects a core service.\n\nStatus Enums:\n* OK\n* MAJOR_INCIDENT_CORE\n* MINOR_INCIDENT_CORE\n* MAINTENANCE_CORE\n* MAJOR_INCIDENT_NONCORE\n* MINOR_INCIDENT_NONCORE\n* MAINTENANCE_NONCORE",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "locale",
+            "type": "string"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -780,13 +1091,21 @@
           "name": "key",
           "type": "string",
           "info": "Return an by instance with associated incidents, maintenances, and general messages.\nReturns a state enum indicating the most\nsevere ongoing event, and if it effects a core service.\n\nStatus Enums:\n* OK\n* MAJOR_INCIDENT_CORE\n* MINOR_INCIDENT_CORE\n* MAINTENANCE_CORE\n* MAJOR_INCIDENT_NONCORE\n* MINOR_INCIDENT_NONCORE\n* MAINTENANCE_NONCORE",
-          "required": true
+          "required": true,
+          "schema": {
+            "title": "key",
+            "type": "string"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -806,13 +1125,21 @@
           "name": "key",
           "type": "string",
           "info": "Get Instance Alias",
-          "required": true
+          "required": true,
+          "schema": {
+            "title": "key",
+            "type": "string"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -831,7 +1158,11 @@
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -851,13 +1182,21 @@
           "name": "key",
           "type": "string",
           "info": "Returns an product by id.",
-          "required": true
+          "required": true,
+          "schema": {
+            "title": "key",
+            "type": "string"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -877,19 +1216,31 @@
           "name": "XSendNotification",
           "type": "string",
           "info": "",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "XSendNotification",
+            "type": "string"
+          }
         },
         {
           "name": "body",
           "type": "object",
           "info": "",
-          "required": true
+          "required": true,
+          "schema": {
+            "title": "body",
+            "type": "object"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -909,19 +1260,31 @@
           "name": "body",
           "type": "object",
           "info": "",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "body",
+            "type": "object"
+          }
         },
         {
           "name": "token",
           "type": "string",
           "info": "",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "token",
+            "type": "string"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -941,19 +1304,31 @@
           "name": "body",
           "type": "object",
           "info": "",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "body",
+            "type": "object"
+          }
         },
         {
           "name": "token",
           "type": "string",
           "info": "",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "token",
+            "type": "string"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -973,19 +1348,31 @@
           "name": "XSendNotification",
           "type": "string",
           "info": "Requests to send a login link to the email address",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "XSendNotification",
+            "type": "string"
+          }
         },
         {
           "name": "body",
           "type": "object",
           "info": "Requests to send a login link to the email address",
-          "required": true
+          "required": true,
+          "schema": {
+            "title": "body",
+            "type": "object"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -1005,13 +1392,21 @@
           "name": "token",
           "type": "string",
           "info": "Logout authenticated user.",
-          "required": true
+          "required": true,
+          "schema": {
+            "title": "token",
+            "type": "string"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -1031,19 +1426,31 @@
           "name": "token",
           "type": "string",
           "info": "Returns subscriber and subscription using token",
-          "required": true
+          "required": true,
+          "schema": {
+            "title": "token",
+            "type": "string"
+          }
         },
         {
           "name": "normalize",
           "type": "boolean",
           "info": "Returns subscriber and subscription using token",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "normalize",
+            "type": "boolean"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -1063,25 +1470,41 @@
           "name": "XSendNotification",
           "type": "string",
           "info": "Update subscriber using token",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "XSendNotification",
+            "type": "string"
+          }
         },
         {
           "name": "token",
           "type": "string",
           "info": "Update subscriber using token",
-          "required": true
+          "required": true,
+          "schema": {
+            "title": "token",
+            "type": "string"
+          }
         },
         {
           "name": "body",
           "type": "object",
           "info": "Update subscriber using token",
-          "required": true
+          "required": true,
+          "schema": {
+            "title": "body",
+            "type": "object"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -1101,25 +1524,41 @@
           "name": "id",
           "type": "string",
           "info": "",
-          "required": true
+          "required": true,
+          "schema": {
+            "title": "id",
+            "type": "string"
+          }
         },
         {
           "name": "token",
           "type": "string",
           "info": "",
-          "required": true
+          "required": true,
+          "schema": {
+            "title": "token",
+            "type": "string"
+          }
         },
         {
           "name": "body",
           "type": "object",
           "info": "",
-          "required": true
+          "required": true,
+          "schema": {
+            "title": "body",
+            "type": "object"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -1139,25 +1578,41 @@
           "name": "id",
           "type": "string",
           "info": "",
-          "required": true
+          "required": true,
+          "schema": {
+            "title": "id",
+            "type": "string"
+          }
         },
         {
           "name": "token",
           "type": "string",
           "info": "",
-          "required": true
+          "required": true,
+          "schema": {
+            "title": "token",
+            "type": "string"
+          }
         },
         {
           "name": "body",
           "type": "object",
           "info": "",
-          "required": true
+          "required": true,
+          "schema": {
+            "title": "body",
+            "type": "object"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -1177,25 +1632,41 @@
           "name": "id",
           "type": "string",
           "info": "",
-          "required": true
+          "required": true,
+          "schema": {
+            "title": "id",
+            "type": "string"
+          }
         },
         {
           "name": "token",
           "type": "string",
           "info": "",
-          "required": true
+          "required": true,
+          "schema": {
+            "title": "token",
+            "type": "string"
+          }
         },
         {
           "name": "body",
           "type": "object",
           "info": "",
-          "required": true
+          "required": true,
+          "schema": {
+            "title": "body",
+            "type": "object"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -1215,13 +1686,21 @@
           "name": "key",
           "type": "string",
           "info": "Return all search results",
-          "required": true
+          "required": true,
+          "schema": {
+            "title": "key",
+            "type": "string"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -1240,7 +1719,11 @@
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -1260,19 +1743,31 @@
           "name": "instanceKey",
           "type": "string",
           "info": "Return all the tags for a given Instance Key",
-          "required": true
+          "required": true,
+          "schema": {
+            "title": "instanceKey",
+            "type": "string"
+          }
         },
         {
           "name": "instances",
           "type": "boolean",
           "info": "Return all the tags for a given Instance Key",
-          "required": false
+          "required": false,
+          "schema": {
+            "title": "instances",
+            "type": "boolean"
+          }
         }
       ],
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"
@@ -1291,7 +1786,11 @@
       "output": {
         "name": "result",
         "type": "object",
-        "description": "A JSON Object containing status, code and the result"
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
       },
       "roles": [
         "admin"

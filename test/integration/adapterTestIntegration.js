@@ -103,6 +103,8 @@ global.pronghornProps = {
           enabled: sslenable,
           accept_invalid_cert: sslinvalid,
           ca_file: '',
+          key_file: '',
+          cert_file: '',
           secure_protocol: '',
           ciphers: ''
         },
@@ -111,7 +113,15 @@ global.pronghornProps = {
           port: 0,
           database: '',
           username: '',
-          password: ''
+          password: '',
+          replSet: '',
+          db_ssl: {
+            enabled: false,
+            accept_invalid_cert: false,
+            ca_file: '',
+            key_file: '',
+            cert_file: ''
+          }
         }
       }
     }]

@@ -61,6 +61,8 @@
       "enabled": false,
       "accept_invalid_cert": true,
       "ca_file": "",
+      "key_file": "",
+      "cert_file": "",
       "secure_protocol": "",
       "ciphers": ""
     },
@@ -69,7 +71,15 @@
       "port": 0,
       "database": "",
       "username": "",
-      "password": ""
+      "password": "",
+      "replSet": "",
+      "db_ssl": {
+        "enabled": false,
+        "accept_invalid_cert": false,
+        "ca_file": "",
+        "key_file": "",
+        "cert_file": ""
+      }
     }
   },
   "groups": [],
