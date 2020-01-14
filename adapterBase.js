@@ -291,7 +291,25 @@ class AdapterBase extends EventEmitterCl {
     try {
       return this.requestHandlerInst.checkActionFiles();
     } catch (e) {
-      return false;
+      return ['Exception increase log level'];
+    }
+  }
+
+  /**
+   * checkProperties is used to validate the adapter properties.
+   *
+   * @function checkProperties
+   * @param {Object} properties - an object containing all of the properties
+   */
+  checkProperties(properties) {
+    const origin = `${this.myid}-adapterBase-checkProperties`;
+    log.trace(origin);
+
+    // validate the properties for the adapter
+    try {
+      return this.requestHandlerInst.checkProperties(properties);
+    } catch (e) {
+      return { exception: 'Exception increase log level' };
     }
   }
 

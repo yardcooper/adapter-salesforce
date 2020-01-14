@@ -105,6 +105,8 @@ global.pronghornProps = {
           enabled: sslenable,
           accept_invalid_cert: sslinvalid,
           ca_file: '',
+          key_file: '',
+          cert_file: '',
           secure_protocol: '',
           ciphers: ''
         },
@@ -113,7 +115,15 @@ global.pronghornProps = {
           port: 0,
           database: '',
           username: '',
-          password: ''
+          password: '',
+          replSet: '',
+          db_ssl: {
+            enabled: false,
+            accept_invalid_cert: false,
+            ca_file: '',
+            key_file: '',
+            cert_file: ''
+          }
         }
       }
     }]
@@ -332,7 +342,6 @@ describe('[unit] Salesforce Adapter Test', () => {
           const pronghornDotJson = require('../../pronghorn.json');
           assert.notEqual(-1, pronghornDotJson.id.indexOf('salesforce'));
           assert.equal('Salesforce', pronghornDotJson.export);
-          assert.equal('Salesforce', pronghornDotJson.displayName);
           assert.equal('Salesforce', pronghornDotJson.title);
           done();
         } catch (error) {
@@ -351,10 +360,10 @@ describe('[unit] Salesforce Adapter Test', () => {
             for (let w = 0; w < wffunctions.length; w += 1) {
               if (pronghornDotJson.methods[m].name === wffunctions[w]) {
                 found = true;
-                const methLine = execute(`grep "${wffunctions[w]}(" adapter.js | grep "callback) {"`).toString();
+                const methLine = execute(`grep "  ${wffunctions[w]}(" adapter.js | grep "callback) {"`).toString();
                 let wfparams = [];
 
-                if (methLine.indexOf('(') >= 0 && methLine.indexOf(')') >= 0) {
+                if (methLine && methLine.indexOf('(') >= 0 && methLine.indexOf(')') >= 0) {
                   const temp = methLine.substring(methLine.indexOf('(') + 1, methLine.indexOf(')'));
                   wfparams = temp.split(',');
 
@@ -508,6 +517,39 @@ describe('[unit] Salesforce Adapter Test', () => {
       });
     });
 
+    describe('#checkProperties', () => {
+      it('should have a checkProperties function', (done) => {
+        try {
+          assert.equal(true, typeof a.checkProperties === 'function');
+          done();
+        } catch (error) {
+          log.error(`Test Failure: ${error}`);
+          done(error);
+        }
+      });
+      it('the sample properties should be good - if failure change the log level', (done) => {
+        try {
+          const samplePropsJson = require('../../sampleProperties.json');
+          const clean = a.checkProperties(samplePropsJson.properties);
+
+          try {
+            assert.notEqual(0, Object.keys(clean));
+            assert.equal(undefined, clean.exception);
+            assert.notEqual(undefined, clean.host);
+            assert.notEqual(null, clean.host);
+            assert.notEqual('', clean.host);
+            done();
+          } catch (err) {
+            log.error(`Test Failure: ${err}`);
+            done(err);
+          }
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
+      }).timeout(attemptTimeout);
+    });
+
     describe('README.md', () => {
       it('should have a README', (done) => {
         try {
@@ -570,12 +612,15 @@ describe('[unit] Salesforce Adapter Test', () => {
           done(error);
         }
       });
-      it('should be good', (done) => {
+      it('the action files should be good - if failure change the log level as most issues are warnings', (done) => {
         try {
           const clean = a.checkActionFiles();
 
           try {
-            assert.equal(true, clean);
+            for (let c = 0; c < clean.length; c += 1) {
+              log.error(clean[c]);
+            }
+            assert.equal(0, clean.length);
             done();
           } catch (err) {
             log.error(`Test Failure: ${err}`);

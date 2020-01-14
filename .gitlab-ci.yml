@@ -54,7 +54,6 @@ unit:
 
 integration:
   stage: test
-  allow_failure: true
   script:
     - node_setup
     - npm run test:integration

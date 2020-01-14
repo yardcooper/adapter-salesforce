@@ -585,6 +585,22 @@
             "keys/key.pem"
           ]
         },
+        "key_file": {
+          "type": "string",
+          "description": "The fully qualified path name to the key file used for SSL",
+          "default": "",
+          "examples": [
+            "security/key.pem"
+          ]
+        },
+        "cert_file": {
+          "type": "string",
+          "description": "The fully qualified path name to the Cert file used for SSL",
+          "default": "",
+          "examples": [
+            "security/cert.pem"
+          ]
+        },
         "secure_protocol": {
           "type": "string",
           "description": "What protocol to set on the ssl request",
@@ -696,6 +712,54 @@
           "examples": [
             "password"
           ]
+        },
+        "replSet": {
+          "type": "string",
+          "description": "The replica set for the database",
+          "default": "",
+          "examples": [
+            "my_repolica_set"
+          ]
+        },
+        "db_ssl": {
+          "type": "object",
+          "description": "SSL for mongo database connection",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "description": "Whether or not ssl is enabled on Database Server",
+              "default": false
+            },
+            "accept_invalid_cert": {
+              "type": "boolean",
+              "description": "Whether the adapter should accept invalid certificates",
+              "default": false
+            },
+            "ca_file": {
+              "type": "string",
+              "description": "The fully qualified path name to the CA file used for Database SSL",
+              "default": "",
+              "examples": [
+                "security/ca.pem"
+              ]
+            },
+            "key_file": {
+              "type": "string",
+              "description": "The fully qualified path name to the key file used for Database SSL",
+              "default": "",
+              "examples": [
+                "security/key.pem"
+              ]
+            },
+            "cert_file": {
+              "type": "string",
+              "description": "The fully qualified path name to the Cert file used for Database SSL",
+              "default": "",
+              "examples": [
+                "security/cert.pem"
+              ]
+            }
+          }
         }
       }
     }
