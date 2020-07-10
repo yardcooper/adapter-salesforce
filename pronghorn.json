@@ -9,6 +9,80 @@
   ],
   "methods": [
     {
+      "name": "updateAdapterConfiguration",
+      "summary": "Updates the adapter configuration",
+      "description": "Updates the adapter configuration file with the provided changes",
+      "input": [
+        {
+          "name": "configFile",
+          "type": "string",
+          "info": "The name of the file to change",
+          "required": true,
+          "schema": {
+            "title": "configFile",
+            "type": "string"
+          }
+        },
+        {
+          "name": "changes",
+          "type": "object",
+          "info": "JSON object containing the configuration changes",
+          "required": true,
+          "schema": {
+            "title": "changes",
+            "type": "object"
+          }
+        },
+        {
+          "name": "entity",
+          "type": "string",
+          "info": "The entity in which the changes are being made",
+          "required": false,
+          "schema": {
+            "title": "entity",
+            "type": "string"
+          }
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "info": "The type of file to change - action, schema, or mock",
+          "required": false,
+          "schema": {
+            "title": "type",
+            "type": "string"
+          }
+        },
+        {
+          "name": "action",
+          "type": "string",
+          "info": "The action to be changed",
+          "required": false,
+          "schema": {
+            "title": "action",
+            "type": "string"
+          }
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
+      },
+      "roles": [
+        "admin"
+      ],
+      "route": {
+        "verb": "POST",
+        "path": "/updateAdapterConfiguration"
+      },
+      "task": true
+    },
+    {
       "name": "getLocalizations",
       "summary": "",
       "description": "Returns object of localized text",

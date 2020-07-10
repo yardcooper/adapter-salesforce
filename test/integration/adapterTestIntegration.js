@@ -49,6 +49,7 @@ global.pronghornProps = {
         base_path: '//api',
         version: 'v1',
         cache_location: 'none',
+        encode_pathvars: true,
         save_metric: false,
         protocol,
         stub,
@@ -74,7 +75,13 @@ global.pronghornProps = {
           max_in_queue: 1000,
           concurrent_max: 1,
           expire_timeout: 0,
-          avg_runtime: 200
+          avg_runtime: 200,
+          priorities: [
+            {
+              value: 0,
+              percent: 100
+            }
+          ]
         },
         request: {
           number_redirects: 0,
@@ -159,7 +166,7 @@ process.argv.forEach((val) => {
 });
 
 // need to set global logging
-global.log = new (winston.Logger)({
+global.log = winston.createLogger({
   level: logLevel,
   levels: myCustomLevels.levels,
   transports: [
@@ -253,7 +260,7 @@ function saveMockData(entityName, actionName, descriptor, responseData) {
           };
 
           // get the object for method we're trying to change.
-          const currentMethodAction = parsedJson.actions.find(obj => obj.name === actionName);
+          const currentMethodAction = parsedJson.actions.find((obj) => obj.name === actionName);
 
           // if the method was not found - should never happen but...
           if (!currentMethodAction) {
@@ -261,12 +268,12 @@ function saveMockData(entityName, actionName, descriptor, responseData) {
           }
 
           // if there is a response object, we want to replace the Response object. Otherwise we'll create one.
-          const actionResponseObj = currentMethodAction.responseObjects.find(obj => obj.type === descriptor);
+          const actionResponseObj = currentMethodAction.responseObjects.find((obj) => obj.type === descriptor);
 
           // Add the action responseObj back into the array of response objects.
           if (!actionResponseObj) {
             // if there is a default response object, we want to get the key.
-            const defaultResponseObj = currentMethodAction.responseObjects.find(obj => obj.type === 'default');
+            const defaultResponseObj = currentMethodAction.responseObjects.find((obj) => obj.type === 'default');
 
             // save the default key into the new response object
             if (defaultResponseObj) {
@@ -296,7 +303,6 @@ function saveMockData(entityName, actionName, descriptor, responseData) {
   log.debug(`No data passed to save into mockdata for ${actionName}`);
   return false;
 }
-
 
 // require the adapter that we are going to be using
 const Salesforce = require('../../adapter.js');

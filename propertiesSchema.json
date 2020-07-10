@@ -47,7 +47,10 @@
       ]
     },
     "save_metric": {
-      "type": "boolean",
+      "type": [
+        "boolean",
+        "string"
+      ],
       "description": "When true the metrics collected by the adapter will be stored in mongo or on the filesystem",
       "default": false
     },
@@ -85,6 +88,11 @@
     },
     "mongo": {
       "$ref": "#/definitions/mongo"
+    },
+    "encode_pathvars": {
+      "type": "boolean",
+      "description": "When true the path variables are encoded in the url",
+      "default": true
     }
   },
   "required": [
@@ -386,6 +394,23 @@
           "default": 200,
           "minimum": 50,
           "maximum": 60000
+        },
+        "priorities": {
+          "type": "array",
+          "description": "define your priorities here",
+          "items": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "number",
+                "description": "Defines a priority - this number is what is passed in on a priority request"
+              },
+              "percent": {
+                "type": "number",
+                "description": "this is the percent of the queue that comes before the priority request (0 is front of queue, 100 is last in queue)"
+              }
+            }
+          }
         }
       },
       "required": [
@@ -433,11 +458,12 @@
           "maximum": 20
         },
         "limit_retry_error": {
-          "type": "integer",
-          "description": "http error status number which defines that no capacity was available and thus after waiting a short interval the adapter can retry the request",
-          "default": 0,
-          "minimum": 0,
-          "maximum": 1000
+          "type": [
+            "integer",
+            "array"
+          ],
+          "description": "http error status number which defines that no capacity was available and thus after waiting a short interval the adapter can retry the request. Supports an array of numbers or strings including a range provided as '###-###'",
+          "default": 0
         },
         "failover_codes": {
           "type": "array",
@@ -582,7 +608,7 @@
           "description": "The fully qualified path name to the CA file used for SSL",
           "default": "",
           "examples": [
-            "keys/key.pem"
+            "security/ca.pem"
           ]
         },
         "key_file": {

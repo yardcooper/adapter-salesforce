@@ -7,6 +7,7 @@
     "base_path": "/",
     "version": "",
     "cache_location": "none",
+    "encode_pathvars": true,
     "save_metric": true,
     "stub": true,
     "protocol": "https",
@@ -32,7 +33,13 @@
       "max_in_queue": 1000,
       "concurrent_max": 1,
       "expire_timeout": 0,
-      "avg_runtime": 200
+      "avg_runtime": 200,
+      "priorities": [
+        {
+          "value": 0,
+          "percent": 100
+        }
+      ]
     },
     "request": {
       "number_redirects": 0,

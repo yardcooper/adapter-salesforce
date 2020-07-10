@@ -10,11 +10,9 @@
 
 /* Required libraries.  */
 const path = require('path');
-// const xmldom = require('xmldom');
 
 /* Fetch in the other needed components for the this Adaptor */
 const AdapterBaseCl = require(path.join(__dirname, 'adapterBase.js'));
-
 
 /**
  * This is the adapter/interface into Salesforce
@@ -25,19 +23,80 @@ class Salesforce extends AdapterBaseCl {
   /**
    * Salesforce Adapter
    * @constructor
+   */
+  /* Working on changing the way we do Emit methods due to size and time constrainsts
   constructor(prongid, properties) {
     // Instantiate the AdapterBase super class
     super(prongid, properties);
 
+    const restFunctionNames = this.getWorkflowFunctions();
+
+    // Dynamically bind emit functions
+    for (let i = 0; i < restFunctionNames.length; i += 1) {
+      // Bind function to have name fnNameEmit for fnName
+      const version = restFunctionNames[i].match(/__v[0-9]+/);
+      const baseFnName = restFunctionNames[i].replace(/__v[0-9]+/, '');
+      const fnNameEmit = version ? `${baseFnName}Emit${version}` : `${baseFnName}Emit`;
+      this[fnNameEmit] = function (...args) {
+        // extract the callback
+        const callback = args[args.length - 1];
+        // slice the callback from args so we can insert our own
+        const functionArgs = args.slice(0, args.length - 1);
+        // create a random name for the listener
+        const eventName = `${restFunctionNames[i]}:${Math.random().toString(36)}`;
+        // tell the calling class to start listening
+        callback({ event: eventName, status: 'received' });
+        // store parent for use of this context later
+        const parent = this;
+        // store emission function
+        const func = function (val, err) {
+          parent.removeListener(eventName, func);
+          parent.emit(eventName, val, err);
+        };
+        // Use apply to call the function in a specific context
+        this[restFunctionNames[i]].apply(this, functionArgs.concat([func])); // eslint-disable-line prefer-spread
+      };
+    }
+
     // Uncomment if you have things to add to the constructor like using your own properties.
     // Otherwise the constructor in the adapterBase will be used.
     // Capture my own properties - they need to be defined in propertiesSchema.json
-    if (this.allProps && this.allProps.myownproperty) {
-      mypropvariable = this.allProps.myownproperty;
-    }
+    // if (this.allProps && this.allProps.myownproperty) {
+    //   mypropvariable = this.allProps.myownproperty;
+    // }
   }
   */
 
+  /**
+   * @callback healthCallback
+   * @param {Object} reqObj - the request to send into the healthcheck
+   * @param {Callback} callback - The results of the call
+   */
+  healthCheck(reqObj, callback) {
+    // you can modify what is passed into the healthcheck by changing things in the newReq
+    let newReq = null;
+    if (reqObj) {
+      newReq = Object.assign(...reqObj);
+    }
+    super.healthCheck(newReq, callback);
+  }
+
+  /**
+   * updateAdapterConfiguration is used to update any of the adapter configuration files. This
+   * allows customers to make changes to adapter configuration without having to be on the
+   * file system.
+   *
+   * @function updateAdapterConfiguration
+   * @param {string} configFile - the name of the file being updated (required)
+   * @param {Object} changes - an object containing all of the changes = formatted like the configuration file (required)
+   * @param {string} entity - the entity to be changed, if an action, schema or mock data file (optional)
+   * @param {string} type - the type of entity file to change, (action, schema, mock) (optional)
+   * @param {string} action - the action to be changed, if an action, schema or mock data file (optional)
+   * @param {Callback} callback - The results of the call
+   */
+  updateAdapterConfiguration(configFile, changes, entity, type, action, callback) {
+    super.updateAdapterConfiguration(configFile, changes, entity, type, action, callback);
+  }
 
   /**
    * @callback healthCallback

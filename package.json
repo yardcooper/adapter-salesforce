@@ -3,12 +3,13 @@
   "version": "0.7.2",
   "description": "This adapter integrates with system Salesforce",
   "main": "adapter.js",
-  "wizardVersion": "2.41.8",
-  "engineVersion": "1.46.3",
+  "wizardVersion": "2.41.25",
+  "engineVersion": "1.52.2",
   "scripts": {
     "artifactize": "npm i && node utils/packModificationScript.js",
     "preinstall": "node utils/setup.js",
-    "lint": "eslint . --ext .json --ext .js",
+    "lint": "node --max_old_space_size=4096 ./node_modules/eslint/bin/eslint.js . --ext .json --ext .js",
+    "lint:errors": "node --max_old_space_size=4096 ./node_modules/eslint/bin/eslint.js . --ext .json --ext .js --quiet",
     "test:unit": "mocha test/unit/adapterTestUnit.js --LOG=error",
     "test:integration": "mocha test/integration/adapterTestIntegration.js --LOG=error",
     "test:cover": "nyc --reporter html --reporter text mocha --reporter dot test/*",
@@ -30,7 +31,8 @@
   ],
   "license": "Apache-2.0",
   "engines": {
-    "node": ">= 0.12.7"
+    "node": ">= 8.0.0",
+    "npm": ">= 6.0.0"
   },
   "repository": {
     "type": "git",
@@ -39,23 +41,22 @@
   "author": "Itential",
   "homepage": "https://gitlab.com/itentialopensource/adapters/itsm-testing/adapter-salesforce#readme",
   "dependencies": {
-    "@itentialopensource/adapter-utils": "^4.27.3",
-    "ajv": "^6.10.0",
-    "fs-extra": "^7.0.0",
-    "readline-sync": "^1.4.9",
-    "xmldom": "^0.1.27",
-    "package-json-validator": "^0.6.3"
+    "@itentialopensource/adapter-utils": "^4.34.4",
+    "ajv": "^6.12.0",
+    "fs-extra": "^8.1.0",
+    "package-json-validator": "^0.6.3",
+    "readline-sync": "^1.4.10"
   },
   "devDependencies": {
-    "chai": "^4.1.2",
-    "eslint": "^5.14.1",
-    "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.16.0",
-    "eslint-plugin-json": "^1.4.0",
-    "mocha": "^5.2.0",
-    "nyc": "^14.1.1",
-    "testdouble": "^3.8.1",
-    "winston": "^2.4.0"
+    "chai": "^4.2.0",
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.21.2",
+    "eslint-plugin-json": "^2.1.1",
+    "mocha": "^8.0.1",
+    "nyc": "^15.1.0",
+    "testdouble": "^3.16.0",
+    "winston": "^3.2.1"
   },
   "private": false
 }

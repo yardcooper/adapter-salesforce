@@ -6,11 +6,14 @@
 /* eslint import/no-dynamic-require: warn */
 /* eslint no-loop-func: warn */
 /* eslint no-cond-assign: warn */
+/* eslint global-require: warn */
+/* eslint no-unused-vars: warn */
 
 /* Required libraries.  */
 const fs = require('fs-extra');
 const path = require('path');
 const EventEmitterCl = require('events').EventEmitter;
+const { execSync } = require('child_process');
 
 /* The schema validator */
 const AjvCl = require('ajv');
@@ -18,6 +21,123 @@ const AjvCl = require('ajv');
 /* Fetch in the other needed components for the this Adaptor */
 const PropUtilCl = require('@itentialopensource/adapter-utils').PropertyUtility;
 const RequestHandlerCl = require('@itentialopensource/adapter-utils').RequestHandler;
+
+let propUtil = null;
+
+/*
+ * INTERNAL FUNCTION: force fail the adapter - generally done to cause restart
+ */
+function forceFail(packChg) {
+  if (packChg !== undefined && packChg !== null && packChg === true) {
+    execSync(`rm -rf ${__dirname}/node modules`, { encoding: 'utf-8' });
+    execSync(`rm -rf ${__dirname}/package-lock.json`, { encoding: 'utf-8' });
+    execSync('npm install', { encoding: 'utf-8' });
+  }
+  log.error('NEED TO RESTART ADAPTER - FORCE FAIL');
+  const errorObj = {
+    origin: 'adapter-forceFail',
+    type: 'Force Fail so adapter will restart',
+    vars: []
+  };
+  setTimeout(() => {
+    throw new Error(JSON.stringify(errorObj));
+  }, 1000);
+}
+
+/*
+ * INTERNAL FUNCTION: update the action.json
+ */
+function updateAction(entityPath, action, changes) {
+  // if the action file does not exist - error
+  const actionFile = path.join(entityPath, '/action.json');
+  if (!fs.existsSync(actionFile)) {
+    return 'Missing Action File';
+  }
+
+  // read in the file as a json object
+  const ajson = require(path.resolve(entityPath, 'action.json'));
+  let chgAct = {};
+
+  // get the action we need to change
+  for (let a = 0; a < ajson.actions.length; a += 1) {
+    if (ajson.actions[a].name === action) {
+      chgAct = ajson.actions[a];
+      break;
+    }
+  }
+  // merge the changes into the desired action
+  chgAct = propUtil.mergeProperties(changes, chgAct);
+
+  fs.writeFileSync(actionFile, JSON.stringify(ajson, null, 2));
+  return null;
+}
+
+/*
+ * INTERNAL FUNCTION: update the schema file
+ */
+function updateSchema(entityPath, configFile, changes) {
+  // if the schema file does not exist - error
+  const schemaFile = path.join(entityPath, `/${configFile}`);
+  if (!fs.existsSync(schemaFile)) {
+    return 'Missing Schema File';
+  }
+
+  // read in the file as a json object
+  let schema = require(path.resolve(entityPath, configFile));
+
+  // merge the changes into the schema file
+  schema = propUtil.mergeProperties(changes, schema);
+
+  fs.writeFileSync(schemaFile, JSON.stringify(schema, null, 2));
+  return null;
+}
+
+/*
+ * INTERNAL FUNCTION: update the mock data file
+ */
+function updateMock(mockPath, configFile, changes) {
+  // if the mock file does not exist - create it
+  const mockFile = path.join(mockPath, `/${configFile}`);
+  if (!fs.existsSync(mockFile)) {
+    const newMock = {};
+    fs.writeFileSync(mockFile, JSON.stringify(newMock, null, 2));
+  }
+
+  // read in the file as a json object
+  let mock = require(path.resolve(mockPath, configFile));
+
+  // merge the changes into the mock file
+  mock = propUtil.mergeProperties(changes, mock);
+
+  fs.writeFileSync(mockFile, JSON.stringify(mock, null, 2));
+  return null;
+}
+
+/*
+ * INTERNAL FUNCTION: update the package dependencies
+ */
+function updatePackage(changes) {
+  // if the schema file does not exist - error
+  const packFile = path.join(__dirname, '/package.json');
+  if (!fs.existsSync(packFile)) {
+    return 'Missing Pacakge File';
+  }
+
+  // read in the file as a json object
+  const pack = require(path.resolve(__dirname, 'package.json'));
+
+  // only certain changes are allowed
+  if (changes.dependencies) {
+    const keys = Object.keys(changes.dependencies);
+
+    for (let k = 0; k < keys.length; k += 1) {
+      pack.dependencies[keys[k]] = changes.dependencies[keys[k]];
+    }
+  }
+
+  fs.writeFileSync(packFile, JSON.stringify(pack, null, 2));
+  return null;
+}
 
 /* GENERAL ADAPTER FUNCTIONS THESE SHOULD NOT BE DIRECTLY MODIFIED */
 /* IF YOU NEED MODIFICATIONS, REDEFINE THEM IN adapter.js!!! */
@@ -34,6 +154,7 @@ class AdapterBase extends EventEmitterCl {
       // Capture the adapter id
       this.id = prongid;
       this.propUtilInst = new PropUtilCl(prongid, __dirname);
+      propUtil = this.propUtilInst;
 
       this.alive = false;
       this.healthy = false;
@@ -53,7 +174,6 @@ class AdapterBase extends EventEmitterCl {
       log.error(`${origin}: Adapter may not have started properly. ${e}`);
     }
   }
-
 
   /**
    * @callback healthCallback
@@ -79,7 +199,6 @@ class AdapterBase extends EventEmitterCl {
    * @param {String} status - the status of the delete action
    * @param {String} error - any error that occured
    */
-
 
   /**
    * refreshProperties is used to set up all of the properties for the connector.
@@ -110,9 +229,14 @@ class AdapterBase extends EventEmitterCl {
 
       // if invalid properties throw an error
       if (!result) {
-        const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Invalid Properties', [JSON.stringify(validate.errors)], null, null, null);
-        log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
-        throw new Error(JSON.stringify(errorObj));
+        if (this.requestHandlerInst) {
+          const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Invalid Properties', [JSON.stringify(validate.errors)], null, null, null);
+          log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+          throw new Error(JSON.stringify(errorObj));
+        } else {
+          log.error(`${origin}: ${JSON.stringify(validate.errors)}`);
+          throw new Error(`${origin}: ${JSON.stringify(validate.errors)}`);
+        }
       }
 
       // properties that this code cares about
@@ -147,6 +271,129 @@ class AdapterBase extends EventEmitterCl {
   }
 
   /**
+   * updateAdapterConfiguration is used to update any of the adapter configuration files. This
+   * allows customers to make changes to adapter configuration without having to be on the
+   * file system.
+   *
+   * @function updateAdapterConfiguration
+   * @param {string} configFile - the name of the file being updated (required)
+   * @param {Object} changes - an object containing all of the changes = formatted like the configuration file (required)
+   * @param {string} entity - the entity to be changed, if an action, schema or mock data file (optional)
+   * @param {string} type - the type of entity file to change, (action, schema, mock) (optional)
+   * @param {string} action - the action to be changed, if an action, schema or mock data file (optional)
+   * @param {Callback} callback - The results of the call
+   */
+  updateAdapterConfiguration(configFile, changes, entity, type, action, callback) {
+    const meth = 'adapterBase-updateAdapterConfiguration';
+    const origin = `${this.id}-${meth}`;
+    log.trace(origin);
+
+    // verify the parameters are valid
+    if (changes === undefined || changes === null || typeof changes !== 'object'
+        || Object.keys(changes).length === 0) {
+      const result = {
+        response: 'No configuration updates to make'
+      };
+      log.info(result.response);
+      return callback(result, null);
+    }
+    if (configFile === undefined || configFile === null || configFile === '') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['configFile'], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
+
+    // take action based on configFile being changed
+    if (configFile === 'package.json') {
+      const pres = updatePackage(changes);
+      if (pres) {
+        const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, `Incomplete Configuration Change: ${pres}`, [], null, null, null);
+        log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+        return callback(null, errorObj);
+      }
+      const result = {
+        response: 'Package updates completed - restarting adapter'
+      };
+      log.info(result.response);
+      forceFail(true);
+      return callback(result, null);
+    }
+    if (entity === undefined || entity === null || entity === '') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Unsupported Configuration Change or Missing Entity', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
+
+    // this means we are changing an entity file so type is required
+    if (type === undefined || type === null || type === '') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['type'], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
+
+    // if the entity does not exist - error
+    const epath = `${__dirname}/entities/${entity}`;
+    if (!fs.existsSync(epath)) {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, `Incomplete Configuration Change: Invalid Entity - ${entity}`, [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
+
+    // take action based on type of file being changed
+    if (type === 'action') {
+      // BACKUP???
+      const ares = updateAction(epath, action, changes);
+      if (ares) {
+        const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, `Incomplete Configuration Change: ${ares}`, [], null, null, null);
+        log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+        return callback(null, errorObj);
+      }
+      // AJV CHECK???
+      // RESTORE IF NEEDED???
+      const result = {
+        response: `Action updates completed to entity: ${entity} - ${action}`
+      };
+      log.info(result.response);
+      return callback(result, null);
+    }
+    if (type === 'schema') {
+      const sres = updateSchema(epath, configFile, changes);
+      if (sres) {
+        const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, `Incomplete Configuration Change: ${sres}`, [], null, null, null);
+        log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+        return callback(null, errorObj);
+      }
+      const result = {
+        response: `Schema updates completed to entity: ${entity} - ${configFile}`
+      };
+      log.info(result.response);
+      return callback(result, null);
+    }
+    if (type === 'mock') {
+      // if the mock directory does not exist - error
+      const mpath = `${__dirname}/entities/${entity}/mockdatafiles`;
+      if (!fs.existsSync(mpath)) {
+        fs.mkdirSync(mpath);
+      }
+
+      const mres = updateMock(mpath, configFile, changes);
+      if (mres) {
+        const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, `Incomplete Configuration Change: ${mres}`, [], null, null, null);
+        log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+        return callback(null, errorObj);
+      }
+      const result = {
+        response: `Mock data updates completed to entity: ${entity} - ${configFile}`
+      };
+      log.info(result.response);
+      return callback(result, null);
+    }
+    const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, `Incomplete Configuration Change: Unsupported Type - ${type}`, [], null, null, null);
+    log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+    return callback(null, errorObj);
+  }
+
+  /**
    * @summary Connect function is used during Pronghorn startup to provide instantiation feedback.
    *
    * @function connect
@@ -162,9 +409,11 @@ class AdapterBase extends EventEmitterCl {
     // if there is no healthcheck just change the emit to ONLINE
     // We do not recommend no healthcheck!!!
     if (this.healthcheckType === 'none') {
-      // validate all of the action files - normally done in healthcheck
-      this.emit('ONLINE', { id: this.id });
-      this.healthy = true;
+      log.error(`${origin}: Waiting 1 Seconds to emit Online`);
+      setTimeout(() => {
+        this.emit('ONLINE', { id: this.id });
+        this.healthy = true;
+      }, 1000);
     }
 
     // is the healthcheck only suppose to run on startup
@@ -242,7 +491,7 @@ class AdapterBase extends EventEmitterCl {
     // find the functions in this class
     do {
       const l = Object.getOwnPropertyNames(obj)
-        .concat(Object.getOwnPropertySymbols(obj).map(s => s.toString()))
+        .concat(Object.getOwnPropertySymbols(obj).map((s) => s.toString()))
         .sort()
         .filter((p, i, arr) => typeof obj[p] === 'function' && p !== 'constructor' && (i === 0 || p !== arr[i - 1]) && myfunctions.indexOf(p) === -1);
       myfunctions = myfunctions.concat(l);
@@ -269,8 +518,8 @@ class AdapterBase extends EventEmitterCl {
         // got to the second tier (adapterBase)
         break;
       }
-      if (myfunctions[m] !== 'hasEntity' && myfunctions[m] !== 'verifyCapability'
-          && myfunctions[m] !== 'updateEntityCache') {
+      if (myfunctions[m] !== 'hasEntity' && myfunctions[m] !== 'verifyCapability' && myfunctions[m] !== 'updateEntityCache'
+          && myfunctions[m] !== 'healthCheck' && !(myfunctions[m].endsWith('Emit') || myfunctions[m].match(/Emit__v[0-9]+/))) {
         wffunctions.push(myfunctions[m]);
       }
     }
