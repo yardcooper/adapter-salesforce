@@ -1,4 +1,12 @@
 
+## 0.7.3 [07-10-2020]
+
+* migration
+
+See merge request itentialopensource/adapters/itsm-testing/adapter-salesforce!6
+
+---
+
 ## 0.7.2 [01-14-2020]
 
 * december migration
