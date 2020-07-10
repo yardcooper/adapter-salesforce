@@ -51,6 +51,7 @@ global.pronghornProps = {
         base_path: '//api',
         version: 'v1',
         cache_location: 'none',
+        encode_pathvars: true,
         save_metric: false,
         protocol,
         stub,
@@ -76,7 +77,13 @@ global.pronghornProps = {
           max_in_queue: 1000,
           concurrent_max: 1,
           expire_timeout: 0,
-          avg_runtime: 200
+          avg_runtime: 200,
+          priorities: [
+            {
+              value: 0,
+              percent: 100
+            }
+          ]
         },
         request: {
           number_redirects: 0,
@@ -161,7 +168,7 @@ process.argv.forEach((val) => {
 });
 
 // need to set global logging
-global.log = new (winston.Logger)({
+global.log = winston.createLogger({
   level: logLevel,
   levels: myCustomLevels.levels,
   transports: [
@@ -184,7 +191,6 @@ function runErrorAsserts(data, error, code, origin, displayStr) {
   assert.equal(origin, error.IAPerror.origin);
   assert.equal(displayStr, error.IAPerror.displayString);
 }
-
 
 // require the adapter that we are going to be using
 const Salesforce = require('../../adapter.js');

@@ -22,12 +22,31 @@ Release notes can be viewed in CHANGELOG.md or in the [Customer Knowledge Base](
 
 These instructions will help you get a copy of the project on your local machine for development and testing. Reading this section is also helpful for deployments as it provides you with pertinent information on prerequisites and properties.
 
+### Adapter Technical Resources
+
+There is adapter documentation available on the Itential Developer Site [HERE](https://developer.itential.io/adapters-resources/). This documentation includes information and examples that are helpful for:
+
+```text
+Authentication
+Properties
+Code Files
+Action Files
+Schema Files
+Mock Data Files
+Linting and Testing
+Troubleshooting
+```
+
+Others will be added over time.
+Want to build a new adapter? Use the Adapter Builder [HERE](https://adapters.itential.io)
+
 ### Environment Prerequisites
 
 The following is a list of required packages for an adapter.
 
-```json
+```text
 Node.js
+npm
 Git
 ```
 
@@ -46,7 +65,7 @@ The following list of packages are required for Itential product adapters or cus
 
 If you are developing and testing a custom adapter, or have testing capabilities on an Itential product adapter, you will need to install these packages as well.
 
-```json
+```text
 chai
 eslint
 eslint-config-airbnb-base
@@ -62,7 +81,7 @@ winston
 
 The following provides a local copy of the repository along with adapter dependencies.
 
-```json
+```bash
 git clone git@gitlab.com:\@itentialopensource/adapters/adapter-salesforce
 npm install
 ```
@@ -80,6 +99,7 @@ This section defines **all** the properties that are available for the adapter, 
       "base_path": "/",
       "version": "v1",
       "cache_location": "local",
+      "encode_pathvars": true,
       "save_metric": true,
       "stub": false,
       "protocol": "https",
@@ -87,20 +107,21 @@ This section defines **all** the properties that are available for the adapter, 
         "auth_method": "basic user_password",
         "username": "username",
         "password": "password",
-        "auth_field": "header.headers.X-AUTH-TOKEN",
-        "auth_field_format": "{token}",
         "token": "token",
         "invalid_token_error": 401,
         "token_timeout": 0,
-        "token_cache": "local"
+        "token_cache": "local",
+        "auth_field": "header.headers.X-AUTH-TOKEN",
+        "auth_field_format": "{token}"
       },
       "healthcheck": {
         "type": "startup",
         "frequency": 300000
       },
       "request": {
+        "number_redirects": 0,
         "number_retries": 3,
-        "limit_retry_error": 401,
+        "limit_retry_error": [401],
         "failover_codes": [404, 405],
         "attempt_timeout": 5000,
         "global_request": {
@@ -118,6 +139,8 @@ This section defines **all** the properties that are available for the adapter, 
         "enabled": false,
         "accept_invalid_cert": false,
         "ca_file": "",
+        "key_file": "",
+        "cert_file": "",
         "secure_protocol": "",
         "ciphers": ""
       },
@@ -128,7 +151,8 @@ This section defines **all** the properties that are available for the adapter, 
         "max_in_queue": 1000,
         "concurrent_max": 1,
         "expire_timeout": 0,
-        "avg_runtime": 200
+        "avg_runtime": 200,
+        "priorities": []
       },
       "proxy": {
         "enabled": false,
@@ -141,7 +165,15 @@ This section defines **all** the properties that are available for the adapter, 
         "port": 0,
         "database": "",
         "username": "",
-        "password": ""
+        "password": "",
+        "replSet": "",
+        "db_ssl": {
+          "enabled": false,
+          "accept_invalid_cert": false,
+          "ca_file": "",
+          "key_file": "",
+          "cert_file": ""
+        }
       }
     },
     "type": "YOUR ADAPTER CLASS"
@@ -159,6 +191,7 @@ These base properties are used to connect to Salesforce upon the adapter initial
 | base_path | Optional. Used to define part of a path that is consistent for all or most endpoints. It makes the URIs easier to use and maintain but can be overridden on individual calls. An example **base_path** might be `/rest/api`. Default is ``.|
 | version | Optional. Used to set a global version for action endpoints. This makes it faster to update the adapter when endpoints change. As with the base-path, version can be overridden on individual endpoints. Default is ``.|
 | cache\_location | Optional. Used to define where the adapter cache is located. The cache is used to maintain an entity list to improve performance. Storage locally is lost when the adapter is restarted. Storage in Redis is preserved upon adapter restart. Default is none which means no caching of the entity list.|
+| encode\_pathvars | Optional. Used to tell the adapter to encode path variables or not. The default behavior is to encode them so this property can b e used to stop that behavior.|
 | save\_metric | Optional. Used to tell the adapter to save metric information (this does not impact metrics returned on calls). This allows the adapter to gather metrics over time. Metric data can be stored in a database or on the file system.|
 | stub | Optional. Indicates whether the stub should run instead of making calls to Salesforce (very useful during basic testing). Default is false (which means connect to Salesforce).|
 | protocol | Optional. Notifies the adapter whether to use HTTP or HTTPS. Default is HTTP.|
@@ -176,19 +209,19 @@ The following properties are used to define the authentication process to Salesf
 | auth\_method | Required. Used to define the type of authentication currently supported. Authentication methods currently supported are: `basic user_password`, `static_token`, `request_token`, and `no_authentication`.|
 | username | Used to authenticate with Salesforce on every request or when pulling a token that will be used in subsequent requests.|
 | password | Used to authenticate with Salesforce on every request or when pulling a token that will be used in subsequent requests.|
-| auth\_field | Defines the request field the authentication (e.g., token are basic auth credentials) needs to be placed in order for the calls to work.|
-| auth\_field\_format | Defines the format of the auth\_field. See examples below. Items enclosed in {} inform the adapter to perofrm an action prior to sending the data. It may be to replace the item with a value or it may be to encode the item. |
 | token | Defines a static token that can be used on all requests. Only used with `static_token` as an authentication method (auth\_method).|
 | invalid\_token\_error | Defines the HTTP error that is received when the token is invalid. Notifies the adapter to pull a new token and retry the request. Default is 401.|
 | token\_timeout | Defines how long a token is valid. Measured in milliseconds. Once a dynamic token is no longer valid, the adapter has to pull a new token. If the token\_timeout is set to -1, the adapter will pull a token on every request to Salesforce. If the timeout\_token is 0, the adapter will use the expiration from the token response to determine when the token is no longer valid.|
 | token\_cache | Used to determine where the token should be stored (local memory or in Redis).|
+| auth\_field | Defines the request field the authentication (e.g., token are basic auth credentials) needs to be placed in order for the calls to work.|
+| auth\_field\_format | Defines the format of the auth\_field. See examples below. Items enclosed in {} inform the adapter to perofrm an action prior to sending the data. It may be to replace the item with a value or it may be to encode the item. |
 
 #### Examples of authentication field format
 
 ```json
-"{token}",
-"Token {token}",
-"{username}:{password}",
+"{token}"
+"Token {token}"
+"{username}:{password}"
 "Basic {b64}{username}:{password}{/b64}"
 ```
 
@@ -211,8 +244,9 @@ The request section defines properties to help handle requests.
 
 | Property | Description |
 | ------- | ------- |
+| number\_redirects | Optional. Tells the adapter that the request may be redirected and gives it a maximum number of redirects to allow before returning an error. Default is 0 - no redirects.|
 | number\_retries | Tells the adapter how many times to retry a request that has either aborted or reached a limit error before giving up and returning an error.|
-| limit\_retry\_error | Optional. Indicates the http error status number to define that no capacity was available and, after waiting a short interval, the adapter can retry the request. Default is 0.|
+| limit\_retry\_error | Optional. Can be either an integer or an array. Indicates the http error status number to define that no capacity was available and, after waiting a short interval, the adapter can retry the request. If an array is provvided, the array can contain integers or strings. Strings in the array are used to define ranges (e.g. "502-506"). Default is [0].|
 | failover\_codes | An array of error codes for which the adapter will send back a failover flag to IAP so that the Platform can attempt the action in another adapter.|
 | attempt\_timeout | Optional. Tells how long the adapter should wait before aborting the attempt. On abort, the adapter will do one of two things: 1) return the error; or 2) if **healthcheck\_on\_timeout** is set to true, it will abort the request and run a Healthcheck until it re-establishes connectivity to Salesforce, and then will re-attempt the request that aborted. Default is 5000 milliseconds.|
 | global\_request | Optional. This is information that the adapter can include in all requests to the other system. This is easier to define and maintain than adding this information in either the code (adapter.js) or the action files.|
@@ -233,6 +267,8 @@ The SSL section defines the properties utilized for ssl authentication with Sale
 | enabled | If SSL is required, set to true. |
 | accept\_invalid\_certs | Defines if the adapter should accept invalid certificates (only recommended for lab environments). Required if SSL is enabled. Default is false.|
 | ca\_file | Defines the path name to the CA file used for SSL. If SSL is enabled and the accept invalid certifications is false, then ca_file is required.|
+| key\_file | Defines the path name to the Key file used for SSL. The key_file may be needed for some systems but it is not required for SSL.|
+| cert\_file | Defines the path name to the Certificate file used for SSL. The cert_file may be needed for some systems but it is not required for SSL.|
 | secure\_protocol | Defines the protocol (e.g., SSLv3_method) to use on the SSL request.|
 | ciphers | Required if SSL enabled. Specifies a list of SSL ciphers to use.|
 | ecdhCurve | During testing on some Node 8 environments, you need to set `ecdhCurve` to auto. If you do not, you will receive PROTO errors when attempting the calls. This is the only usage of this property and to our knowledge it only impacts Node 8 and 9. |
@@ -250,6 +286,7 @@ The throttle section is used when requests to Salesforce must be queued (throttl
 | concurrent\_max | Defines the number of requests the adapter can send to Salesforce at one time (minimum = 1, maximum = 1000). The default is 1 meaning each request must be sent to Salesforce in a serial manner. |
 | expire\_timeout | Default is 0. Defines a graceful timeout of the request session. After a request has completed, the adapter will wait additional time prior to sending the next request. Measured in milliseconds (minimum = 0, maximum = 60000).|
 | average\_runtime | Represents the approximate average of how long it takes Salesforce to handle each request. Measured in milliseconds (minimum = 50, maximum = 60000). Default is 200. This metric has performance implications. If the runtime number is set too low, it puts extra burden on the CPU and memory as the requests will continually try to run. If the runtime number is set too high, requests may wait longer than they need to before running. The number does not need to be exact but your throttling strategy depends heavily on this number being within reason. If averages range from 50 to 250 milliseconds you might pick an average run-time somewhere in the middle so that when Salesforce performance is exceptional you might run a little slower than you might like, but when it is poor you still run efficiently.|
+| priorities | An array of priorities and how to handle them in relation to the throttle queue. Array of objects that include priority value and percent of queue to put the item ex { value: 1, percent: 10 }|
 
 ### Proxy Properties
 
@@ -273,6 +310,13 @@ The mongo section defines the properties used to connect to a Mongo database. Mo
 | database | Optional. The database for the adapter to use for its data.|
 | username | Optional. If credentials are required to access mongo, this is the user to login as.|
 | password | Optional. If credentials are required to access mongo, this is the password to login with.|
+| replSet | Optional. If the database is set up to use replica sets, define it here so it can be added to the database connection.|
+| db\_ssl | Optional. Contains information for SSL connectivity to the database.|
+| db\_ssl -> enabled | If SSL is required, set to true.|
+| db\_ssl -> accept_invalid_cert | Defines if the adapter should accept invalid certificates (only recommended for lab environments). Required if SSL is enabled. Default is false.|
+| db\_ssl -> ca_file | Defines the path name to the CA file used for SSL. If SSL is enabled and the accept invalid certifications is false, then ca_file is required.|
+| db\_ssl -> key_file | Defines the path name to the Key file used for SSL. The key_file may be needed for some systems but it is not required for SSL.|
+| db\_ssl -> cert_file | Defines the path name to the Certificate file used for SSL. The cert_file may be needed for some systems but it is not required for SSL.|
 
 ## Testing an Itential Product Adapter
 
@@ -283,7 +327,7 @@ Mocha is generally used to test all Itential Product Adapters. There are unit te
 Unit Testing includes testing basic adapter functionality as well as error conditions that are triggered in the adapter prior to any integration. There are two ways to run unit tests. The prefered method is to use the testRunner script; however, both methods are provided here.
 
 
-```json
+```bash
 node utils/testRunner --unit
 
 npm run test:unit
@@ -297,7 +341,7 @@ Standalone Integration Testing requires mock data to be provided with the entiti
 
 Similar to unit testing, there are two ways to run integration tests. Using the testRunner script is better because it prevents you from having to edit the test script; it will also resets information after testing is complete so that credentials are not saved in the file.
 
-```json
+```bash
 node utils/testRunner
   answer no at the first prompt
 
@@ -312,7 +356,7 @@ Integration Testing requires connectivity to Salesforce. By using the testRunner
 
 > **Note**: These tests have been written as a best effort to make them work in most environments. However, the Adapter Builder often does not have the necessary information that is required to set up valid integration tests. For example, the order of the requests can be very important and data is often required for `creates` and `updates`. Hence, integration tests may have to be enhanced before they will work (integrate) with Salesforce. Even after tests have been set up properly, it is possible there are environmental constraints that could result in test failures. Some examples of possible environmental issues are customizations that have been made within Salesforce which change order dependencies or required data.
 
-```json
+```bash
 node utils/testRunner
 answer yes at the first prompt
 answer all other questions on connectivity and credentials
@@ -328,7 +372,7 @@ If you have App-Artifact installed in IAP, you can follow the instruction for th
 
 1. Set up the name space location in your IAP node_modules.
 
-```json
+```bash
 cd /opt/pronghorn/current/node_modules
 if the @itentialopensource directory does not exist, create it:
    mkdir @itentialopensource
@@ -336,14 +380,14 @@ if the @itentialopensource directory does not exist, create it:
 
 1. Clone the adapter into your IAP environment.
 
-```json
+```bash
 cd \@itentialopensource
 git clone git@gitlab.com:\@itentialopensource/adapters/adapter-salesforce
 ```
 
 1. Install the dependencies for the adapter.
 
-```json
+```bash
 cd adapter-salesforce
 npm install
 ```
@@ -353,7 +397,7 @@ npm install
 
 1. Restart IAP
 
-```json
+```bash
 systemctl restart pronghorn
 ```
 
@@ -363,7 +407,7 @@ If you built this as a custom adapter through the Adapter Builder, it is recomme
 
 1. Move the adapter into the IAP `node_modules` directory.
 
-```json
+```text
 Depending on where your code is located, this process is different.
     Could be a tar, move, untar
     Could be a git clone of a repository
@@ -379,54 +423,54 @@ The `adapter.js` file contains the calls the adapter makes available to the rest
 
 ### Generic Adapter Calls
 
-```json
+The `connect` call is run when the Adapter is first loaded by he Itential Platform. It validates the properties have been provided correctly.
+```js
 connect()
-The connect call is run when the Adapter is first loaded by he Itential Platform. It validates the properties have been provided correctly.
 ```
 
-```json
+The `healthCheck` call ensures that the adapter can communicate with Salesforce. The actual call that is used is defined in the adapter properties.
+```js
 healthCheck(callback)
-Insures that the adapter can communicate with Salesforce. The actual call that is used is defined in the adapter properties.
 ```
 
-```json
+The `refreshProperties` call provides the adapter the ability to accept property changes without having to restart the adapter.
+```js
 refreshProperties(properties)
-Provides the adapter the ability to accept property changes without having to restart the adapter.
 ```
 
-```json
+The `encryptProperty` call will take the provided property and technique, and return the property encrypted with the technique. This allows the property to be used in the adapterProps section for the credential password so that the password does not have to be in clear text. The adapter will decrypt the property as needed for communications with Salesforce.
+```js
 encryptProperty(property, technique, callback)
-Will take the provided property and technique, and return the property encrypted with the technique. This allows the property to be used in the adapterProps section for the credential password so that the password does not have to be in clear text. The adapter will decrypt the property as needed for communications with Salesforce.
 ```
 
-```json
+The `getQueue` call will return the requests that are waiting in the queue if throttling is enabled.
+```js
 getQueue(callback)
-Will return the requests that are waiting in the queue if throttling is enabled.
 ```
 
-```json
+The `addEntityCache` call will take the entities and add the list to the entity cache to expedite performance.
+```js
 addEntityCache(entityType, entities, key, callback)
-Will take the entities and add the list to the entity cache to expedite performance.
 ```
 
-```json
+The `capabilityResults` call will take the results from a verifyCompatibility and put them in the format to be passed back to the Itential Platform.
+```js
 capabilityResults(results, callback)
-Will take the results from a verifyCompatibility and put them in the format to be passed back to the Itential Platform.
 ```
 
-```json
+The `hasEntity` call verifies the adapter has the specific entity.
+```js
 hasEntity(entityType, entityId, callback)
-Verifies the adapter has the specific entity.
 ```
 
-```json
+The `verifyCapability` call verifies the adapter can perform the provided action on the specific entity.
+```js
 verifyCapability(entityType, actionType, entityId, callback)
-Verifies the adapter can perform the provided action on the specific entity.
 ```
 
-```json
+The `updateEntityCache` call will update the entity cache. 
+```js
 updateEntityCache()
-Call to update the entity cache.
 ```
 
 ### Specific Adapter Calls
@@ -439,26 +483,26 @@ Specific adapter calls are built based on the API of the Salesforce. The Adapter
 
 1. Verify the adapter properties are set up correctly.
 
-```json
+```text
 Go into the Itential Platform GUI and verify/update the properties
 ```
 
 1. Verify there is connectivity between the Itential Platform Server and Salesforce Server.
 
-```json
+```text
 ping the ip address of Salesforce server
 try telnet to the ip address port of Salesforce
 ```
 
 1. Verify the credentials provided for Salesforce.
 
-```json
+```text
 login to Salesforce using the provided credentials
 ```
 
 1. Verify the API of the call utilized for Salesforce Healthcheck.
 
-```json
+```text
 Go into the Itential Platform GUI and verify/update the properties
 ```
 
@@ -474,7 +518,7 @@ Please check out the [Contributing Guidelines](./CONTRIBUTING.md).
 
 ### Maintained By
 
-```json
+```text
 Itential Product Adapters are maintained by the Itential Adapter Team.
 Itential OpenSource Adapters are maintained by the community at large.
 Custom Adapters are maintained by other sources.

@@ -18,7 +18,7 @@ printf "%b" "Running pre-commit hooks...\\n"
 node utils/testRunner.js -r
 
 # security audit on the code
-npm audit --registry=https://registry.npmjs.org
+npm audit --registry=https://registry.npmjs.org --audit-level=moderate
 
 # lint the code
 npm run lint

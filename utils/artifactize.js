@@ -15,7 +15,6 @@ async function createBundle(adapterOldDir) {
   const shortenedName = originalName.replace('adapter-', '');
   const artifactName = originalName.replace('adapter', 'bundled-adapter');
 
-
   const adapterNewDir = path.join(artifactDir, 'bundles', 'adapters', originalName);
   fs.ensureDirSync(adapterNewDir);
 
@@ -121,7 +120,7 @@ async function createBundle(adapterOldDir) {
 
   // Run the commands in parallel
   try {
-    await Promise.all(ops.map(async op => op()));
+    await Promise.all(ops.map(async (op) => op()));
   } catch (e) {
     throw new Error(e);
   }
@@ -134,18 +133,14 @@ async function createBundle(adapterOldDir) {
 }
 
 async function artifactize(entryPathToAdapter) {
-  try {
-    const truePath = path.resolve(entryPathToAdapter);
-    const packagePath = path.join(truePath, 'package');
-    // remove adapter from package and move bundle in
-    const pathObj = await createBundle(packagePath);
-    const { bundlePath } = pathObj;
-    fs.removeSync(packagePath);
-    fs.moveSync(bundlePath, packagePath);
-    return 'Bundle successfully created and old folder system removed';
-  } catch (e) {
-    throw e;
-  }
+  const truePath = path.resolve(entryPathToAdapter);
+  const packagePath = path.join(truePath, 'package');
+  // remove adapter from package and move bundle in
+  const pathObj = await createBundle(packagePath);
+  const { bundlePath } = pathObj;
+  fs.removeSync(packagePath);
+  fs.moveSync(bundlePath, packagePath);
+  return 'Bundle successfully created and old folder system removed';
 }
 
 module.exports = { createBundle, artifactize };
