@@ -1,4 +1,4 @@
-# Salesforce Adapter
+# Adapter for Salesforce
 
 This adapter is used to integrate the Itential Automation Platform (IAP) with the Salesforce System. The API for Salesforce is available at [undefined API URL]. The adapter utilizes the Salesforce API to provide the integrations that are deemed pertinent to IAP. This ReadMe file is intended to provide information on this adapter.
 
@@ -58,8 +58,14 @@ The following list of packages are required for Itential product adapters or cus
 | ------- | ------- |
 | @itentialopensource/adapter-utils | Runtime library classes for all adapters;  includes request handling, connection, throttling, and translation. |
 | ajv | Required for validation of adapter properties to integrate with Salesforce. |
+| axios | Utilized by the node scripts that are included with the adapter; helps to build and extend the functionality. |
+| commander | Utilized by the node scripts that are included with the adapter; helps to build and extend the functionality. |
 | fs-extra | Utilized by the node scripts that are included with the adapter; helps to build and extend the functionality. |
-| readline-sync | Utilized by the testRunner script that comes with the adapter;  helps to test unit and integration functionality. |
+| network-diagnostics | Utilized by the node scripts that are included with the adapter; helps to build and extend the functionality. |
+| readline-sync | Utilized by the node script that comes with the adapter;  helps to test unit and integration functionality. |
+| semver | Utilized by the node scripts that are included with the adapter; helps to build and extend the functionality. |
+
+Some of the adapter node scripts run testing scripts which require the dev dependencies listed below.
 
 ### Additional Prerequisites for Development and Testing
 
@@ -72,7 +78,9 @@ eslint-config-airbnb-base
 eslint-plugin-import
 eslint-plugin-json
 mocha
+mocha-param
 nyc
+package-json-validator
 testdouble
 winston
 ```
@@ -112,7 +120,8 @@ This section defines **all** the properties that are available for the adapter, 
         "token_timeout": 0,
         "token_cache": "local",
         "auth_field": "header.headers.X-AUTH-TOKEN",
-        "auth_field_format": "{token}"
+        "auth_field_format": "{token}",
+        "auth_logging": false
       },
       "healthcheck": {
         "type": "startup",
@@ -132,7 +141,8 @@ This section defines **all** the properties that are available for the adapter, 
         },
         "healthcheck_on_timeout": false,
         "return_raw": false,
-        "archiving": false
+        "archiving": false,
+        "return_request": false
       },
       "ssl": {
         "ecdhCurve": "",
@@ -158,7 +168,9 @@ This section defines **all** the properties that are available for the adapter, 
         "enabled": false,
         "host": "localhost",
         "port": 9999,
-        "protocol": "http"
+        "protocol": "http",
+        "username": "",
+        "password": "",
       },
       "mongo": {
         "host": "",
@@ -215,6 +227,7 @@ The following properties are used to define the authentication process to Salesf
 | token\_cache | Used to determine where the token should be stored (local memory or in Redis).|
 | auth\_field | Defines the request field the authentication (e.g., token are basic auth credentials) needs to be placed in order for the calls to work.|
 | auth\_field\_format | Defines the format of the auth\_field. See examples below. Items enclosed in {} inform the adapter to perofrm an action prior to sending the data. It may be to replace the item with a value or it may be to encode the item. |
+| auth\_logging | Setting this true will add some additional logs but this should only be done when trying to debug an issue as certain credential information may be logged out when this is true. |
 
 #### Examples of authentication field format
 
@@ -257,6 +270,7 @@ The request section defines properties to help handle requests.
 | healthcheck\_on\_timeout | Required. Defines if the adapter should run a health check on timeout. If set to true, the adapter will abort the request and run a health check until it re-establishes connectivity and then it will re-attempt the request.|
 | return\_raw | Optional. Tells the adapter whether the raw response should be returned as well as the IAP response. This is helpful when running integration tests to save mock data. It does add overhead to the response object so it is not ideal from production.|
 | archiving | Optional flag. Default is false. It archives the request, the results and the various times (wait time, Salesforce time and overall time) in the `adapterid_results` collection in MongoDB. Although archiving might be desirable, be sure to develop a strategy before enabling this capability. Consider how much to archive and what strategy to use for cleaning up the collection in the database so that it does not become too large, especially if the responses are large.|
+| return\_request | Optional flag. Default is false. Will return the actual request that is made including headers. This should only be used during debugging issues as there could be credentials in the actual request.|
 
 ### SSL Properties
 
@@ -298,6 +312,8 @@ The proxy section defines the properties to utilize when Salesforce is behind a 
 | host | Host information for the proxy server. Required if `enabled` is true.|
 | port | Port information for the proxy server. Required if `enabled` is true.|
 | protocol | The protocol (i.e., http, https, etc.) used to connect to the proxy. Default is http.|
+| username | If there is authentication for the proxy, provide the username here.|
+| password | If there is authentication for the proxy, provide the password here.|
 
 ### Mongo Properties
 
@@ -331,6 +347,7 @@ Unit Testing includes testing basic adapter functionality as well as error condi
 node utils/testRunner --unit
 
 npm run test:unit
+npm run test:baseunit
 ```
 
 To add new unit tests, edit the `test/unit/adapterTestUnit.js` file. The tests that are already in this file should provide guidance for adding additional tests.
@@ -366,6 +383,23 @@ Test should also be written to clean up after themselves. However, it is importa
 
 > **Reminder**: Do not check in code with actual credentials to systems.
 
+## Adapter Node Scripts
+
+There are several node scripts that now accompany the adapter. These scripts are provided to make several activities easier. Each of these scripts are described below.
+
+| Run | Description |
+| ------- | ------- |
+| npm run adapter:install | Provides an easier way to install the adapter.|
+| npm run adapter:checkMigrate | Checks whether your adapter can and should be migrated to the latest foundation.|
+| npm run adapter:findPath | Can be used to see if the adapter supports a particular API call.|
+| npm run adapter:migrate | Provides an easier way to migrate your adapter after you download the migration zip from Itential DevSite|
+| npm run adapter:update | Provides an easier way to update your adapter after you download the migration zip from Itential DevSite|
+| npm run adapter:revert | Allows you to revert after a migration or update if it resulted in issues.|
+| npm run troubleshoot | Provides a way to troubleshoot the adapter - runs connectivity, healthcheck and basic get.|
+| npm run connectivity | Provides a connectivity check to the Salesforce system.|
+| npm run healthcheck | Checks whether the configured healthcheck call works to Salesforce.|
+| npm run basicget | Checks whether the cbasic get calls works to Salesforce.|
+
 ## Installing an Itential Product Adapter
 
 If you have App-Artifact installed in IAP, you can follow the instruction for that application to install the adapter into IAP. If not, follow these instructions.
@@ -385,15 +419,12 @@ cd \@itentialopensource
 git clone git@gitlab.com:\@itentialopensource/adapters/adapter-salesforce
 ```
 
-1. Install the dependencies for the adapter.
+1. Run the adapter install script.
 
 ```bash
 cd adapter-salesforce
-npm install
+npm run adapter:install
 ```
-
-1. If you are running IAP 2019.1 or older, add the adapter properties for Salesforce (created from Adapter Builder) to the `properties.json` file for your Itential build. You will need to change the credentials and possibly the host information below.
-[Salesforce sample properties](sampleProperties.json). If you are running IAP 2019.2 the adapter properties need to go into the database. You can review IAP documentation for how to do this.
 
 1. Restart IAP
 
@@ -415,7 +446,7 @@ Depending on where your code is located, this process is different.
 Adapter should be placed into: /opt/pronghorn/current/node_modules/\@itentialopensource
 ```
 
-1. Follow Steps 3-5 (above) to install an Itential adapter to load your properties, dependencies and restart IAP.
+1. Follow Steps 3-4 (above) to install an Itential adapter to load your properties, dependencies and restart IAP.
 
 ## Using this Adapter
 
@@ -443,11 +474,6 @@ The `encryptProperty` call will take the provided property and technique, and re
 encryptProperty(property, technique, callback)
 ```
 
-The `getQueue` call will return the requests that are waiting in the queue if throttling is enabled.
-```js
-getQueue(callback)
-```
-
 The `addEntityCache` call will take the entities and add the list to the entity cache to expedite performance.
 ```js
 addEntityCache(entityType, entities, key, callback)
@@ -473,13 +499,72 @@ The `updateEntityCache` call will update the entity cache.
 updateEntityCache()
 ```
 
+The `updateAdapterConfiguration` call provides the ability to update the adapter configuration from IAP - includes actions, schema, mockdata and other configurations.
+```js
+updateAdapterConfiguration(configFile, changes, entity, type, action, callback)
+```
+
+The `suspend` call provides the ability to suspend the adapter and either have requests rejected or put into a queue to be processed after the adapter is resumed.
+```js
+suspend(mode, callback)
+```
+
+The `unsuspend` call provides the ability to resume a suspended adapter. Any requests in queue will be processed before new requests.
+```js
+unsuspend(callback)
+```
+
+The `findPath` call provides the ability to see if a particular API path is supported by the adapter.
+```js
+findPath(apiPath, callback)
+```
+
+The `troubleshoot` call can be used to check on the performance of the adapter - it checks connectivity, healthcheck and basic get calls.
+```js
+troubleshoot(props, persistFlag, adapter, callback)
+```
+
+The `runHealthcheck` call will return the results of a healthcheck.
+```js
+runHealthcheck(adapter, callback)
+```
+
+The `runConnectivity` call will return the results of a connectivity check.
+```js
+runConnectivity(callback)
+```
+
+The `runBasicGet` call will return the results of running basic get API calls.
+```js
+runBasicGet(callback)
+```
+
+The `getQueue` call will return the requests that are waiting in the queue if throttling is enabled.
+```js
+getQueue(callback)
+```
+
 ### Specific Adapter Calls
 
 Specific adapter calls are built based on the API of the Salesforce. The Adapter Builder creates the proper method comments for generating JS-DOC for the adapter. This is the best way to get information on the calls.
 
 ## Troubleshooting the Adapter
 
+Run `npm run troubleshoot` to start the interactive troubleshooting process. The command allows user to verify and update connection, authentication as well as healthcheck configuration. After that it will test these properties by sending HTTP request to the endpoint. If the tests pass, it will persist these changes into IAP.
+
+User also have the option to run individual command to perform specific test
+
+- `npm run healthcheck` will perform a healthcheck request of with current setting.
+- `npm run basicget` will perform some non-parameter GET request with current setting.
+- `npm run connectivity` will perform networking diagnostics of the adatper endpoint.
+
 ### Connectivity Issues
+
+1. You can run the adapter troubleshooting script which will check connectivity, run the healthcheck and run basic get calls.
+
+```bash
+npm run troubleshoot
+```
 
 1. Verify the adapter properties are set up correctly.
 

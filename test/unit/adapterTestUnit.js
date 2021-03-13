@@ -64,11 +64,13 @@ global.pronghornProps = {
           token_cache: 'local',
           invalid_token_error: 401,
           auth_field: 'header.headers.X-AUTH-TOKEN',
-          auth_field_format: '{token}'
+          auth_field_format: '{token}',
+          auth_logging: false
         },
         healthcheck: {
           type: 'startup',
-          frequency: 60000
+          frequency: 60000,
+          query_object: {}
         },
         throttle: {
           throttle_enabled: false,
@@ -99,13 +101,16 @@ global.pronghornProps = {
           },
           healthcheck_on_timeout: true,
           raw_return: true,
-          archiving: false
+          archiving: false,
+          return_request: false
         },
         proxy: {
           enabled: false,
           host: '',
           port: 1,
-          protocol: 'http'
+          protocol: 'http',
+          username: '',
+          password: ''
         },
         ssl: {
           ecdhCurve: '',
@@ -264,7 +269,7 @@ describe('[unit] Salesforce Adapter Test', () => {
     describe('#getWorkflowFunctions', () => {
       it('should retrieve workflow functions', (done) => {
         try {
-          wffunctions = a.getWorkflowFunctions();
+          wffunctions = a.getWorkflowFunctions([]);
 
           try {
             assert.notEqual(0, wffunctions.length);
@@ -370,7 +375,7 @@ describe('[unit] Salesforce Adapter Test', () => {
                 let wfparams = [];
 
                 if (methLine && methLine.indexOf('(') >= 0 && methLine.indexOf(')') >= 0) {
-                  const temp = methLine.substring(methLine.indexOf('(') + 1, methLine.indexOf(')'));
+                  const temp = methLine.substring(methLine.indexOf('(') + 1, methLine.lastIndexOf(')'));
                   wfparams = temp.split(',');
 
                   for (let t = 0; t < wfparams.length; t += 1) {
@@ -600,6 +605,136 @@ describe('[unit] Salesforce Adapter Test', () => {
       it('should have a healthCheck function', (done) => {
         try {
           assert.equal(true, typeof a.healthCheck === 'function');
+          done();
+        } catch (error) {
+          log.error(`Test Failure: ${error}`);
+          done(error);
+        }
+      });
+    });
+
+    describe('#updateAdapterConfiguration', () => {
+      it('should have a updateAdapterConfiguration function', (done) => {
+        try {
+          assert.equal(true, typeof a.updateAdapterConfiguration === 'function');
+          done();
+        } catch (error) {
+          log.error(`Test Failure: ${error}`);
+          done(error);
+        }
+      });
+    });
+
+    describe('#findPath', () => {
+      it('should have a findPath function', (done) => {
+        try {
+          assert.equal(true, typeof a.findPath === 'function');
+          done();
+        } catch (error) {
+          log.error(`Test Failure: ${error}`);
+          done(error);
+        }
+      });
+      it('findPath should find atleast one path that matches', (done) => {
+        try {
+          a.findPath('{base_path}/{version}', (data, error) => {
+            try {
+              assert.equal(undefined, error);
+              assert.notEqual(undefined, data);
+              assert.notEqual(null, data);
+              assert.equal(true, data.found);
+              assert.notEqual(undefined, data.foundIn);
+              assert.notEqual(null, data.foundIn);
+              assert.notEqual(0, data.foundIn.length);
+              done();
+            } catch (err) {
+              log.error(`Test Failure: ${err}`);
+              done(err);
+            }
+          });
+        } catch (error) {
+          log.error(`Adapter Exception: ${error}`);
+          done(error);
+        }
+      }).timeout(attemptTimeout);
+    });
+
+    describe('#suspend', () => {
+      it('should have a suspend function', (done) => {
+        try {
+          assert.equal(true, typeof a.suspend === 'function');
+          done();
+        } catch (error) {
+          log.error(`Test Failure: ${error}`);
+          done(error);
+        }
+      });
+    });
+
+    describe('#unsuspend', () => {
+      it('should have a unsuspend function', (done) => {
+        try {
+          assert.equal(true, typeof a.unsuspend === 'function');
+          done();
+        } catch (error) {
+          log.error(`Test Failure: ${error}`);
+          done(error);
+        }
+      });
+    });
+
+    describe('#getQueue', () => {
+      it('should have a getQueue function', (done) => {
+        try {
+          assert.equal(true, typeof a.getQueue === 'function');
+          done();
+        } catch (error) {
+          log.error(`Test Failure: ${error}`);
+          done(error);
+        }
+      });
+    });
+
+    describe('#troubleshoot', () => {
+      it('should have a troubleshoot function', (done) => {
+        try {
+          assert.equal(true, typeof a.troubleshoot === 'function');
+          done();
+        } catch (error) {
+          log.error(`Test Failure: ${error}`);
+          done(error);
+        }
+      });
+    });
+
+    describe('#runHealthcheck', () => {
+      it('should have a runHealthcheck function', (done) => {
+        try {
+          assert.equal(true, typeof a.runHealthcheck === 'function');
+          done();
+        } catch (error) {
+          log.error(`Test Failure: ${error}`);
+          done(error);
+        }
+      });
+    });
+
+    describe('#runConnectivity', () => {
+      it('should have a runConnectivity function', (done) => {
+        try {
+          assert.equal(true, typeof a.runConnectivity === 'function');
+          done();
+        } catch (error) {
+          log.error(`Test Failure: ${error}`);
+          done(error);
+        }
+      });
+    });
+
+    describe('#runBasicGet', () => {
+      it('should have a runBasicGet function', (done) => {
+        try {
+          assert.equal(true, typeof a.runBasicGet === 'function');
           done();
         } catch (error) {
           log.error(`Test Failure: ${error}`);

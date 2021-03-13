@@ -46,6 +46,11 @@
         "none"
       ]
     },
+    "encode_pathvars": {
+      "type": "boolean",
+      "description": "When true the path variables are encoded in the url",
+      "default": true
+    },
     "save_metric": {
       "type": [
         "boolean",
@@ -88,11 +93,6 @@
     },
     "mongo": {
       "$ref": "#/definitions/mongo"
-    },
-    "encode_pathvars": {
-      "type": "boolean",
-      "description": "When true the path variables are encoded in the url",
-      "default": true
     }
   },
   "required": [
@@ -112,6 +112,7 @@
           "enum": [
             "basic user_password",
             "static_token",
+            "jwt_token",
             "request_token",
             "no_authentication"
           ]
@@ -198,7 +199,10 @@
           ]
         },
         "auth_field": {
-          "type": "string",
+          "type": [
+            "string",
+            "array"
+          ],
           "description": "The field in which to pass the token",
           "default": "header.headers.X-AUTH-TOKEN",
           "examples": [
@@ -210,7 +214,10 @@
           ]
         },
         "auth_field_format": {
-          "type": "string",
+          "type": [
+            "string",
+            "array"
+          ],
           "description": "The format used to pass the authentication -- variables {token}, {username}, {password} will be replaced with the proper values. {b64}...{/b64} will base64 encode everything between the start and end tag.",
           "default": "{token}",
           "examples": [
@@ -220,6 +227,11 @@
             "Basic {b64}{username}:{password}{/b64}",
             "token={token}"
           ]
+        },
+        "auth_logging": {
+          "type": "boolean",
+          "description": "This property turns on logging of Authentication Information and should only be true when debugging authentication and connectivity",
+          "default": false
         }
       },
       "required": [
@@ -319,6 +331,10 @@
           "examples": [
             "/api/version/ping"
           ]
+        },
+        "query_object": {
+          "type": "object",
+          "description": "Query object { device: xxxxx } to be placed into the healthcheck, will be converted to query string by the adapter"
         }
       },
       "required": [
@@ -378,7 +394,7 @@
           "type": "integer",
           "description": "defines the number of request that Pronghorn can send salesforce at one time",
           "default": 1,
-          "minimum": 1,
+          "minimum": 0,
           "maximum": 1000
         },
         "expire_timeout": {
@@ -515,6 +531,11 @@
           "type": "boolean",
           "description": "Archives each request/response and corresponding metrics",
           "default": false
+        },
+        "return_request": {
+          "type": "boolean",
+          "description": "This property turns on returning the response information - need to be carefull in case credentials are in the path",
+          "default": false
         }
       },
       "required": [
@@ -555,8 +576,19 @@
             "http",
             "https",
             "socks4",
-            "socks5"
+            "socks5",
+            "tls"
           ]
+        },
+        "username": {
+          "type": "string",
+          "description": "username for proxy authentication",
+          "default": ""
+        },
+        "password": {
+          "type": "string",
+          "description": "password for proxy authentication",
+          "default": ""
         }
       },
       "required": [

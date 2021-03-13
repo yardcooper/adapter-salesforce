@@ -1,0 +1,109 @@
+{
+  "actions": [
+    {
+      "name": "getGenerics",
+      "protocol": "REST",
+      "method": "GET",
+      "entitypath": "{base_path}/{version}/{pathv1}/{pathv2}/{pathv3}/{pathv4}/{pathv5}/{pathv6}/{pathv7}/{pathv8}/{pathv9}/{pathv10}?{query}",
+      "requestSchema": "schema.json",
+      "responseSchema": "schema.json",
+      "timeout": 0,
+      "sendEmpty": false,
+      "sendGetBody": false,
+      "requestDatatype": "JSON",
+      "responseDatatype": "JSON",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": ""
+        }
+      ]
+    },
+    {
+      "name": "createGeneric",
+      "protocol": "REST",
+      "method": "POST",
+      "entitypath": "{base_path}/{version}/{pathv1}/{pathv2}/{pathv3}/{pathv4}/{pathv5}/{pathv6}/{pathv7}/{pathv8}/{pathv9}/{pathv10}?{query}",
+      "requestSchema": "schema.json",
+      "responseSchema": "schema.json",
+      "timeout": 0,
+      "sendEmpty": false,
+      "sendGetBody": false,
+      "requestDatatype": "JSON",
+      "responseDatatype": "JSON",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": ""
+        }
+      ]
+    },
+    {
+      "name": "updateGeneric",
+      "protocol": "REST",
+      "method": "PUT",
+      "entitypath": "{base_path}/{version}/{pathv1}/{pathv2}/{pathv3}/{pathv4}/{pathv5}/{pathv6}/{pathv7}/{pathv8}/{pathv9}/{pathv10}?{query}",
+      "requestSchema": "schema.json",
+      "responseSchema": "schema.json",
+      "timeout": 0,
+      "sendEmpty": false,
+      "sendGetBody": false,
+      "requestDatatype": "JSON",
+      "responseDatatype": "JSON",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": ""
+        }
+      ]
+    },
+    {
+      "name": "patchGeneric",
+      "protocol": "REST",
+      "method": "PATCH",
+      "entitypath": "{base_path}/{version}/{pathv1}/{pathv2}/{pathv3}/{pathv4}/{pathv5}/{pathv6}/{pathv7}/{pathv8}/{pathv9}/{pathv10}?{query}",
+      "requestSchema": "schema.json",
+      "responseSchema": "schema.json",
+      "timeout": 0,
+      "sendEmpty": false,
+      "sendGetBody": false,
+      "requestDatatype": "JSON",
+      "responseDatatype": "JSON",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": ""
+        }
+      ]
+    },
+    {
+      "name": "deleteGeneric",
+      "protocol": "REST",
+      "method": "DELETE",
+      "entitypath": "{base_path}/{version}/{pathv1}/{pathv2}/{pathv3}/{pathv4}/{pathv5}/{pathv6}/{pathv7}/{pathv8}/{pathv9}/{pathv10}?{query}",
+      "requestSchema": "schema.json",
+      "responseSchema": "schema.json",
+      "timeout": 0,
+      "sendEmpty": false,
+      "sendGetBody": false,
+      "requestDatatype": "JSON",
+      "responseDatatype": "JSON",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": ""
+        }
+      ]
+    }
+  ]
+}

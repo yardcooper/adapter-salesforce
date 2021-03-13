@@ -82,6 +82,24 @@ class Salesforce extends AdapterBaseCl {
   }
 
   /**
+   * @getWorkflowFunctions
+   */
+  getWorkflowFunctions(inIgnore) {
+    let myIgnore = [];
+    if (!inIgnore && Array.isArray(inIgnore)) {
+      myIgnore = inIgnore;
+    } else if (!inIgnore && typeof inIgnore === 'string') {
+      myIgnore = [inIgnore];
+    }
+
+    // The generic adapter functions should already be ignored (e.g. healthCheck)
+    // you can add specific methods that you do not want to be workflow functions to ignore like below
+    // myIgnore.push('myMethodNotInWorkflow');
+
+    return super.getWorkflowFunctions(myIgnore);
+  }
+
+  /**
    * updateAdapterConfiguration is used to update any of the adapter configuration files. This
    * allows customers to make changes to adapter configuration without having to be on the
    * file system.
@@ -95,33 +113,141 @@ class Salesforce extends AdapterBaseCl {
    * @param {Callback} callback - The results of the call
    */
   updateAdapterConfiguration(configFile, changes, entity, type, action, callback) {
+    const origin = `${this.id}-adapter-updateAdapterConfiguration`;
+    log.trace(origin);
     super.updateAdapterConfiguration(configFile, changes, entity, type, action, callback);
   }
 
   /**
-   * @callback healthCallback
-   * @param {Object} result - the result of the get request (contains an id and a status)
+   * See if the API path provided is found in this adapter
+   *
+   * @function findPath
+   * @param {string} apiPath - the api path to check on
+   * @param {Callback} callback - The results of the call
    */
+  findPath(apiPath, callback) {
+    const origin = `${this.id}-adapter-findPath`;
+    log.trace(origin);
+    super.findPath(apiPath, callback);
+  }
+
   /**
-   * @callback getCallback
-   * @param {Object} result - the result of the get request (entity/ies)
-   * @param {String} error - any error that occurred
-   */
+    * @summary Suspends adapter
+    *
+    * @function suspend
+    * @param {Callback} callback - callback function
+    */
+  suspend(mode, callback) {
+    const origin = `${this.id}-adapter-suspend`;
+    log.trace(origin);
+    try {
+      return super.suspend(mode, callback);
+    } catch (error) {
+      log.error(`${origin}: ${error}`);
+      return callback(null, error);
+    }
+  }
+
   /**
-   * @callback createCallback
-   * @param {Object} item - the newly created entity
-   * @param {String} error - any error that occurred
-   */
+    * @summary Unsuspends adapter
+    *
+    * @function unsuspend
+    * @param {Callback} callback - callback function
+    */
+  unsuspend(callback) {
+    const origin = `${this.id}-adapter-unsuspend`;
+    log.trace(origin);
+    try {
+      return super.unsuspend(callback);
+    } catch (error) {
+      log.error(`${origin}: ${error}`);
+      return callback(null, error);
+    }
+  }
+
   /**
-   * @callback updateCallback
-   * @param {String} status - the status of the update action
-   * @param {String} error - any error that occurred
-   */
+    * @summary Get the Adaoter Queue
+    *
+    * @function getQueue
+    * @param {Callback} callback - callback function
+    */
+  getQueue(callback) {
+    const origin = `${this.id}-adapter-getQueue`;
+    log.trace(origin);
+    return super.getQueue(callback);
+  }
+
   /**
-   * @callback deleteCallback
-   * @param {String} status - the status of the delete action
-   * @param {String} error - any error that occurred
-   */
+  * @summary Runs troubleshoot scripts for adapter
+  *
+  * @function troubleshoot
+  * @param {Object} props - the connection, healthcheck and authentication properties
+  *
+  * @param {boolean} persistFlag - whether the adapter properties should be updated
+  * @param {Callback} callback - The results of the call
+  */
+  troubleshoot(props, persistFlag, callback) {
+    const origin = `${this.id}-adapter-troubleshoot`;
+    log.trace(origin);
+    try {
+      return super.troubleshoot(props, persistFlag, this, callback);
+    } catch (error) {
+      log.error(`${origin}: ${error}`);
+      return callback(null, error);
+    }
+  }
+
+  /**
+    * @summary runs healthcheck script for adapter
+    *
+    * @function runHealthcheck
+    * @param {Adapter} adapter - adapter instance to troubleshoot
+    * @param {Callback} callback - callback function
+    */
+  runHealthcheck(callback) {
+    const origin = `${this.id}-adapter-runHealthcheck`;
+    log.trace(origin);
+    try {
+      return super.runHealthcheck(this, callback);
+    } catch (error) {
+      log.error(`${origin}: ${error}`);
+      return callback(null, error);
+    }
+  }
+
+  /**
+    * @summary runs connectivity check script for adapter
+    *
+    * @function runConnectivity
+    * @param {Callback} callback - callback function
+    */
+  runConnectivity(callback) {
+    const origin = `${this.id}-adapter-runConnectivity`;
+    log.trace(origin);
+    try {
+      return super.runConnectivity(callback);
+    } catch (error) {
+      log.error(`${origin}: ${error}`);
+      return callback(null, error);
+    }
+  }
+
+  /**
+    * @summary runs basicGet script for adapter
+    *
+    * @function runBasicGet
+    * @param {Callback} callback - callback function
+    */
+  runBasicGet(callback) {
+    const origin = `${this.id}-adapter-runBasicGet`;
+    log.trace(origin);
+    try {
+      return super.runBasicGet(callback);
+    } catch (error) {
+      log.error(`${origin}: ${error}`);
+      return callback(null, error);
+    }
+  }
 
   /**
    * @summary Determines if this adapter supports the specific entity
@@ -293,6 +419,141 @@ class Salesforce extends AdapterBaseCl {
   }
 
   /**
+   * Makes the requested generic call
+   *
+   * @function genericAdapterRequest
+   * @param {String} uriPath - the path of the api call - do not include the host, port, base path or version (required)
+   * @param {String} restMethod - the rest method (GET, POST, PUT, PATCH, DELETE) (required)
+   * @param {Object} queryData - the parameters to be put on the url (optional).
+   *                 Can be a stringified Object.
+   * @param {Object} requestBody - the body to add to the request (optional).
+   *                 Can be a stringified Object.
+   * @param {Object} addlHeaders - additional headers to be put on the call (optional).
+   *                 Can be a stringified Object.
+   * @param {getCallback} callback - a callback function to return the result (Generics)
+   *                 or the error
+   */
+  genericAdapterRequest(uriPath, restMethod, queryData, requestBody, addlHeaders, callback) {
+    const meth = 'adapter-genericAdapterRequest';
+    const origin = `${this.id}-${meth}`;
+    log.trace(origin);
+
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
+
+    /* HERE IS WHERE YOU VALIDATE DATA */
+    if (uriPath === undefined || uriPath === null || uriPath === '') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['uriPath'], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
+    if (restMethod === undefined || restMethod === null || restMethod === '') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['restMethod'], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
+
+    /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
+    // remove any leading / and split the uripath into path variables
+    let myPath = uriPath;
+    while (myPath.indexOf('/') === 0) {
+      myPath = myPath.substring(1);
+    }
+    const pathVars = myPath.split('/');
+    const queryParamsAvailable = queryData;
+    const queryParams = {};
+    const bodyVars = requestBody;
+
+    // loop in template. long callback arg name to avoid identifier conflicts
+    Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
+      }
+    });
+
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
+    const reqObj = {
+      payload: bodyVars,
+      uriPathVars: pathVars,
+      uriQuery: queryParams,
+      uriOptions: {}
+    };
+    // add headers if provided
+    if (addlHeaders) {
+      reqObj.addlHeaders = addlHeaders;
+    }
+
+    // determine the call and return flag
+    let action = 'getGenerics';
+    let returnF = true;
+    if (restMethod.toUpperCase() === 'POST') {
+      action = 'createGeneric';
+    } else if (restMethod.toUpperCase() === 'PUT') {
+      action = 'updateGeneric';
+    } else if (restMethod.toUpperCase() === 'PATCH') {
+      action = 'patchGeneric';
+    } else if (restMethod.toUpperCase() === 'DELETE') {
+      action = 'deleteGeneric';
+      returnF = false;
+    }
+
+    try {
+      // Make the call -
+      // identifyRequest(entity, action, requestObj, returnDataFlag, callback)
+      return this.requestHandlerInst.identifyRequest('.generic', action, reqObj, returnF, (irReturnData, irReturnError) => {
+        // if we received an error or their is no response on the results
+        // return an error
+        if (irReturnError) {
+          /* HERE IS WHERE YOU CAN ALTER THE ERROR MESSAGE */
+          return callback(null, irReturnError);
+        }
+        if (!Object.hasOwnProperty.call(irReturnData, 'response')) {
+          const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Invalid Response', ['genericAdapterRequest'], null, null, null);
+          log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+          return callback(null, errorObj);
+        }
+
+        /* HERE IS WHERE YOU CAN ALTER THE RETURN DATA */
+        // return the response
+        return callback(irReturnData, null);
+      });
+    } catch (ex) {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Caught Exception', null, null, null, ex);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
+  }
+
+  /**
+   * @callback healthCallback
+   * @param {Object} result - the result of the get request (contains an id and a status)
+   */
+  /**
+   * @callback getCallback
+   * @param {Object} result - the result of the get request (entity/ies)
+   * @param {String} error - any error that occurred
+   */
+  /**
+   * @callback createCallback
+   * @param {Object} item - the newly created entity
+   * @param {String} error - any error that occurred
+   */
+  /**
+   * @callback updateCallback
+   * @param {String} status - the status of the update action
+   * @param {String} error - any error that occurred
+   */
+  /**
+   * @callback deleteCallback
+   * @param {String} status - the status of the delete action
+   * @param {String} error - any error that occurred
+   */
+
+  /**
    * @summary function getLocalizations
    *
    * @function getLocalizations
@@ -304,6 +565,12 @@ class Salesforce extends AdapterBaseCl {
     const meth = 'adapter-getLocalizations';
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
+
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
 
     /* HERE IS WHERE YOU VALIDATE DATA */
 
@@ -375,6 +642,12 @@ class Salesforce extends AdapterBaseCl {
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
 
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
+
     /* HERE IS WHERE YOU VALIDATE DATA */
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
@@ -438,6 +711,12 @@ class Salesforce extends AdapterBaseCl {
     const meth = 'adapter-getIncidentsid';
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
+
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
 
     /* HERE IS WHERE YOU VALIDATE DATA */
     if (id === undefined || id === null || id === '') {
@@ -507,6 +786,12 @@ class Salesforce extends AdapterBaseCl {
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
 
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
+
     /* HERE IS WHERE YOU VALIDATE DATA */
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
@@ -570,6 +855,12 @@ class Salesforce extends AdapterBaseCl {
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
 
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
+
     /* HERE IS WHERE YOU VALIDATE DATA */
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
@@ -632,6 +923,12 @@ class Salesforce extends AdapterBaseCl {
     const meth = 'adapter-getIncidentseventTypes';
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
+
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
 
     /* HERE IS WHERE YOU VALIDATE DATA */
 
@@ -704,6 +1001,12 @@ class Salesforce extends AdapterBaseCl {
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
 
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
+
     /* HERE IS WHERE YOU VALIDATE DATA */
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
@@ -767,6 +1070,12 @@ class Salesforce extends AdapterBaseCl {
     const meth = 'adapter-getMaintenancesid';
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
+
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
 
     /* HERE IS WHERE YOU VALIDATE DATA */
     if (id === undefined || id === null || id === '') {
@@ -836,6 +1145,12 @@ class Salesforce extends AdapterBaseCl {
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
 
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
+
     /* HERE IS WHERE YOU VALIDATE DATA */
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
@@ -898,6 +1213,12 @@ class Salesforce extends AdapterBaseCl {
     const meth = 'adapter-getMaintenanceseventTypes';
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
+
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
 
     /* HERE IS WHERE YOU VALIDATE DATA */
 
@@ -963,6 +1284,12 @@ class Salesforce extends AdapterBaseCl {
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
 
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
+
     /* HERE IS WHERE YOU VALIDATE DATA */
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
@@ -1025,6 +1352,12 @@ class Salesforce extends AdapterBaseCl {
     const meth = 'adapter-getGeneralMessagesid';
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
+
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
 
     /* HERE IS WHERE YOU VALIDATE DATA */
     if (id === undefined || id === null || id === '') {
@@ -1097,6 +1430,12 @@ class Salesforce extends AdapterBaseCl {
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
 
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
+
     /* HERE IS WHERE YOU VALIDATE DATA */
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
@@ -1159,6 +1498,12 @@ class Salesforce extends AdapterBaseCl {
     const meth = 'adapter-getMetricValuesid';
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
+
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
 
     /* HERE IS WHERE YOU VALIDATE DATA */
     if (id === undefined || id === null || id === '') {
@@ -1228,6 +1573,12 @@ class Salesforce extends AdapterBaseCl {
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
 
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
+
     /* HERE IS WHERE YOU VALIDATE DATA */
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
@@ -1290,6 +1641,12 @@ class Salesforce extends AdapterBaseCl {
     const meth = 'adapter-getServices';
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
+
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
 
     /* HERE IS WHERE YOU VALIDATE DATA */
 
@@ -1358,6 +1715,12 @@ class Salesforce extends AdapterBaseCl {
     const meth = 'adapter-getInstances';
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
+
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
 
     /* HERE IS WHERE YOU VALIDATE DATA */
 
@@ -1444,6 +1807,12 @@ Return all instances and associated incidents
     const meth = 'adapter-getInstancesstatus';
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
+
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
 
     /* HERE IS WHERE YOU VALIDATE DATA */
 
@@ -1542,6 +1911,12 @@ Status Enums
     const meth = 'adapter-getInstancesstatuspreview';
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
+
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
 
     /* HERE IS WHERE YOU VALIDATE DATA */
 
@@ -1652,6 +2027,12 @@ Status Enums
     const meth = 'adapter-getInstanceskeystatuspreview';
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
+
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
 
     /* HERE IS WHERE YOU VALIDATE DATA */
     if (key === undefined || key === null || key === '') {
@@ -1768,6 +2149,12 @@ Status Enums:
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
 
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
+
     /* HERE IS WHERE YOU VALIDATE DATA */
     if (key === undefined || key === null || key === '') {
       const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['key'], null, null, null);
@@ -1847,6 +2234,12 @@ Status Enums:
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
 
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
+
     /* HERE IS WHERE YOU VALIDATE DATA */
     if (key === undefined || key === null || key === '') {
       const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['key'], null, null, null);
@@ -1915,6 +2308,12 @@ Status Enums:
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
 
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
+
     /* HERE IS WHERE YOU VALIDATE DATA */
     if (key === undefined || key === null || key === '') {
       const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['key'], null, null, null);
@@ -1982,6 +2381,12 @@ Status Enums:
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
 
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
+
     /* HERE IS WHERE YOU VALIDATE DATA */
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
@@ -2027,6 +2432,12 @@ Status Enums:
     const meth = 'adapter-getProductskey';
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
+
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
 
     /* HERE IS WHERE YOU VALIDATE DATA */
     if (key === undefined || key === null || key === '') {
@@ -2097,6 +2508,12 @@ Status Enums:
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
 
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
+
     /* HERE IS WHERE YOU VALIDATE DATA */
     if (body === undefined || body === null || body === '') {
       const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['body'], null, null, null);
@@ -2166,6 +2583,12 @@ Status Enums:
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
 
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
+
     /* HERE IS WHERE YOU VALIDATE DATA */
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
@@ -2230,6 +2653,12 @@ Status Enums:
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
 
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
+
     /* HERE IS WHERE YOU VALIDATE DATA */
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
@@ -2293,6 +2722,12 @@ Status Enums:
     const meth = 'adapter-postLogin';
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
+
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
 
     /* HERE IS WHERE YOU VALIDATE DATA */
     if (body === undefined || body === null || body === '') {
@@ -2361,6 +2796,12 @@ Status Enums:
     const meth = 'adapter-getLogout';
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
+
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
 
     /* HERE IS WHERE YOU VALIDATE DATA */
     if (token === undefined || token === null || token === '') {
@@ -2431,6 +2872,12 @@ Status Enums:
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
 
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
+
     /* HERE IS WHERE YOU VALIDATE DATA */
     if (token === undefined || token === null || token === '') {
       const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['token'], null, null, null);
@@ -2500,6 +2947,12 @@ Status Enums:
     const meth = 'adapter-patchSubscribers';
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
+
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
 
     /* HERE IS WHERE YOU VALIDATE DATA */
     if (token === undefined || token === null || token === '') {
@@ -2575,6 +3028,12 @@ Status Enums:
     const meth = 'adapter-postSubscriberssubscriptionsid';
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
+
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
 
     /* HERE IS WHERE YOU VALIDATE DATA */
     if (id === undefined || id === null || id === '') {
@@ -2656,6 +3115,12 @@ Status Enums:
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
 
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
+
     /* HERE IS WHERE YOU VALIDATE DATA */
     if (id === undefined || id === null || id === '') {
       const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['id'], null, null, null);
@@ -2736,6 +3201,12 @@ Status Enums:
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
 
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
+
     /* HERE IS WHERE YOU VALIDATE DATA */
     if (id === undefined || id === null || id === '') {
       const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['id'], null, null, null);
@@ -2814,6 +3285,12 @@ Status Enums:
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
 
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
+
     /* HERE IS WHERE YOU VALIDATE DATA */
     if (key === undefined || key === null || key === '') {
       const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['key'], null, null, null);
@@ -2881,6 +3358,12 @@ Status Enums:
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
 
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
+
     /* HERE IS WHERE YOU VALIDATE DATA */
 
     /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
@@ -2927,6 +3410,12 @@ Status Enums:
     const meth = 'adapter-getTagsinstanceinstanceKey';
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
+
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
 
     /* HERE IS WHERE YOU VALIDATE DATA */
     if (instanceKey === undefined || instanceKey === null || instanceKey === '') {
@@ -2994,6 +3483,12 @@ Status Enums:
     const meth = 'adapter-getTagTypes';
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
+
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
 
     /* HERE IS WHERE YOU VALIDATE DATA */
 
