@@ -22,6 +22,9 @@ const AjvCl = require('ajv');
 const PropUtilCl = require('@itentialopensource/adapter-utils').PropertyUtility;
 const RequestHandlerCl = require('@itentialopensource/adapter-utils').RequestHandler;
 
+const troubleshootingAdapter = require(path.join(__dirname, 'utils/troubleshootingAdapter'));
+const tbUtils = require(path.join(__dirname, 'utils/tbUtils'));
+
 let propUtil = null;
 
 /*
@@ -155,9 +158,11 @@ class AdapterBase extends EventEmitterCl {
       this.id = prongid;
       this.propUtilInst = new PropUtilCl(prongid, __dirname);
       propUtil = this.propUtilInst;
-
+      this.initProps = properties;
       this.alive = false;
       this.healthy = false;
+      this.suspended = false;
+      this.suspendMode = 'pause';
       this.caching = false;
       this.repeatCacheCount = 0;
       this.allowFailover = 'AD.300';
@@ -242,6 +247,7 @@ class AdapterBase extends EventEmitterCl {
       // properties that this code cares about
       this.healthcheckType = this.allProps.healthcheck.type;
       this.healthcheckInterval = this.allProps.healthcheck.frequency;
+      this.healthcheckQuery = this.allProps.healthcheck.query_object;
 
       // set the failover codes from properties
       if (this.allProps.request.failover_codes) {
@@ -446,6 +452,20 @@ class AdapterBase extends EventEmitterCl {
     const origin = `${this.id}-adapterBase-healthCheck`;
     log.trace(origin);
 
+    // if there is healthcheck query_object property, it needs to be added to the adapter
+    let myRequest = reqObj;
+    if (this.healthcheckQuery && Object.keys(this.healthcheckQuery).length > 0) {
+      if (myRequest && myRequest.uriQuery) {
+        myRequest.uriQuery = { ...myRequest.uriQuery, ...this.healthcheckQuery };
+      } else if (myRequest) {
+        myRequest.uriQuery = this.healthcheckQuery;
+      } else {
+        myRequest = {
+          uriQuery: this.healthcheckQuery
+        };
+      }
+    }
+
     // call to the healthcheck in connector
     return this.requestHandlerInst.identifyHealthcheck(reqObj, (res, error) => {
       // unhealthy
@@ -480,6 +500,68 @@ class AdapterBase extends EventEmitterCl {
   }
 
   /**
+   * @summary Suspends the adapter
+   * @param {Callback} callback - The adapater suspension status
+   * @function suspend
+   */
+  suspend(mode, callback) {
+    const origin = `${this.id}-adapterBase-suspend`;
+    if (this.suspended) {
+      throw new Error(`${origin}: Adapter is already suspended`);
+    }
+    try {
+      this.suspended = true;
+      this.suspendMode = mode;
+      if (this.suspendMode === 'pause') {
+        const props = JSON.parse(JSON.stringify(this.initProps));
+        // To suspend adapter, enable throttling and set concurrent max to 0
+        props.throttle.throttle_enabled = true;
+        props.throttle.concurrent_max = 0;
+        this.refreshProperties(props);
+      }
+      return callback({ suspended: true });
+    } catch (error) {
+      return callback(null, error);
+    }
+  }
+
+  /**
+   * @summary Unsuspends the adapter
+   * @param {Callback} callback - The adapater suspension status
+   *
+   * @function unsuspend
+   */
+  unsuspend(callback) {
+    const origin = `${this.id}-adapterBase-unsuspend`;
+    if (!this.suspended) {
+      throw new Error(`${origin}: Adapter is not suspended`);
+    }
+    if (this.suspendMode === 'pause') {
+      const props = JSON.parse(JSON.stringify(this.initProps));
+      // To unsuspend adapter, keep throttling enabled and begin processing queued requests in order
+      props.throttle.throttle_enabled = true;
+      props.throttle.concurrent_max = 1;
+      this.refreshProperties(props);
+      setTimeout(() => {
+        this.getQueue((q, error) => {
+          // console.log("Items in queue: " + String(q.length))
+          if (q.length === 0) {
+            // if queue is empty, return to initial properties state
+            this.refreshProperties(this.initProps);
+            this.suspended = false;
+            return callback({ suspended: false });
+          }
+          // recursive call to check queue again every second
+          return this.unsuspend(callback);
+        });
+      }, 1000);
+    } else {
+      this.suspended = false;
+      callback({ suspend: false });
+    }
+  }
+
+  /**
    * getAllFunctions is used to get all of the exposed function in the adapter
    *
    * @function getAllFunctions
@@ -505,10 +587,11 @@ class AdapterBase extends EventEmitterCl {
 
   /**
    * getWorkflowFunctions is used to get all of the workflow function in the adapter
+   * @param {array} ignoreThese - additional methods to ignore (optional)
    *
-   * @function getAllFunctions
+   * @function getWorkflowFunctions
    */
-  getWorkflowFunctions() {
+  getWorkflowFunctions(ignoreThese) {
     const myfunctions = this.getAllFunctions();
     const wffunctions = [];
 
@@ -519,8 +602,19 @@ class AdapterBase extends EventEmitterCl {
         break;
       }
       if (myfunctions[m] !== 'hasEntity' && myfunctions[m] !== 'verifyCapability' && myfunctions[m] !== 'updateEntityCache'
-          && myfunctions[m] !== 'healthCheck' && !(myfunctions[m].endsWith('Emit') || myfunctions[m].match(/Emit__v[0-9]+/))) {
-        wffunctions.push(myfunctions[m]);
+          && myfunctions[m] !== 'healthCheck' && myfunctions[m] !== 'getWorkflowFunctions'
+          && !(myfunctions[m].endsWith('Emit') || myfunctions[m].match(/Emit__v[0-9]+/))) {
+        let found = false;
+        if (ignoreThese && Array.isArray(ignoreThese)) {
+          for (let i = 0; i < ignoreThese.length; i += 1) {
+            if (myfunctions[m].toUpperCase() === ignoreThese[i].toUpperCase()) {
+              found = true;
+            }
+          }
+        }
+        if (!found) {
+          wffunctions.push(myfunctions[m]);
+        }
       }
     }
 
@@ -542,6 +636,89 @@ class AdapterBase extends EventEmitterCl {
     } catch (e) {
       return ['Exception increase log level'];
     }
+  }
+
+  /**
+   * See if the API path provided is found in this adapter
+   *
+   * @function findPath
+   * @param {string} apiPath - the api path to check on
+   * @param {Callback} callback - The results of the call
+   */
+  findPath(apiPath, callback) {
+    const result = {
+      apiPath
+    };
+
+    // verify the path was provided
+    if (!apiPath) {
+      log.error('NO API PATH PROVIDED!');
+      result.found = false;
+      result.message = 'NO PATH PROVIDED!';
+      return callback(null, result);
+    }
+
+    // make sure the entities directory exists
+    const entitydir = path.join(__dirname, 'entities');
+    if (!fs.statSync(entitydir).isDirectory()) {
+      log.error('Could not find the entities directory');
+      result.found = false;
+      result.message = 'Could not find the entities directory';
+      return callback(null, result);
+    }
+
+    const entities = fs.readdirSync(entitydir);
+    const fitems = [];
+
+    // need to go through each entity in the entities directory
+    for (let e = 0; e < entities.length; e += 1) {
+      // make sure the entity is a directory - do not care about extra files
+      // only entities (dir)
+      if (fs.statSync(`${entitydir}/${entities[e]}`).isDirectory()) {
+        // see if the action file exists in the entity
+        if (fs.existsSync(`${entitydir}/${entities[e]}/action.json`)) {
+          // Read the entity actions from the file system
+          const actions = require(`${entitydir}/${entities[e]}/action.json`);
+
+          // go through all of the actions set the appropriate info in the newActions
+          for (let a = 0; a < actions.actions.length; a += 1) {
+            if (actions.actions[a].entitypath.indexOf(apiPath) >= 0) {
+              log.info(`  Found - entity: ${entities[e]} action: ${actions.actions[a].name}`);
+              log.info(`          method: ${actions.actions[a].method} path: ${actions.actions[a].entitypath}`);
+              const fitem = {
+                entity: entities[e],
+                action: actions.actions[a].name,
+                method: actions.actions[a].method,
+                path: actions.actions[a].entitypath
+              };
+              fitems.push(fitem);
+            }
+          }
+        } else {
+          log.error(`Could not find entities ${entities[e]} action.json file`);
+          result.found = false;
+          result.message = `Could not find entities ${entities[e]} action.json file`;
+          return callback(null, result);
+        }
+      } else {
+        log.error(`Could not find entities ${entities[e]} directory`);
+        result.found = false;
+        result.message = `Could not find entities ${entities[e]} directory`;
+        return callback(null, result);
+      }
+    }
+
+    if (fitems.length === 0) {
+      log.info('PATH NOT FOUND!');
+      result.found = false;
+      result.message = 'API PATH NOT FOUND!';
+      return callback(null, result);
+    }
+
+    result.foundIn = fitems;
+    result.found = true;
+    result.message = 'API PATH FOUND!';
+    return callback(result, null);
   }
 
   /**
@@ -593,6 +770,85 @@ class AdapterBase extends EventEmitterCl {
     // Make the call -
     // encryptProperty(property, technique, callback)
     return this.requestHandlerInst.encryptProperty(property, technique, callback);
+  }
+
+  /**
+   * @summary runs troubleshoot scripts for adapter
+   *
+   * @function troubleshoot
+   * @param {Object} props - the connection, healthcheck and authentication properties
+   * @param {boolean} persistFlag - whether the adapter properties should be updated
+   * @param {Adapter} adapter - adapter instance to troubleshoot
+   * @param {Callback} callback - callback function to return troubleshoot results
+   */
+  async troubleshoot(props, persistFlag, adapter, callback) {
+    try {
+      const result = await troubleshootingAdapter.troubleshoot(props, false, persistFlag, adapter);
+      if (result.healthCheck && result.connectivity.failCount === 0 && result.basicGet.failCount === 0) {
+        return callback(result);
+      }
+      return callback(null, result);
+    } catch (error) {
+      return callback(null, error);
+    }
+  }
+
+  /**
+   * @summary runs healthcheck script for adapter
+   *
+   * @function runHealthcheck
+   * @param {Adapter} adapter - adapter instance to troubleshoot
+   * @param {Callback} callback - callback function to return healthcheck status
+   */
+  async runHealthcheck(adapter, callback) {
+    try {
+      const result = await tbUtils.healthCheck(adapter);
+      if (result) {
+        return callback(result);
+      }
+      return callback(null, result);
+    } catch (error) {
+      return callback(null, error);
+    }
+  }
+
+  /**
+   * @summary runs connectivity check script for adapter
+   *
+   * @function runConnectivity
+   * @param {Adapter} adapter - adapter instance to troubleshoot
+   * @param {Callback} callback - callback function to return connectivity status
+   */
+  async runConnectivity(callback) {
+    try {
+      const { serviceItem } = await troubleshootingAdapter.getAdapterConfig();
+      const { host } = serviceItem.properties.properties;
+      const result = tbUtils.runConnectivity(host, false);
+      if (result.failCount > 0) {
+        return callback(null, result);
+      }
+      return callback(result);
+    } catch (error) {
+      return callback(null, error);
+    }
+  }
+
+  /**
+   * @summary runs basicGet script for adapter
+   *
+   * @function runBasicGet
+   * @param {Callback} callback - callback function to return basicGet result
+   */
+  runBasicGet(callback) {
+    try {
+      const result = tbUtils.runBasicGet(false);
+      if (result.failCount > 0) {
+        return callback(null, result);
+      }
+      return callback(result);
+    } catch (error) {
+      return callback(null, error);
+    }
   }
 
   /**
@@ -655,7 +911,7 @@ class AdapterBase extends EventEmitterCl {
       const resEntity = [];
 
       for (let e = 0; e < entityId.length; e += 1) {
-        if (data.includes(entityId)) {
+        if (data.includes(entityId[e])) {
           resEntity.push(true);
         } else {
           resEntity.push(false);
@@ -679,7 +935,7 @@ class AdapterBase extends EventEmitterCl {
    *                              desired capability or an error
    */
   capabilityResults(results, callback) {
-    const meth = 'adapterBase-getQueue';
+    const meth = 'adapterBase-capabilityResults';
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
     let locResults = results;

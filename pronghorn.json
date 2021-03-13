@@ -83,6 +83,310 @@
       "task": true
     },
     {
+      "name": "findPath",
+      "summary": "Provides the ability to see if a particular API path is supported by the adapter",
+      "description": "Provides the ability to see if a particular API path is supported by the adapter",
+      "input": [
+        {
+          "name": "apiPath",
+          "type": "string",
+          "info": "The API Path you want to check - make sure to not include base path and version",
+          "description": "The API Path you want to check - make sure to not include base path and version",
+          "schema": {
+            "title": "apiPath",
+            "type": "string"
+          },
+          "required": true
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
+      },
+      "roles": [
+        "admin"
+      ],
+      "route": {
+        "verb": "POST",
+        "path": "/findPath"
+      },
+      "task": true
+    },
+    {
+      "name": "troubleshoot",
+      "summary": "Runs troubleshoot script for adapter",
+      "description": "Runs troubleshoot script for adapter",
+      "input": [
+        {
+          "name": "props",
+          "type": "object",
+          "info": "Object containing configuration, healthcheck and auth properties {'connProps':{'host': 'api.service.com', 'base_path': '/', 'protocol': 'http', 'port': 443, 'version': 'v1'},'healthCheckEndpoint': '/healthcheck', 'auth': {'auth_method': 'no authentication', 'username': 'username', 'password': 'password'}}",
+          "required": true,
+          "schema": {
+            "title": "props",
+            "type": "object"
+          }
+        },
+        {
+          "name": "persistFlag",
+          "type": "boolean",
+          "info": "Whether the input properties should be saved",
+          "required": true
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing the test results",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
+      },
+      "roles": [
+        "admin"
+      ],
+      "route": {
+        "verb": "POST",
+        "path": "/troubleshoot"
+      },
+      "task": true
+    },
+    {
+      "name": "runHealthcheck",
+      "summary": "Runs healthcheck script for adapter",
+      "description": "Runs healthcheck script for adapter",
+      "input": [],
+      "output": {
+        "name": "result",
+        "type": "boolean",
+        "description": "Whether healthcheck passed or failed"
+      },
+      "roles": [
+        "admin"
+      ],
+      "route": {
+        "verb": "POST",
+        "path": "/runHealthcheck"
+      },
+      "task": true
+    },
+    {
+      "name": "runConnectivity",
+      "summary": "Runs connectivity check script for adapter",
+      "description": "Runs connectivity check script for adapter",
+      "input": [],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing the test results",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
+      },
+      "roles": [
+        "admin"
+      ],
+      "route": {
+        "verb": "POST",
+        "path": "/runConnectivity"
+      },
+      "task": true
+    },
+    {
+      "name": "runBasicGet",
+      "summary": "Runs basicGet script for adapter",
+      "description": "Runs basicGet script for adapter",
+      "input": [],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing the test results",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
+      },
+      "roles": [
+        "admin"
+      ],
+      "route": {
+        "verb": "POST",
+        "path": "/runBasicGet"
+      },
+      "task": true
+    },
+    {
+      "name": "suspend",
+      "summary": "Suspends the adapter",
+      "description": "Suspends the adapter",
+      "input": [
+        {
+          "name": "mode",
+          "type": "enum",
+          "enumerals": [
+            "pause",
+            "error"
+          ],
+          "info": "How incoming requests are handled. Defaults to 'pause'",
+          "description": "How incoming requests are handled. Defaults to 'pause'",
+          "schema": {
+            "title": "mode",
+            "type": "string"
+          },
+          "required": false
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing the adapter suspended status",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
+      },
+      "roles": [
+        "admin"
+      ],
+      "route": {
+        "verb": "POST",
+        "path": "/suspend"
+      },
+      "task": true
+    },
+    {
+      "name": "unsuspend",
+      "summary": "Unsuspends the adapter",
+      "description": "Unsuspends the adapter",
+      "input": [],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing the adapter suspended status",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
+      },
+      "roles": [
+        "admin"
+      ],
+      "route": {
+        "verb": "POST",
+        "path": "/unsuspend"
+      },
+      "task": true
+    },
+    {
+      "name": "getQueue",
+      "summary": "Return the requests that are waiting in the queue if throttling is enabled",
+      "description": "Return the requests that are waiting in the queue if throttling is enabled",
+      "input": [],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing the adapter queue",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
+      },
+      "roles": [
+        "admin"
+      ],
+      "route": {
+        "verb": "POST",
+        "path": "/getQueue"
+      },
+      "task": true
+    },
+    {
+      "name": "genericAdapterRequest",
+      "summary": "Makes the requested generic call",
+      "description": "Makes the requested generic call",
+      "input": [
+        {
+          "name": "uriPath",
+          "type": "string",
+          "info": "the path of the api call - do not include the host, port, base path or version",
+          "description": "the path of the api call",
+          "schema": {
+            "title": "uriPath",
+            "type": "string"
+          },
+          "required": true
+        },
+        {
+          "name": "restMethod",
+          "type": "string",
+          "info": "the rest method (GET, POST, PUT, PATCH, DELETE)",
+          "description": "the rest method (GET, POST, PUT, PATCH, DELETE)",
+          "schema": {
+            "title": "restMethod",
+            "type": "string"
+          },
+          "required": true
+        },
+        {
+          "name": "queryData",
+          "type": "object",
+          "info": "the query parameters to be put on the url (optional)",
+          "description": "the query parameters to be put on the url (optional)",
+          "schema": {
+            "title": "queryData",
+            "type": "object"
+          },
+          "required": false
+        },
+        {
+          "name": "requestBody",
+          "type": "object",
+          "info": "the payload to be sent with the request (optional)",
+          "description": "the payload to be sent with the request (optional)",
+          "schema": {
+            "title": "requestBody",
+            "type": "object"
+          },
+          "required": false
+        },
+        {
+          "name": "addlHeaders",
+          "type": "object",
+          "info": "additional headers to be put on the call (optional)",
+          "description": "additional headers to be put on the call (optional)",
+          "schema": {
+            "title": "addlHeaders",
+            "type": "object"
+          },
+          "required": false
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
+      },
+      "roles": [
+        "admin"
+      ],
+      "route": {
+        "verb": "POST",
+        "path": "/genericAdapterRequest"
+      },
+      "task": true
+    },
+    {
       "name": "getLocalizations",
       "summary": "",
       "description": "Returns object of localized text",
