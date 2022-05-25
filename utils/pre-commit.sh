@@ -17,6 +17,9 @@ printf "%b" "Running pre-commit hooks...\\n"
 # verify testing script is stubbed and no credentials
 node utils/testRunner.js -r
 
+# update the adapter information file
+node utils/adapterInfo.js
+
 # security audit on the code
 npm audit --registry=https://registry.npmjs.org --audit-level=moderate
 

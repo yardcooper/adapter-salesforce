@@ -4,7 +4,7 @@
       "name": "getGenerics",
       "protocol": "REST",
       "method": "GET",
-      "entitypath": "{base_path}/{version}/{pathv1}/{pathv2}/{pathv3}/{pathv4}/{pathv5}/{pathv6}/{pathv7}/{pathv8}/{pathv9}/{pathv10}?{query}",
+      "entitypath": "{base_path}/{version}/{pathv1}/{pathv2}/{pathv3}/{pathv4}/{pathv5}/{pathv6}/{pathv7}/{pathv8}/{pathv9}/{pathv10}/{pathv11}/{pathv12}/{pathv13}/{pathv14}/{pathv15}/{pathv16}/{pathv17}/{pathv18}/{pathv19}/{pathv20}?{query}",
       "requestSchema": "schema.json",
       "responseSchema": "schema.json",
       "timeout": 0,
@@ -25,7 +25,7 @@
       "name": "createGeneric",
       "protocol": "REST",
       "method": "POST",
-      "entitypath": "{base_path}/{version}/{pathv1}/{pathv2}/{pathv3}/{pathv4}/{pathv5}/{pathv6}/{pathv7}/{pathv8}/{pathv9}/{pathv10}?{query}",
+      "entitypath": "{base_path}/{version}/{pathv1}/{pathv2}/{pathv3}/{pathv4}/{pathv5}/{pathv6}/{pathv7}/{pathv8}/{pathv9}/{pathv10}/{pathv11}/{pathv12}/{pathv13}/{pathv14}/{pathv15}/{pathv16}/{pathv17}/{pathv18}/{pathv19}/{pathv20}?{query}",
       "requestSchema": "schema.json",
       "responseSchema": "schema.json",
       "timeout": 0,
@@ -46,7 +46,7 @@
       "name": "updateGeneric",
       "protocol": "REST",
       "method": "PUT",
-      "entitypath": "{base_path}/{version}/{pathv1}/{pathv2}/{pathv3}/{pathv4}/{pathv5}/{pathv6}/{pathv7}/{pathv8}/{pathv9}/{pathv10}?{query}",
+      "entitypath": "{base_path}/{version}/{pathv1}/{pathv2}/{pathv3}/{pathv4}/{pathv5}/{pathv6}/{pathv7}/{pathv8}/{pathv9}/{pathv10}/{pathv11}/{pathv12}/{pathv13}/{pathv14}/{pathv15}/{pathv16}/{pathv17}/{pathv18}/{pathv19}/{pathv20}?{query}",
       "requestSchema": "schema.json",
       "responseSchema": "schema.json",
       "timeout": 0,
@@ -67,7 +67,7 @@
       "name": "patchGeneric",
       "protocol": "REST",
       "method": "PATCH",
-      "entitypath": "{base_path}/{version}/{pathv1}/{pathv2}/{pathv3}/{pathv4}/{pathv5}/{pathv6}/{pathv7}/{pathv8}/{pathv9}/{pathv10}?{query}",
+      "entitypath": "{base_path}/{version}/{pathv1}/{pathv2}/{pathv3}/{pathv4}/{pathv5}/{pathv6}/{pathv7}/{pathv8}/{pathv9}/{pathv10}/{pathv11}/{pathv12}/{pathv13}/{pathv14}/{pathv15}/{pathv16}/{pathv17}/{pathv18}/{pathv19}/{pathv20}?{query}",
       "requestSchema": "schema.json",
       "responseSchema": "schema.json",
       "timeout": 0,
@@ -88,7 +88,112 @@
       "name": "deleteGeneric",
       "protocol": "REST",
       "method": "DELETE",
-      "entitypath": "{base_path}/{version}/{pathv1}/{pathv2}/{pathv3}/{pathv4}/{pathv5}/{pathv6}/{pathv7}/{pathv8}/{pathv9}/{pathv10}?{query}",
+      "entitypath": "{base_path}/{version}/{pathv1}/{pathv2}/{pathv3}/{pathv4}/{pathv5}/{pathv6}/{pathv7}/{pathv8}/{pathv9}/{pathv10}/{pathv11}/{pathv12}/{pathv13}/{pathv14}/{pathv15}/{pathv16}/{pathv17}/{pathv18}/{pathv19}/{pathv20}?{query}",
+      "requestSchema": "schema.json",
+      "responseSchema": "schema.json",
+      "timeout": 0,
+      "sendEmpty": false,
+      "sendGetBody": false,
+      "requestDatatype": "JSON",
+      "responseDatatype": "JSON",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": ""
+        }
+      ]
+    },
+    {
+      "name": "getGenericsNoBase",
+      "protocol": "REST",
+      "method": "GET",
+      "entitypath": "/{pathv1}/{pathv2}/{pathv3}/{pathv4}/{pathv5}/{pathv6}/{pathv7}/{pathv8}/{pathv9}/{pathv10}/{pathv11}/{pathv12}/{pathv13}/{pathv14}/{pathv15}/{pathv16}/{pathv17}/{pathv18}/{pathv19}/{pathv20}?{query}",
+      "requestSchema": "schema.json",
+      "responseSchema": "schema.json",
+      "timeout": 0,
+      "sendEmpty": false,
+      "sendGetBody": false,
+      "requestDatatype": "JSON",
+      "responseDatatype": "JSON",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": ""
+        }
+      ]
+    },
+    {
+      "name": "createGenericNoBase",
+      "protocol": "REST",
+      "method": "POST",
+      "entitypath": "/{pathv1}/{pathv2}/{pathv3}/{pathv4}/{pathv5}/{pathv6}/{pathv7}/{pathv8}/{pathv9}/{pathv10}/{pathv11}/{pathv12}/{pathv13}/{pathv14}/{pathv15}/{pathv16}/{pathv17}/{pathv18}/{pathv19}/{pathv20}?{query}",
+      "requestSchema": "schema.json",
+      "responseSchema": "schema.json",
+      "timeout": 0,
+      "sendEmpty": false,
+      "sendGetBody": false,
+      "requestDatatype": "JSON",
+      "responseDatatype": "JSON",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": ""
+        }
+      ]
+    },
+    {
+      "name": "updateGenericNoBase",
+      "protocol": "REST",
+      "method": "PUT",
+      "entitypath": "/{pathv1}/{pathv2}/{pathv3}/{pathv4}/{pathv5}/{pathv6}/{pathv7}/{pathv8}/{pathv9}/{pathv10}/{pathv11}/{pathv12}/{pathv13}/{pathv14}/{pathv15}/{pathv16}/{pathv17}/{pathv18}/{pathv19}/{pathv20}?{query}",
+      "requestSchema": "schema.json",
+      "responseSchema": "schema.json",
+      "timeout": 0,
+      "sendEmpty": false,
+      "sendGetBody": false,
+      "requestDatatype": "JSON",
+      "responseDatatype": "JSON",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": ""
+        }
+      ]
+    },
+    {
+      "name": "patchGenericNoBase",
+      "protocol": "REST",
+      "method": "PATCH",
+      "entitypath": "/{pathv1}/{pathv2}/{pathv3}/{pathv4}/{pathv5}/{pathv6}/{pathv7}/{pathv8}/{pathv9}/{pathv10}/{pathv11}/{pathv12}/{pathv13}/{pathv14}/{pathv15}/{pathv16}/{pathv17}/{pathv18}/{pathv19}/{pathv20}?{query}",
+      "requestSchema": "schema.json",
+      "responseSchema": "schema.json",
+      "timeout": 0,
+      "sendEmpty": false,
+      "sendGetBody": false,
+      "requestDatatype": "JSON",
+      "responseDatatype": "JSON",
+      "headers": {},
+      "responseObjects": [
+        {
+          "type": "default",
+          "key": "",
+          "mockFile": ""
+        }
+      ]
+    },
+    {
+      "name": "deleteGenericNoBase",
+      "protocol": "REST",
+      "method": "DELETE",
+      "entitypath": "/{pathv1}/{pathv2}/{pathv3}/{pathv4}/{pathv5}/{pathv6}/{pathv7}/{pathv8}/{pathv9}/{pathv10}/{pathv11}/{pathv12}/{pathv13}/{pathv14}/{pathv15}/{pathv16}/{pathv17}/{pathv18}/{pathv19}/{pathv20}?{query}",
       "requestSchema": "schema.json",
       "responseSchema": "schema.json",
       "timeout": 0,

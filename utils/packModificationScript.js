@@ -4,7 +4,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const { spawnSync } = require('child_process');
-const { createBundle } = require('./artifactize.js');
+const { createBundle } = require('./artifactize');
 
 const nodeEntryPath = path.resolve('.');
 createBundle(nodeEntryPath).then((pathObj) => {

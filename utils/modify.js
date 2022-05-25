@@ -3,7 +3,7 @@ const Ajv = require('ajv');
 const rls = require('readline-sync');
 const { execSync } = require('child_process');
 const { existsSync } = require('fs-extra');
-const { getAdapterConfig } = require('./troubleshootingAdapter');
+const { getAdapterConfig } = require('./tbUtils');
 const { name } = require('../package.json');
 const propertiesSchema = require('../propertiesSchema.json');
 

@@ -14,7 +14,7 @@ const itParam = require('mocha-param');
 
 const utils = require('../../utils/tbUtils');
 const basicGet = require('../../utils/basicGet');
-const { name } = require('../../package');
+const { name } = require('../../package.json');
 const { methods } = require('../../pronghorn.json');
 
 const getPronghornProps = (iapDir) => {
@@ -34,7 +34,7 @@ describe('[integration] Adapter BasicGET Test', () => {
   context('Testing GET calls without query parameters', () => {
     before(async () => {
       const iapDir = path.join(__dirname, '../../../../../');
-      if (!utils.withinIAP(iapDir)) {
+      if (!utils.areWeUnderIAPinstallationDirectory()) {
         const sampleProperties = require('../../sampleProperties.json');
         const adapter = { properties: sampleProperties };
         a = basicGet.getAdapterInstance(adapter);

@@ -47,11 +47,11 @@ function replaceTestVars(test) {
   let intTest = fs.readFileSync(test, 'utf8');
 
   // replace stub variable but check if it exists first
-  let sindex = intTest.indexOf('const stub');
+  let sindex = intTest.indexOf('samProps.stub');
   let eindex = intTest.indexOf(';', sindex);
   let replStr = intTest.substring(sindex, eindex + 1);
   if (sindex > -1) {
-    intTest = intTest.replace(replStr, `const stub = ${stub};`);
+    intTest = intTest.replace(replStr, `samProps.stub = ${stub};`);
   }
 
   // replace isRapidFail variable but check if it exists first
@@ -71,46 +71,46 @@ function replaceTestVars(test) {
   }
 
   // replace host variable
-  sindex = intTest.indexOf('const host');
+  sindex = intTest.indexOf('samProps.host');
   eindex = intTest.indexOf(';', sindex);
   replStr = intTest.substring(sindex, eindex + 1);
-  intTest = intTest.replace(replStr, `const host = '${host}';`);
+  intTest = intTest.replace(replStr, `samProps.host = '${host}';`);
 
   // replace username variable
-  sindex = intTest.indexOf('const username');
+  sindex = intTest.indexOf('samProps.authentication.username');
   eindex = intTest.indexOf(';', sindex);
   replStr = intTest.substring(sindex, eindex + 1);
-  intTest = intTest.replace(replStr, `const username = '${username}';`);
+  intTest = intTest.replace(replStr, `samProps.authentication.username = '${username}';`);
 
   // replace password variable
-  sindex = intTest.indexOf('const password');
+  sindex = intTest.indexOf('samProps.authentication.password');
   eindex = intTest.indexOf(';', sindex);
   replStr = intTest.substring(sindex, eindex + 1);
-  intTest = intTest.replace(replStr, `const password = '${password}';`);
+  intTest = intTest.replace(replStr, `samProps.authentication.password = '${password}';`);
 
   // replace protocol variable
-  sindex = intTest.indexOf('const protocol');
+  sindex = intTest.indexOf('samProps.protocol');
   eindex = intTest.indexOf(';', sindex);
   replStr = intTest.substring(sindex, eindex + 1);
-  intTest = intTest.replace(replStr, `const protocol = '${protocol}';`);
+  intTest = intTest.replace(replStr, `samProps.protocol = '${protocol}';`);
 
   // replace port variable
-  sindex = intTest.indexOf('const port');
+  sindex = intTest.indexOf('samProps.port');
   eindex = intTest.indexOf(';', sindex);
   replStr = intTest.substring(sindex, eindex + 1);
-  intTest = intTest.replace(replStr, `const port = ${port};`);
+  intTest = intTest.replace(replStr, `samProps.port = ${port};`);
 
   // replace sslenable variable
-  sindex = intTest.indexOf('const sslenable');
+  sindex = intTest.indexOf('samProps.ssl.enabled');
   eindex = intTest.indexOf(';', sindex);
   replStr = intTest.substring(sindex, eindex + 1);
-  intTest = intTest.replace(replStr, `const sslenable = ${sslenable};`);
+  intTest = intTest.replace(replStr, `samProps.ssl.enabled = ${sslenable};`);
 
   // replace sslinvalid variable
-  sindex = intTest.indexOf('const sslinvalid');
+  sindex = intTest.indexOf('samProps.ssl.accept_invalid_cert');
   eindex = intTest.indexOf(';', sindex);
   replStr = intTest.substring(sindex, eindex + 1);
-  intTest = intTest.replace(replStr, `const sslinvalid = ${sslinvalid};`);
+  intTest = intTest.replace(replStr, `samProps.ssl.accept_invalid_cert = ${sslinvalid};`);
 
   console.log(`Updates to ${test} complete`);
   fs.writeFileSync(test, intTest);

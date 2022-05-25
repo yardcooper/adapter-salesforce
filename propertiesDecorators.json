@@ -1,0 +1,14 @@
+[
+  {
+    "type": "encryption",
+    "pointer": "/authentication/password"
+  },
+  {
+    "type": "encryption",
+    "pointer": "/authentication/token"
+  },
+  {
+    "type": "encryption",
+    "pointer": "/mongo/password"
+  }
+]
