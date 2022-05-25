@@ -8,7 +8,8 @@
     "version": "",
     "cache_location": "none",
     "encode_pathvars": true,
-    "save_metric": true,
+    "encode_queryvars": true,
+    "save_metric": false,
     "stub": true,
     "protocol": "https",
     "authentication": {
@@ -21,7 +22,10 @@
       "invalid_token_error": 401,
       "auth_field": "header.headers.X-AUTH-TOKEN",
       "auth_field_format": "{token}",
-      "auth_logging": false
+      "auth_logging": false,
+      "client_id": "",
+      "client_secret": "",
+      "grant_type": ""
     },
     "healthcheck": {
       "type": "startup",
@@ -92,6 +96,94 @@
         "key_file": "",
         "cert_file": ""
       }
+    },
+    "devicebroker": {
+      "getDevice": [
+        {
+          "path": "/get/devices/{id}",
+          "method": "GET",
+          "query": {},
+          "body": {},
+          "headers": {},
+          "handleFailure": "ignore",
+          "requestFields": {
+            "id": "name"
+          },
+          "responseDatakey": "",
+          "responseFields": {
+            "name": "host",
+            "ostype": "os",
+            "ostypePrefix": "system-",
+            "ipaddress": "attributes.ipaddr",
+            "port": "443"
+          }
+        }
+      ],
+      "getDevicesFiltered": [
+        {
+          "path": "/get/devices",
+          "method": "GET",
+          "query": {},
+          "body": {},
+          "headers": {},
+          "handleFailure": "ignore",
+          "requestFields": {},
+          "responseDatakey": "",
+          "responseFields": {
+            "name": "host",
+            "ostype": "os",
+            "ostypePrefix": "system-",
+            "ipaddress": "attributes.ipaddr",
+            "port": "443"
+          }
+        }
+      ],
+      "isAlive": [
+        {
+          "path": "/get/devices/{id}/status",
+          "method": "GET",
+          "query": {},
+          "body": {},
+          "headers": {},
+          "handleFailure": "ignore",
+          "requestFields": {
+            "id": "name"
+          },
+          "responseDatakey": "",
+          "responseFields": {
+            "status": "status",
+            "statusValue": "online"
+          }
+        }
+      ],
+      "getConfig": [
+        {
+          "path": "/get/devices/{id}/configPart1",
+          "method": "GET",
+          "query": {},
+          "body": {},
+          "headers": {},
+          "handleFailure": "ignore",
+          "requestFields": {
+            "id": "name"
+          },
+          "responseDatakey": "",
+          "responseFields": {}
+        }
+      ],
+      "getCount": [
+        {
+          "path": "/get/devices",
+          "method": "GET",
+          "query": {},
+          "body": {},
+          "headers": {},
+          "handleFailure": "ignore",
+          "requestFields": {},
+          "responseDatakey": "",
+          "responseFields": {}
+        }
+      ]
     }
   },
   "groups": [],

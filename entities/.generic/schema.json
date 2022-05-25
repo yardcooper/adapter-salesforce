@@ -14,7 +14,12 @@
         "createGeneric",
         "updateGeneric",
         "patchGeneric",
-        "deleteGeneric"
+        "deleteGeneric",
+        "getGenericsNoBase",
+        "createGenericNoBase",
+        "updateGenericNoBase",
+        "patchGenericNoBase",
+        "deleteGenericNoBase"
       ],
       "external_name": "ph_request_type"
     }

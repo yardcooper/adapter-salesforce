@@ -9,7 +9,7 @@
   ],
   "methods": [
     {
-      "name": "updateAdapterConfiguration",
+      "name": "iapUpdateAdapterConfiguration",
       "summary": "Updates the adapter configuration",
       "description": "Updates the adapter configuration file with the provided changes",
       "input": [
@@ -78,12 +78,12 @@
       ],
       "route": {
         "verb": "POST",
-        "path": "/updateAdapterConfiguration"
+        "path": "/iapUpdateAdapterConfiguration"
       },
       "task": true
     },
     {
-      "name": "findPath",
+      "name": "iapFindAdapterPath",
       "summary": "Provides the ability to see if a particular API path is supported by the adapter",
       "description": "Provides the ability to see if a particular API path is supported by the adapter",
       "input": [
@@ -113,12 +113,97 @@
       ],
       "route": {
         "verb": "POST",
-        "path": "/findPath"
+        "path": "/iapFindAdapterPath"
       },
       "task": true
     },
     {
-      "name": "troubleshoot",
+      "name": "iapSuspendAdapter",
+      "summary": "Suspends the adapter",
+      "description": "Suspends the adapter",
+      "input": [
+        {
+          "name": "mode",
+          "type": "enum",
+          "enumerals": [
+            "pause",
+            "error"
+          ],
+          "info": "How incoming requests are handled. Defaults to 'pause'",
+          "description": "How incoming requests are handled. Defaults to 'pause'",
+          "schema": {
+            "title": "mode",
+            "type": "string"
+          },
+          "required": false
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing the adapter suspended status",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
+      },
+      "roles": [
+        "admin"
+      ],
+      "route": {
+        "verb": "POST",
+        "path": "/iapSuspendAdapter"
+      },
+      "task": true
+    },
+    {
+      "name": "iapUnsuspendAdapter",
+      "summary": "Unsuspends the adapter",
+      "description": "Unsuspends the adapter",
+      "input": [],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing the adapter suspended status",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
+      },
+      "roles": [
+        "admin"
+      ],
+      "route": {
+        "verb": "POST",
+        "path": "/iapUnsuspendAdapter"
+      },
+      "task": true
+    },
+    {
+      "name": "iapGetAdapterQueue",
+      "summary": "Return the requests that are waiting in the queue if throttling is enabled",
+      "description": "Return the requests that are waiting in the queue if throttling is enabled",
+      "input": [],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing the adapter queue",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
+      },
+      "roles": [
+        "admin"
+      ],
+      "route": {
+        "verb": "POST",
+        "path": "/iapGetAdapterQueue"
+      },
+      "task": true
+    },
+    {
+      "name": "iapTroubleshootAdapter",
       "summary": "Runs troubleshoot script for adapter",
       "description": "Runs troubleshoot script for adapter",
       "input": [
@@ -153,12 +238,12 @@
       ],
       "route": {
         "verb": "POST",
-        "path": "/troubleshoot"
+        "path": "/iapTroubleshootAdapter"
       },
       "task": true
     },
     {
-      "name": "runHealthcheck",
+      "name": "iapRunAdapterHealthcheck",
       "summary": "Runs healthcheck script for adapter",
       "description": "Runs healthcheck script for adapter",
       "input": [],
@@ -172,12 +257,12 @@
       ],
       "route": {
         "verb": "POST",
-        "path": "/runHealthcheck"
+        "path": "/iapRunAdapterHealthcheck"
       },
       "task": true
     },
     {
-      "name": "runConnectivity",
+      "name": "iapRunAdapterConnectivity",
       "summary": "Runs connectivity check script for adapter",
       "description": "Runs connectivity check script for adapter",
       "input": [],
@@ -195,12 +280,12 @@
       ],
       "route": {
         "verb": "POST",
-        "path": "/runConnectivity"
+        "path": "/iapRunAdapterConnectivity"
       },
       "task": true
     },
     {
-      "name": "runBasicGet",
+      "name": "iapRunAdapterBasicGet",
       "summary": "Runs basicGet script for adapter",
       "description": "Runs basicGet script for adapter",
       "input": [],
@@ -218,60 +303,21 @@
       ],
       "route": {
         "verb": "POST",
-        "path": "/runBasicGet"
+        "path": "/iapRunAdapterBasicGet"
       },
       "task": true
     },
     {
-      "name": "suspend",
-      "summary": "Suspends the adapter",
-      "description": "Suspends the adapter",
-      "input": [
-        {
-          "name": "mode",
-          "type": "enum",
-          "enumerals": [
-            "pause",
-            "error"
-          ],
-          "info": "How incoming requests are handled. Defaults to 'pause'",
-          "description": "How incoming requests are handled. Defaults to 'pause'",
-          "schema": {
-            "title": "mode",
-            "type": "string"
-          },
-          "required": false
-        }
-      ],
-      "output": {
-        "name": "result",
-        "type": "object",
-        "description": "A JSON Object containing the adapter suspended status",
-        "schema": {
-          "title": "result",
-          "type": "object"
-        }
-      },
-      "roles": [
-        "admin"
-      ],
-      "route": {
-        "verb": "POST",
-        "path": "/suspend"
-      },
-      "task": true
-    },
-    {
-      "name": "unsuspend",
-      "summary": "Unsuspends the adapter",
-      "description": "Unsuspends the adapter",
+      "name": "iapMoveAdapterEntitiesToDB",
+      "summary": "Moves entities from an adapter into the IAP database",
+      "description": "Moves entities from an adapter into the IAP database",
       "input": [],
       "output": {
-        "name": "result",
+        "name": "res",
         "type": "object",
-        "description": "A JSON Object containing the adapter suspended status",
+        "description": "A JSON Object containing status, code and the response from the mongo transaction",
         "schema": {
-          "title": "result",
+          "title": "res",
           "type": "object"
         }
       },
@@ -280,30 +326,7 @@
       ],
       "route": {
         "verb": "POST",
-        "path": "/unsuspend"
-      },
-      "task": true
-    },
-    {
-      "name": "getQueue",
-      "summary": "Return the requests that are waiting in the queue if throttling is enabled",
-      "description": "Return the requests that are waiting in the queue if throttling is enabled",
-      "input": [],
-      "output": {
-        "name": "result",
-        "type": "object",
-        "description": "A JSON Object containing the adapter queue",
-        "schema": {
-          "title": "result",
-          "type": "object"
-        }
-      },
-      "roles": [
-        "admin"
-      ],
-      "route": {
-        "verb": "POST",
-        "path": "/getQueue"
+        "path": "/iapMoveAdapterEntitiesToDB"
       },
       "task": true
     },
@@ -385,6 +408,254 @@
         "path": "/genericAdapterRequest"
       },
       "task": true
+    },
+    {
+      "name": "genericAdapterRequestNoBasePath",
+      "summary": "Makes the requested generic call with no base path or version",
+      "description": "Makes the requested generic call with no base path or version",
+      "input": [
+        {
+          "name": "uriPath",
+          "type": "string",
+          "info": "the path of the api call - do not include the host, port, base path or version",
+          "description": "the path of the api call",
+          "schema": {
+            "title": "uriPath",
+            "type": "string"
+          },
+          "required": true
+        },
+        {
+          "name": "restMethod",
+          "type": "string",
+          "info": "the rest method (GET, POST, PUT, PATCH, DELETE)",
+          "description": "the rest method (GET, POST, PUT, PATCH, DELETE)",
+          "schema": {
+            "title": "restMethod",
+            "type": "string"
+          },
+          "required": true
+        },
+        {
+          "name": "queryData",
+          "type": "object",
+          "info": "the query parameters to be put on the url (optional)",
+          "description": "the query parameters to be put on the url (optional)",
+          "schema": {
+            "title": "queryData",
+            "type": "object"
+          },
+          "required": false
+        },
+        {
+          "name": "requestBody",
+          "type": "object",
+          "info": "the payload to be sent with the request (optional)",
+          "description": "the payload to be sent with the request (optional)",
+          "schema": {
+            "title": "requestBody",
+            "type": "object"
+          },
+          "required": false
+        },
+        {
+          "name": "addlHeaders",
+          "type": "object",
+          "info": "additional headers to be put on the call (optional)",
+          "description": "additional headers to be put on the call (optional)",
+          "schema": {
+            "title": "addlHeaders",
+            "type": "object"
+          },
+          "required": false
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
+      },
+      "roles": [
+        "admin"
+      ],
+      "route": {
+        "verb": "POST",
+        "path": "/genericAdapterRequestNoBasePath"
+      },
+      "task": true
+    },
+    {
+      "name": "getDevice",
+      "summary": "Get the Appliance",
+      "description": "Get the Appliance",
+      "input": [
+        {
+          "name": "deviceName",
+          "type": "string",
+          "info": "An Appliance Device Name",
+          "required": true,
+          "schema": {
+            "title": "deviceName",
+            "type": "string"
+          }
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
+      },
+      "roles": [
+        "admin"
+      ],
+      "route": {
+        "verb": "POST",
+        "path": "/getDevice"
+      },
+      "task": false
+    },
+    {
+      "name": "getDevicesFiltered",
+      "summary": "Get Appliances that match the filter",
+      "description": "Get Appliances that match the filter",
+      "input": [
+        {
+          "name": "options",
+          "type": "object",
+          "info": "options - e.g. { 'start': 1, 'limit': 20, 'filter': { 'name': 'abc123' } }",
+          "required": true,
+          "schema": {
+            "title": "options",
+            "type": "object"
+          }
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "array",
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "array"
+        }
+      },
+      "roles": [
+        "admin"
+      ],
+      "route": {
+        "verb": "POST",
+        "path": "/getDevicesFiltered"
+      },
+      "task": false
+    },
+    {
+      "name": "isAlive",
+      "summary": "Checks the status for the provided Appliance",
+      "description": "Checks the status for the provided Appliance",
+      "input": [
+        {
+          "name": "deviceName",
+          "type": "string",
+          "info": "An Appliance Device Name",
+          "required": true,
+          "schema": {
+            "title": "deviceName",
+            "type": "string"
+          }
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "boolean",
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "boolean"
+        }
+      },
+      "roles": [
+        "admin"
+      ],
+      "route": {
+        "verb": "POST",
+        "path": "/isAlive"
+      },
+      "task": false
+    },
+    {
+      "name": "getConfig",
+      "summary": "Gets a config for the provided Appliance",
+      "description": "Gets a config for the provided Appliance",
+      "input": [
+        {
+          "name": "deviceName",
+          "type": "string",
+          "info": "An Appliance Device Name",
+          "required": true,
+          "schema": {
+            "title": "deviceName",
+            "type": "string"
+          }
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "info": "The format to be returned - this is ignored as we always return json",
+          "required": false,
+          "schema": {
+            "title": "format",
+            "type": "string"
+          }
+        }
+      ],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
+      },
+      "roles": [
+        "admin"
+      ],
+      "route": {
+        "verb": "POST",
+        "path": "/getConfig"
+      },
+      "task": false
+    },
+    {
+      "name": "iapGetDeviceCount",
+      "summary": "Gets a device count from the system",
+      "description": "Gets a device count from the system",
+      "input": [],
+      "output": {
+        "name": "result",
+        "type": "object",
+        "description": "A JSON Object containing status, code and the result",
+        "schema": {
+          "title": "result",
+          "type": "object"
+        }
+      },
+      "roles": [
+        "admin"
+      ],
+      "route": {
+        "verb": "POST",
+        "path": "/iapGetDeviceCount"
+      },
+      "task": false
     },
     {
       "name": "getLocalizations",

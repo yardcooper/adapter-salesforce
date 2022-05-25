@@ -51,6 +51,11 @@
       "description": "When true the path variables are encoded in the url",
       "default": true
     },
+    "encode_queryvars": {
+      "type": "boolean",
+      "description": "When true the query parameters are encoded in the url",
+      "default": true
+    },
     "save_metric": {
       "type": [
         "boolean",
@@ -93,6 +98,9 @@
     },
     "mongo": {
       "$ref": "#/definitions/mongo"
+    },
+    "devicebroker": {
+      "$ref": "#/definitions/devicebroker"
     }
   },
   "required": [
@@ -232,6 +240,21 @@
           "type": "boolean",
           "description": "This property turns on logging of Authentication Information and should only be true when debugging authentication and connectivity",
           "default": false
+        },
+        "client_id": {
+          "type": "string",
+          "description": "The client id for OAuth requests - can also use username depending on schema",
+          "default": ""
+        },
+        "client_secret": {
+          "type": "string",
+          "description": "The client secret for OAuth requests - can also use password depending on schema",
+          "default": ""
+        },
+        "grant_type": {
+          "type": "string",
+          "description": "The grant type for OAuth requests - can also provide in schema",
+          "default": ""
         }
       },
       "required": [
@@ -816,6 +839,419 @@
               "examples": [
                 "security/cert.pem"
               ]
+            }
+          }
+        }
+      }
+    },
+    "devicebroker": {
+      "type": "object",
+      "properties": {
+        "getDevice": {
+          "type": "array",
+          "description": "Broker call(s) to getDevice",
+          "items": {
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "The fully qualified path of the call to getDevice (e.g. /rest/api/device/{deviceid})",
+                "default": ""
+              },
+              "method": {
+                "type": "string",
+                "description": "The method of the call to getDevice",
+                "default": "GET"
+              },
+              "query": {
+                "type": "object",
+                "description": "The json object with query parameters of the call to getDevice",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "body": {
+                "type": "object",
+                "description": "The json object with body of the call to getDevice",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "headers": {
+                "type": "object",
+                "description": "The json object with headers of the call to getDevice",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "handleFailure": {
+                "type": "string",
+                "enum": [
+                  "ignore",
+                  "fail"
+                ],
+                "description": "return failure or ignore failure",
+                "default": "ignore"
+              },
+              "requestFields": {
+                "type": "object",
+                "description": "The json object with response fields of the call to getDevice",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "properties": {}
+              },
+              "responseDatakey": {
+                "type": "string",
+                "description": "place in the response where the data is - supports jsonquery",
+                "default": ""
+              },
+              "responseFields": {
+                "type": "object",
+                "description": "The json object with response fields of the call to getDevice",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "The field in response to getDevice that contains the name of the device",
+                    "default": "name"
+                  },
+                  "ostype": {
+                    "type": "string",
+                    "description": "The field in response to getDevice that contains the ostype of the device",
+                    "default": "ostype"
+                  },
+                  "ostypePrefix": {
+                    "type": "string",
+                    "description": "Any prefix that should be added to the ostype of the device (e.g. aws-)",
+                    "default": ""
+                  },
+                  "port": {
+                    "type": "string",
+                    "description": "The field in response to getDevice that contains the port of the device",
+                    "default": ""
+                  },
+                  "ipaddress": {
+                    "type": "string",
+                    "description": "The field in response to getDevice that contains the ip address of the device",
+                    "default": ""
+                  }
+                }
+              }
+            }
+          }
+        },
+        "getDevicesFiltered": {
+          "type": "array",
+          "description": "Broker call(s) to getDevicesFiltered",
+          "items": {
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "The fully qualified path of the call to getDevicesFiltered (e.g. /rest/api/device/{deviceid})",
+                "default": ""
+              },
+              "method": {
+                "type": "string",
+                "description": "The method of the call to getDevicesFiltered",
+                "default": "GET"
+              },
+              "query": {
+                "type": "object",
+                "description": "The json object with query parameters of the call to getDevicesFiltered",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "body": {
+                "type": "object",
+                "description": "The json object with body of the call to getDevicesFiltered",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "headers": {
+                "type": "object",
+                "description": "The json object with headers of the call to getDevicesFiltered",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "handleFailure": {
+                "type": "string",
+                "enum": [
+                  "ignore",
+                  "fail"
+                ],
+                "description": "return failure or ignore failure",
+                "default": "ignore"
+              },
+              "requestFields": {
+                "type": "object",
+                "description": "The json object with response fields of the call to getDevice",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "properties": {}
+              },
+              "responseDatakey": {
+                "type": "string",
+                "description": "place in the response where the data is - supports jsonquery",
+                "default": ""
+              },
+              "responseFields": {
+                "type": "object",
+                "description": "The json object with response fields of the call to getDevicesFiltered",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "The field in response to getDevicesFiltered that contains the name of the device",
+                    "default": "name"
+                  },
+                  "ostype": {
+                    "type": "string",
+                    "description": "The field in response to getDevicesFiltered that contains the ostype of the device",
+                    "default": "ostype"
+                  },
+                  "ostypePrefix": {
+                    "type": "string",
+                    "description": "Any prefix that should be added to the ostype of the device (e.g. aws-)",
+                    "default": ""
+                  },
+                  "port": {
+                    "type": "string",
+                    "description": "The field in response to getDevicesFiltered that contains the port of the device",
+                    "default": ""
+                  },
+                  "ipaddress": {
+                    "type": "string",
+                    "description": "The field in response to getDevicesFiltered that contains the ip address of the device",
+                    "default": ""
+                  }
+                }
+              }
+            }
+          }
+        },
+        "isAlive": {
+          "type": "array",
+          "description": "Broker call(s) to determine if the device isAlive",
+          "items": {
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "The fully qualified path of the call to isAlive (e.g. /rest/api/device/{deviceid})",
+                "default": ""
+              },
+              "method": {
+                "type": "string",
+                "description": "The method of the call to isAlive",
+                "default": "GET"
+              },
+              "query": {
+                "type": "object",
+                "description": "The json object with query parameters of the call to isAlive",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "body": {
+                "type": "object",
+                "description": "The json object with body of the call to isAlive",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "headers": {
+                "type": "object",
+                "description": "The json object with headers of the call to isAlive",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "handleFailure": {
+                "type": "string",
+                "enum": [
+                  "ignore",
+                  "fail"
+                ],
+                "description": "return failure or ignore isAlive",
+                "default": "ignore"
+              },
+              "requestFields": {
+                "type": "object",
+                "description": "The json object with response fields of the call to getDevice",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "properties": {}
+              },
+              "responseDatakey": {
+                "type": "string",
+                "description": "place in the response where the data is - supports jsonquery",
+                "default": ""
+              },
+              "responseFields": {
+                "type": "object",
+                "description": "The json object with response fields of the call to isAlive",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "description": "The field in response to isAlive that contains the status of the device",
+                    "default": "name"
+                  },
+                  "statusValue": {
+                    "type": "string",
+                    "description": "The expected value in the status field",
+                    "default": "true"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "getConfig": {
+          "type": "array",
+          "description": "Broker call(s) to getConfig",
+          "items": {
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "The fully qualified path of the call to getConfig (e.g. /rest/api/device/{deviceid})",
+                "default": ""
+              },
+              "method": {
+                "type": "string",
+                "description": "The method of the call to getConfig",
+                "default": "GET"
+              },
+              "query": {
+                "type": "object",
+                "description": "The json object with query parameters of the call to getConfig",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "body": {
+                "type": "object",
+                "description": "The json object with body of the call to getConfig",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "headers": {
+                "type": "object",
+                "description": "The json object with headers of the call to getConfig",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "handleFailure": {
+                "type": "string",
+                "enum": [
+                  "ignore",
+                  "fail"
+                ],
+                "description": "return failure or ignore getConfig",
+                "default": "ignore"
+              },
+              "requestFields": {
+                "type": "object",
+                "description": "The json object with response fields of the call to getDevice",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "properties": {}
+              },
+              "responseDatakey": {
+                "type": "string",
+                "description": "place in the response where the data is - supports jsonquery",
+                "default": ""
+              },
+              "responseFields": {
+                "type": "object",
+                "description": "The json object with response fields of the call to getConfig",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "properties": {}
+              }
+            }
+          }
+        },
+        "getCount": {
+          "type": "array",
+          "description": "Broker call(s) to getCount",
+          "items": {
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "The fully qualified path of the call to getCount (e.g. /rest/api/device/{deviceid})",
+                "default": ""
+              },
+              "method": {
+                "type": "string",
+                "description": "The method of the call to getCount",
+                "default": "GET"
+              },
+              "query": {
+                "type": "object",
+                "description": "The json object with query parameters of the call to getCount",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "body": {
+                "type": "object",
+                "description": "The json object with body of the call to getCount",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "headers": {
+                "type": "object",
+                "description": "The json object with headers of the call to getCount",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "handleFailure": {
+                "type": "string",
+                "enum": [
+                  "ignore",
+                  "fail"
+                ],
+                "description": "return failure or ignore getCount",
+                "default": "ignore"
+              },
+              "requestFields": {
+                "type": "object",
+                "description": "The json object with response fields of the call to getDevice",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "properties": {}
+              },
+              "responseDatakey": {
+                "type": "string",
+                "description": "place in the response where the data is - supports jsonquery",
+                "default": ""
+              },
+              "responseFields": {
+                "type": "object",
+                "description": "The json object with response fields of the call to getConfig",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "properties": {}
+              }
             }
           }
         }

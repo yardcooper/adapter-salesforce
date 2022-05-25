@@ -97,6 +97,12 @@
       "recommendation": "Verify the properties for the adapter"
     },
     {
+      "key": "Missing Properties",
+      "icode": "AD.306",
+      "displayString": "Property $VARIABLE$ is required",
+      "recommendation": "Please provide the required property"
+    },
+    {
       "key": "Query Not Translated",
       "icode": "AD.310",
       "displayString": "Query Not Translated",
@@ -167,6 +173,12 @@
       "icode": "AD.503",
       "displayString": "Failure response received for $VARIABLE$",
       "recommendation": "Check the reason for failure in the stack trace"
+    },
+    {
+      "key": "Suspended Adapter",
+      "icode": "AD.600",
+      "displayString": "Adapter is suspended",
+      "recommendation": "Check if external system is functional and unsuspend if appropriate"
     },
     {
       "key": "Caught Exception",

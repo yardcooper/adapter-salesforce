@@ -117,30 +117,6 @@ const VerifyHealthCheckEndpoint = (serviceItem, props, scriptFlag) => {
   return { result, updatedAdapter };
 };
 
-const getPronghornProps = (iapDir) => {
-  console.log('Retrieving properties.json file...');
-  const rawProps = require(path.join(iapDir, 'properties.json'));
-  console.log('Decrypting properties...');
-  const { Discovery } = require('@itential/itential-utils');
-  const discovery = new Discovery();
-  const pronghornProps = utils.decryptProperties(rawProps, __dirname, discovery);
-  console.log('Found properties.\n');
-  return pronghornProps;
-};
-
-// get database connection and existing adapter config
-const getAdapterConfig = async () => {
-  const iapDir = path.join(__dirname, '../../../../');
-  const pronghornProps = getPronghornProps(iapDir);
-  console.log('Connecting to Database...');
-  const database = await basicGet.connect(pronghornProps);
-  console.log('Connection established.');
-  const serviceItem = await database.collection(utils.SERVICE_CONFIGS_COLLECTION).findOne(
-    { model: name }
-  );
-  return { database, serviceItem, pronghornProps };
-};
-
 const offline = async () => {
   console.log('Start offline troubleshooting');
   const { updatedAdapter } = VerifyHealthCheckEndpoint({ properties: sampleProperties }, {}, true);
@@ -159,7 +135,7 @@ const offline = async () => {
 
 const troubleshoot = async (props, scriptFlag, persistFlag, adapter) => {
   // get database connection and existing adapter config
-  const { database, serviceItem } = await getAdapterConfig();
+  const { database, serviceItem } = await utils.getAdapterConfig();
   // where troubleshoot should start
   if (serviceItem) {
     if (!scriptFlag || rls.keyInYN(`Start verifying the connection and authentication properties for ${name}?`)) {
@@ -211,4 +187,4 @@ const troubleshoot = async (props, scriptFlag, persistFlag, adapter) => {
   return null;
 };
 
-module.exports = { troubleshoot, getAdapterConfig, offline };
+module.exports = { troubleshoot, offline };

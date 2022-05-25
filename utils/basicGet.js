@@ -4,6 +4,7 @@
 /* eslint import/no-extraneous-dependencies: warn */
 /* eslint global-require: warn */
 /* eslint import/no-unresolved: warn */
+/* eslint import/no-dynamic-require: warn */
 
 const winston = require('winston');
 
@@ -43,20 +44,6 @@ const basicGet = {
       adapter.id,
       adapterProps
     );
-  },
-
-  /**
-   * @summary connect to mongodb
-   *
-   * @function connect
-   * @param {Object} properties - pronghornProps
-   */
-  connect: async function connect(properties) {
-    // Connect to Mongo
-    const { MongoDBConnection } = require('@itential/database');
-    const connection = new MongoDBConnection(properties.mongoProps);
-    const database = await connection.connect(true);
-    return database;
   }
 };
 

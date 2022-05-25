@@ -3,6 +3,7 @@
 /* eslint import/no-extraneous-dependencies: warn */
 /* eslint global-require: warn */
 /* eslint import/no-dynamic-require: warn */
+/* eslint-disable no-console */
 
 const path = require('path');
 const fs = require('fs-extra');
@@ -100,8 +101,8 @@ module.exports = {
    *
    * @function decryptProperties
    */
-  decryptProperties: (props, dirname, discovery) => {
-    const propertyEncryptionClassPath = path.join(dirname, '../../../@itential/pronghorn-core/core/PropertyEncryption.js');
+  decryptProperties: (props, iapDir, discovery) => {
+    const propertyEncryptionClassPath = path.join(iapDir, 'node_modules/@itential/pronghorn-core/core/PropertyEncryption.js');
     const isEncrypted = props.pathProps.encrypted;
     const PropertyEncryption = discovery.require(propertyEncryptionClassPath, isEncrypted);
     const propertyEncryption = new PropertyEncryption({
@@ -177,12 +178,12 @@ module.exports = {
   verifyInstallationDir: (dirname, name) => {
     const pathArray = dirname.split(path.sep);
     const expectedPath = `node_modules/${name}`;
-    const currentPath = pathArray.slice(pathArray.length - 4, pathArray.length - 1).join('/');
-    if (expectedPath !== currentPath) {
-      throw new Error(`adapter should be installed under ${expectedPath}`);
+    const currentPath = pathArray.slice(pathArray.length - 3, pathArray.length).join('/');
+    if (currentPath.trim() !== expectedPath.trim()) {
+      throw new Error(`adapter should be installed under ${expectedPath} but is installed under ${currentPath}`);
     }
 
-    const serverFile = path.join(dirname, '../../../..', 'server.js');
+    const serverFile = path.join(dirname, '../../../', 'server.js');
     if (!fs.existsSync(serverFile)) {
       throw new Error(`adapter should be installed under IAP/${expectedPath}`);
     }
@@ -304,21 +305,64 @@ module.exports = {
    * @param {Object} adapterPronghorn - ./pronghorn.json in adapter dir
    * @param {Object} sampleProperties - './sampleProperties.json' in adapter dir
    */
-  createAdapter: (pronghornProps, profileItem, sampleProperties, adapterPronghorn) => {
-    const adapter = {
-      mongoProps: pronghornProps.mongoProps,
-      isEncrypted: pronghornProps.pathProps.encrypted,
-      model: adapterPronghorn.id,
-      name: sampleProperties.id,
-      type: adapterPronghorn.type,
-      properties: sampleProperties,
-      redisProps: profileItem.redisProps,
-      loggerProps: profileItem.loggerProps,
-      rabbitmq: profileItem.rabbitmq
-    };
+  createAdapter: function createAdapter(pronghornProps, profileItem, sampleProperties, adapterPronghorn) {
+    const iapDir = this.getIAPHome();
+    const packageFile = path.join(iapDir, 'package.json');
+    const info = JSON.parse(fs.readFileSync(packageFile));
+    const version = parseInt(info.version.split('.')[0], 10);
+
+    let adapter = {};
+    if (version >= 2020) {
+      adapter = {
+        isEncrypted: pronghornProps.pathProps.encrypted,
+        model: adapterPronghorn.id,
+        name: sampleProperties.id,
+        type: adapterPronghorn.type,
+        properties: sampleProperties,
+        loggerProps: profileItem.loggerProps
+      };
+    } else {
+      adapter = {
+        mongoProps: pronghornProps.mongoProps,
+        isEncrypted: pronghornProps.pathProps.encrypted,
+        model: adapterPronghorn.id,
+        name: sampleProperties.id,
+        type: adapterPronghorn.type,
+        properties: sampleProperties,
+        redisProps: profileItem.redisProps,
+        loggerProps: profileItem.loggerProps,
+        rabbitmq: profileItem.rabbitmq
+      };
+      adapter.mongoProps.pdb = true;
+    }
+
     adapter.loggerProps.log_filename = `adapter-${adapter.name}.log`;
-    adapter.mongoProps.pdb = true;
     return adapter;
+  },
+
+  getPronghornProps: function getPronghornProps(iapDir) {
+    console.log('Retrieving properties.json file...');
+    const rawProps = require(path.join(iapDir, 'properties.json'));
+    console.log('Decrypting properties...');
+    const { Discovery } = require(path.join(iapDir, 'node_modules/@itential/itential-utils'));
+    const discovery = new Discovery();
+    const pronghornProps = this.decryptProperties(rawProps, iapDir, discovery);
+    console.log('Found properties.\n');
+    return pronghornProps;
+  },
+
+  // get database connection and existing adapter config
+  getAdapterConfig: async function getAdapterConfig() {
+    const iapDir = this.getIAPHome();
+    const pronghornProps = this.getPronghornProps(iapDir);
+    console.log('Connecting to Database...');
+    const database = await this.connect(iapDir, pronghornProps);
+    console.log('Connection established.');
+    const { name } = require(path.join(__dirname, '..', 'package.json'));
+    const serviceItem = await database.collection(this.SERVICE_CONFIGS_COLLECTION).findOne(
+      { model: name }
+    );
+    return { database, serviceItem, pronghornProps };
   },
 
   /**
@@ -356,17 +400,70 @@ module.exports = {
   },
 
   /**
-   * @summary Check whether adapter is located within IAP node_modules
-   *          by loading properties.json. If not, return false.
-   * @function withinIAP
-   * @param {String} iapDir root directory of IAP
+   * @summary Obtain the IAP installation directory depending on how adapter is used:
+   * by IAP, or by npm run CLI interface
+   * @returns IAP installation directory or null if adapter running without IAP
+   * @function getIAPHome
    */
-  withinIAP: (iapDir) => {
-    try {
-      const rawProps = require(path.join(iapDir, 'properties.json'));
-      return rawProps;
-    } catch (error) {
-      return false;
+  getIAPHome: function getIAPHome() {
+    let IAPHomePath = null;
+    // check if adapter started via IAP, use path injected by core
+    if (process.env.iap_home) IAPHomePath = process.env.iap_home;
+    // check if adapter started via CLI `npm run <command>` so we have to be located under
+    // <IAP_HOME>/node_modules/@itentialopensource/<adapter_name>/ directory
+    const currentExecutionPath = this.getCurrentExecutionPath();
+    if (currentExecutionPath.indexOf('/node_modules') >= 0) {
+      [IAPHomePath] = currentExecutionPath.split('/node_modules');
     }
+    return IAPHomePath;
+  },
+
+  /**
+   * @summary get current execution path without resolving symbolic links,
+   * use `pwd` command wihout '-P' option (resolving symlinks) https://linux.die.net/man/1/pwd
+   * @returns
+   * @function getCurrentExecutionPAth
+   */
+  getCurrentExecutionPath: function getCurrentExecutionPAth() {
+    const { stdout } = this.systemSync('pwd', true);
+    return stdout.trim();
+  },
+
+  /**
+   * @summary checks if command executed from <IAP_HOME>/node_modules/@itentialopensource/<adapter_name>/ location
+   * @returns true if command executed under <IAP_HOME>/node_modules/@itentialopensource/<adapter_name>/ path
+   * @function areWeUnderIAPinstallationDirectory
+   */
+  areWeUnderIAPinstallationDirectory: function areWeUnderIAPinstallationDirectory() {
+    return path.join(this.getCurrentExecutionPath(), '../../..') === this.getIAPHome();
+  },
+
+  /**
+   * @summary connect to mongodb
+   *
+   * @function connect
+   * @param {Object} properties - pronghornProps
+   */
+  connect: async function connect(iapDir, properties) {
+    let dbConnectionProperties = {};
+    if (properties.mongoProps) {
+      dbConnectionProperties = properties.mongoProps;
+    } else if (properties.mongo) {
+      if (properties.mongo.url) {
+        dbConnectionProperties.url = properties.mongo.url;
+      } else {
+        dbConnectionProperties.url = `mongodb://${properties.mongo.host}:${properties.mongo.port}`;
+      }
+      dbConnectionProperties.db = properties.mongo.database;
+    }
+    if (!dbConnectionProperties.url || !dbConnectionProperties.db) {
+      throw new Error('Mongo properties are not specified in IAP configuration!');
+    }
+
+    const { MongoDBConnection } = require(path.join(iapDir, 'node_modules/@itential/database'));
+    const connection = new MongoDBConnection(dbConnectionProperties);
+    const database = await connection.connect(true);
+    return database;
   }
+
 };

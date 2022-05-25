@@ -82,10 +82,18 @@ class Salesforce extends AdapterBaseCl {
   }
 
   /**
-   * @getWorkflowFunctions
+   * @iapGetAdapterWorkflowFunctions
    */
-  getWorkflowFunctions(inIgnore) {
-    let myIgnore = [];
+  iapGetAdapterWorkflowFunctions(inIgnore) {
+    let myIgnore = [
+      'healthCheck',
+      'iapGetAdapterWorkflowFunctions',
+      'iapHasAdapterEntity',
+      'iapVerifyAdapterCapability',
+      'iapUpdateAdapterEntityCache',
+      'hasEntities',
+      'getAuthorization'
+    ];
     if (!inIgnore && Array.isArray(inIgnore)) {
       myIgnore = inIgnore;
     } else if (!inIgnore && typeof inIgnore === 'string') {
@@ -96,15 +104,15 @@ class Salesforce extends AdapterBaseCl {
     // you can add specific methods that you do not want to be workflow functions to ignore like below
     // myIgnore.push('myMethodNotInWorkflow');
 
-    return super.getWorkflowFunctions(myIgnore);
+    return super.iapGetAdapterWorkflowFunctions(myIgnore);
   }
 
   /**
-   * updateAdapterConfiguration is used to update any of the adapter configuration files. This
+   * iapUpdateAdapterConfiguration is used to update any of the adapter configuration files. This
    * allows customers to make changes to adapter configuration without having to be on the
    * file system.
    *
-   * @function updateAdapterConfiguration
+   * @function iapUpdateAdapterConfiguration
    * @param {string} configFile - the name of the file being updated (required)
    * @param {Object} changes - an object containing all of the changes = formatted like the configuration file (required)
    * @param {string} entity - the entity to be changed, if an action, schema or mock data file (optional)
@@ -112,36 +120,42 @@ class Salesforce extends AdapterBaseCl {
    * @param {string} action - the action to be changed, if an action, schema or mock data file (optional)
    * @param {Callback} callback - The results of the call
    */
-  updateAdapterConfiguration(configFile, changes, entity, type, action, callback) {
-    const origin = `${this.id}-adapter-updateAdapterConfiguration`;
+  iapUpdateAdapterConfiguration(configFile, changes, entity, type, action, callback) {
+    const meth = 'adapter-iapUpdateAdapterConfiguration';
+    const origin = `${this.id}-${meth}`;
     log.trace(origin);
-    super.updateAdapterConfiguration(configFile, changes, entity, type, action, callback);
+
+    super.iapUpdateAdapterConfiguration(configFile, changes, entity, type, action, callback);
   }
 
   /**
    * See if the API path provided is found in this adapter
    *
-   * @function findPath
+   * @function iapFindAdapterPath
    * @param {string} apiPath - the api path to check on
    * @param {Callback} callback - The results of the call
    */
-  findPath(apiPath, callback) {
-    const origin = `${this.id}-adapter-findPath`;
+  iapFindAdapterPath(apiPath, callback) {
+    const meth = 'adapter-iapFindAdapterPath';
+    const origin = `${this.id}-${meth}`;
     log.trace(origin);
-    super.findPath(apiPath, callback);
+
+    super.iapFindAdapterPath(apiPath, callback);
   }
 
   /**
     * @summary Suspends adapter
     *
-    * @function suspend
+    * @function iapSuspendAdapter
     * @param {Callback} callback - callback function
     */
-  suspend(mode, callback) {
-    const origin = `${this.id}-adapter-suspend`;
+  iapSuspendAdapter(mode, callback) {
+    const meth = 'adapter-iapSuspendAdapter';
+    const origin = `${this.id}-${meth}`;
     log.trace(origin);
+
     try {
-      return super.suspend(mode, callback);
+      return super.iapSuspendAdapter(mode, callback);
     } catch (error) {
       log.error(`${origin}: ${error}`);
       return callback(null, error);
@@ -151,14 +165,16 @@ class Salesforce extends AdapterBaseCl {
   /**
     * @summary Unsuspends adapter
     *
-    * @function unsuspend
+    * @function iapUnsuspendAdapter
     * @param {Callback} callback - callback function
     */
-  unsuspend(callback) {
-    const origin = `${this.id}-adapter-unsuspend`;
+  iapUnsuspendAdapter(callback) {
+    const meth = 'adapter-iapUnsuspendAdapter';
+    const origin = `${this.id}-${meth}`;
     log.trace(origin);
+
     try {
-      return super.unsuspend(callback);
+      return super.iapUnsuspendAdapter(callback);
     } catch (error) {
       log.error(`${origin}: ${error}`);
       return callback(null, error);
@@ -168,29 +184,33 @@ class Salesforce extends AdapterBaseCl {
   /**
     * @summary Get the Adaoter Queue
     *
-    * @function getQueue
+    * @function iapGetAdapterQueue
     * @param {Callback} callback - callback function
     */
-  getQueue(callback) {
-    const origin = `${this.id}-adapter-getQueue`;
+  iapGetAdapterQueue(callback) {
+    const meth = 'adapter-iapGetAdapterQueue';
+    const origin = `${this.id}-${meth}`;
     log.trace(origin);
-    return super.getQueue(callback);
+
+    return super.iapGetAdapterQueue(callback);
   }
 
   /**
   * @summary Runs troubleshoot scripts for adapter
   *
-  * @function troubleshoot
+  * @function iapTroubleshootAdapter
   * @param {Object} props - the connection, healthcheck and authentication properties
   *
   * @param {boolean} persistFlag - whether the adapter properties should be updated
   * @param {Callback} callback - The results of the call
   */
-  troubleshoot(props, persistFlag, callback) {
-    const origin = `${this.id}-adapter-troubleshoot`;
+  iapTroubleshootAdapter(props, persistFlag, callback) {
+    const meth = 'adapter-iapTroubleshootAdapter';
+    const origin = `${this.id}-${meth}`;
     log.trace(origin);
+
     try {
-      return super.troubleshoot(props, persistFlag, this, callback);
+      return super.iapTroubleshootAdapter(props, persistFlag, this, callback);
     } catch (error) {
       log.error(`${origin}: ${error}`);
       return callback(null, error);
@@ -200,15 +220,17 @@ class Salesforce extends AdapterBaseCl {
   /**
     * @summary runs healthcheck script for adapter
     *
-    * @function runHealthcheck
+    * @function iapRunAdapterHealthcheck
     * @param {Adapter} adapter - adapter instance to troubleshoot
     * @param {Callback} callback - callback function
     */
-  runHealthcheck(callback) {
-    const origin = `${this.id}-adapter-runHealthcheck`;
+  iapRunAdapterHealthcheck(callback) {
+    const meth = 'adapter-iapRunAdapterHealthcheck';
+    const origin = `${this.id}-${meth}`;
     log.trace(origin);
+
     try {
-      return super.runHealthcheck(this, callback);
+      return super.iapRunAdapterHealthcheck(this, callback);
     } catch (error) {
       log.error(`${origin}: ${error}`);
       return callback(null, error);
@@ -218,14 +240,16 @@ class Salesforce extends AdapterBaseCl {
   /**
     * @summary runs connectivity check script for adapter
     *
-    * @function runConnectivity
+    * @function iapRunAdapterConnectivity
     * @param {Callback} callback - callback function
     */
-  runConnectivity(callback) {
-    const origin = `${this.id}-adapter-runConnectivity`;
+  iapRunAdapterConnectivity(callback) {
+    const meth = 'adapter-iapRunAdapterConnectivity';
+    const origin = `${this.id}-${meth}`;
     log.trace(origin);
+
     try {
-      return super.runConnectivity(callback);
+      return super.iapRunAdapterConnectivity(callback);
     } catch (error) {
       log.error(`${origin}: ${error}`);
       return callback(null, error);
@@ -235,14 +259,16 @@ class Salesforce extends AdapterBaseCl {
   /**
     * @summary runs basicGet script for adapter
     *
-    * @function runBasicGet
+    * @function iapRunAdapterBasicGet
     * @param {Callback} callback - callback function
     */
-  runBasicGet(callback) {
-    const origin = `${this.id}-adapter-runBasicGet`;
+  iapRunAdapterBasicGet(callback) {
+    const meth = 'adapter-iapRunAdapterBasicGet';
+    const origin = `${this.id}-${meth}`;
     log.trace(origin);
+
     try {
-      return super.runBasicGet(callback);
+      return super.iapRunAdapterBasicGet(callback);
     } catch (error) {
       log.error(`${origin}: ${error}`);
       return callback(null, error);
@@ -250,29 +276,50 @@ class Salesforce extends AdapterBaseCl {
   }
 
   /**
+   * @summary moves entites into Mongo DB
+   *
+   * @function iapMoveAdapterEntitiesToDB
+   * @param {getCallback} callback - a callback function to return the result (Generics)
+   *                                  or the error
+   */
+  iapMoveAdapterEntitiesToDB(callback) {
+    const meth = 'adapter-iapMoveAdapterEntitiesToDB';
+    const origin = `${this.id}-${meth}`;
+    log.trace(origin);
+
+    try {
+      return super.iapMoveAdapterEntitiesToDB(callback);
+    } catch (err) {
+      log.error(`${origin}: ${err}`);
+      return callback(null, err);
+    }
+  }
+
+  /* BROKER CALLS */
+  /**
    * @summary Determines if this adapter supports the specific entity
    *
-   * @function hasEntity
+   * @function iapHasAdapterEntity
    * @param {String} entityType - the entity type to check for
    * @param {String/Array} entityId - the specific entity we are looking for
    *
    * @param {Callback} callback - An array of whether the adapter can has the
    *                              desired capability or an error
    */
-  hasEntity(entityType, entityId, callback) {
-    const origin = `${this.id}-adapter-hasEntity`;
+  iapHasAdapterEntity(entityType, entityId, callback) {
+    const origin = `${this.id}-adapter-iapHasAdapterEntity`;
     log.trace(origin);
 
     // Make the call -
-    // verifyCapability(entityType, actionType, entityId, callback)
-    return this.verifyCapability(entityType, null, entityId, callback);
+    // iapVerifyAdapterCapability(entityType, actionType, entityId, callback)
+    return this.iapVerifyAdapterCapability(entityType, null, entityId, callback);
   }
 
   /**
    * @summary Provides a way for the adapter to tell north bound integrations
    * whether the adapter supports type, action and specific entity
    *
-   * @function verifyCapability
+   * @function iapVerifyAdapterCapability
    * @param {String} entityType - the entity type to check for
    * @param {String} actionType - the action type to check for
    * @param {String/Array} entityId - the specific entity we are looking for
@@ -280,15 +327,15 @@ class Salesforce extends AdapterBaseCl {
    * @param {Callback} callback - An array of whether the adapter can has the
    *                              desired capability or an error
    */
-  verifyCapability(entityType, actionType, entityId, callback) {
-    const meth = 'adapterBase-verifyCapability';
+  iapVerifyAdapterCapability(entityType, actionType, entityId, callback) {
+    const meth = 'adapterBase-iapVerifyAdapterCapability';
     const origin = `${this.id}-${meth}`;
     log.trace(origin);
 
     // if caching
     if (this.caching) {
-      // Make the call - verifyCapability(entityType, actionType, entityId, callback)
-      return this.requestHandlerInst.verifyCapability(entityType, actionType, entityId, (results, error) => {
+      // Make the call - iapVerifyAdapterCapability(entityType, actionType, entityId, callback)
+      return this.requestHandlerInst.iapVerifyAdapterCapability(entityType, actionType, entityId, (results, error) => {
         if (error) {
           return callback(null, error);
         }
@@ -306,7 +353,7 @@ class Salesforce extends AdapterBaseCl {
                 }
 
                 // need to check the cache again since it has been updated
-                return this.requestHandlerInst.verifyCapability(entityType, actionType, entityId, (vcapable, verror) => {
+                return this.requestHandlerInst.iapVerifyAdapterCapability(entityType, actionType, entityId, (vcapable, verror) => {
                   if (verror) {
                     return callback(null, verror);
                   }
@@ -339,7 +386,7 @@ class Salesforce extends AdapterBaseCl {
     // if no entity id
     if (!entityId) {
       // need to check the cache again since it has been updated
-      return this.requestHandlerInst.verifyCapability(entityType, actionType, null, (vcapable, verror) => {
+      return this.requestHandlerInst.iapVerifyAdapterCapability(entityType, actionType, null, (vcapable, verror) => {
         if (verror) {
           return callback(null, verror);
         }
@@ -360,7 +407,7 @@ class Salesforce extends AdapterBaseCl {
           }
 
           // need to check the cache again since it has been updated
-          return this.requestHandlerInst.verifyCapability(entityType, actionType, null, (vcapable, verror) => {
+          return this.requestHandlerInst.iapVerifyAdapterCapability(entityType, actionType, null, (vcapable, verror) => {
             if (verror) {
               return callback(null, verror);
             }
@@ -401,11 +448,11 @@ class Salesforce extends AdapterBaseCl {
   /**
    * @summary Updates the cache for all entities by call the get All entity method
    *
-   * @function updateEntityCache
+   * @function iapUpdateAdapterEntityCache
    *
    */
-  updateEntityCache() {
-    const origin = `${this.id}-adapter-updateEntityCache`;
+  iapUpdateAdapterEntityCache() {
+    const origin = `${this.id}-adapter-iapUpdateAdapterEntityCache`;
     log.trace(origin);
 
     if (this.caching) {
@@ -418,6 +465,140 @@ class Salesforce extends AdapterBaseCl {
     }
   }
 
+  /**
+   * @summary Determines if this adapter supports any in a list of entities
+   *
+   * @function hasEntities
+   * @param {String} entityType - the entity type to check for
+   * @param {Array} entityList - the list of entities we are looking for
+   *
+   * @param {Callback} callback - A map where the entity is the key and the
+   *                              value is true or false
+   */
+  hasEntities(entityType, entityList, callback) {
+    const meth = 'adapter-hasEntities';
+    const origin = `${this.id}-${meth}`;
+    log.trace(origin);
+
+    try {
+      return super.hasEntities(entityType, entityList, callback);
+    } catch (err) {
+      log.error(`${origin}: ${err}`);
+      return callback(null, err);
+    }
+  }
+
+  /**
+   * @summary Get Appliance that match the deviceName
+   *
+   * @function getDevice
+   * @param {String} deviceName - the deviceName to find (required)
+   *
+   * @param {getCallback} callback - a callback function to return the result
+   *                                 (appliance) or the error
+   */
+  getDevice(deviceName, callback) {
+    const meth = 'adapter-getDevice';
+    const origin = `${this.id}-${meth}`;
+    log.trace(origin);
+
+    try {
+      return super.getDevice(deviceName, callback);
+    } catch (err) {
+      log.error(`${origin}: ${err}`);
+      return callback(null, err);
+    }
+  }
+
+  /**
+   * @summary Get Appliances that match the filter
+   *
+   * @function getDevicesFiltered
+   * @param {Object} options - the data to use to filter the appliances (optional)
+   *
+   * @param {getCallback} callback - a callback function to return the result
+   *                                 (appliances) or the error
+   */
+  getDevicesFiltered(options, callback) {
+    const meth = 'adapter-getDevicesFiltered';
+    const origin = `${this.id}-${meth}`;
+    log.trace(origin);
+
+    try {
+      return super.getDevicesFiltered(options, callback);
+    } catch (err) {
+      log.error(`${origin}: ${err}`);
+      return callback(null, err);
+    }
+  }
+
+  /**
+   * @summary Gets the status for the provided appliance
+   *
+   * @function isAlive
+   * @param {String} deviceName - the deviceName of the appliance. (required)
+   *
+   * @param {configCallback} callback - callback function to return the result
+   *                                    (appliance isAlive) or the error
+   */
+  isAlive(deviceName, callback) {
+    const meth = 'adapter-isAlive';
+    const origin = `${this.id}-${meth}`;
+    log.trace(origin);
+
+    try {
+      return super.isAlive(deviceName, callback);
+    } catch (err) {
+      log.error(`${origin}: ${err}`);
+      return callback(null, err);
+    }
+  }
+
+  /**
+   * @summary Gets a config for the provided Appliance
+   *
+   * @function getConfig
+   * @param {String} deviceName - the deviceName of the appliance. (required)
+   * @param {String} format - the desired format of the config. (optional)
+   *
+   * @param {configCallback} callback - callback function to return the result
+   *                                    (appliance config) or the error
+   */
+  getConfig(deviceName, format, callback) {
+    const meth = 'adapter-getConfig';
+    const origin = `${this.id}-${meth}`;
+    log.trace(origin);
+
+    try {
+      return super.getConfig(deviceName, format, callback);
+    } catch (err) {
+      log.error(`${origin}: ${err}`);
+      return callback(null, err);
+    }
+  }
+
+  /**
+   * @summary Gets the device count from the system
+   *
+   * @function iapGetDeviceCount
+   *
+   * @param {getCallback} callback - callback function to return the result
+   *                                    (count) or the error
+   */
+  iapGetDeviceCount(callback) {
+    const meth = 'adapter-iapGetDeviceCount';
+    const origin = `${this.id}-${meth}`;
+    log.trace(origin);
+
+    try {
+      return super.iapGetDeviceCount(callback);
+    } catch (err) {
+      log.error(`${origin}: ${err}`);
+      return callback(null, err);
+    }
+  }
+
+  /* GENERIC ADAPTER REQUEST - allows extension of adapter without new calls being added */
   /**
    * Makes the requested generic call
    *
@@ -470,7 +651,7 @@ class Salesforce extends AdapterBaseCl {
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -513,6 +694,116 @@ class Salesforce extends AdapterBaseCl {
         }
         if (!Object.hasOwnProperty.call(irReturnData, 'response')) {
           const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Invalid Response', ['genericAdapterRequest'], null, null, null);
+          log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+          return callback(null, errorObj);
+        }
+
+        /* HERE IS WHERE YOU CAN ALTER THE RETURN DATA */
+        // return the response
+        return callback(irReturnData, null);
+      });
+    } catch (ex) {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Caught Exception', null, null, null, ex);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
+  }
+
+  /**
+   * Makes the requested generic call with no base path or version
+   *
+   * @function genericAdapterRequestNoBasePath
+   * @param {String} uriPath - the path of the api call - do not include the host, port, base path or version (required)
+   * @param {String} restMethod - the rest method (GET, POST, PUT, PATCH, DELETE) (required)
+   * @param {Object} queryData - the parameters to be put on the url (optional).
+   *                 Can be a stringified Object.
+   * @param {Object} requestBody - the body to add to the request (optional).
+   *                 Can be a stringified Object.
+   * @param {Object} addlHeaders - additional headers to be put on the call (optional).
+   *                 Can be a stringified Object.
+   * @param {getCallback} callback - a callback function to return the result (Generics)
+   *                 or the error
+   */
+  genericAdapterRequestNoBasePath(uriPath, restMethod, queryData, requestBody, addlHeaders, callback) {
+    const meth = 'adapter-genericAdapterRequestNoBasePath';
+    const origin = `${this.id}-${meth}`;
+    log.trace(origin);
+
+    if (this.suspended && this.suspendMode === 'error') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'AD.600', [], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
+
+    /* HERE IS WHERE YOU VALIDATE DATA */
+    if (uriPath === undefined || uriPath === null || uriPath === '') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['uriPath'], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
+    if (restMethod === undefined || restMethod === null || restMethod === '') {
+      const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Missing Data', ['restMethod'], null, null, null);
+      log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
+      return callback(null, errorObj);
+    }
+
+    /* HERE IS WHERE YOU SET THE DATA TO PASS INTO REQUEST */
+    // remove any leading / and split the uripath into path variables
+    let myPath = uriPath;
+    while (myPath.indexOf('/') === 0) {
+      myPath = myPath.substring(1);
+    }
+    const pathVars = myPath.split('/');
+    const queryParamsAvailable = queryData;
+    const queryParams = {};
+    const bodyVars = requestBody;
+
+    // loop in template. long callback arg name to avoid identifier conflicts
+    Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
+      if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
+      }
+    });
+
+    // set up the request object - payload, uriPathVars, uriQuery, uriOptions, addlHeaders
+    const reqObj = {
+      payload: bodyVars,
+      uriPathVars: pathVars,
+      uriQuery: queryParams,
+      uriOptions: {}
+    };
+    // add headers if provided
+    if (addlHeaders) {
+      reqObj.addlHeaders = addlHeaders;
+    }
+
+    // determine the call and return flag
+    let action = 'getGenericsNoBase';
+    let returnF = true;
+    if (restMethod.toUpperCase() === 'POST') {
+      action = 'createGenericNoBase';
+    } else if (restMethod.toUpperCase() === 'PUT') {
+      action = 'updateGenericNoBase';
+    } else if (restMethod.toUpperCase() === 'PATCH') {
+      action = 'patchGenericNoBase';
+    } else if (restMethod.toUpperCase() === 'DELETE') {
+      action = 'deleteGenericNoBase';
+      returnF = false;
+    }
+
+    try {
+      // Make the call -
+      // identifyRequest(entity, action, requestObj, returnDataFlag, callback)
+      return this.requestHandlerInst.identifyRequest('.generic', action, reqObj, returnF, (irReturnData, irReturnError) => {
+        // if we received an error or their is no response on the results
+        // return an error
+        if (irReturnError) {
+          /* HERE IS WHERE YOU CAN ALTER THE ERROR MESSAGE */
+          return callback(null, irReturnError);
+        }
+        if (!Object.hasOwnProperty.call(irReturnData, 'response')) {
+          const errorObj = this.requestHandlerInst.formatErrorObject(this.id, meth, 'Invalid Response', ['genericAdapterRequestNoBasePath'], null, null, null);
           log.error(`${origin}: ${errorObj.IAPerror.displayString}`);
           return callback(null, errorObj);
         }
@@ -583,7 +874,7 @@ class Salesforce extends AdapterBaseCl {
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -659,7 +950,7 @@ class Salesforce extends AdapterBaseCl {
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -734,7 +1025,7 @@ class Salesforce extends AdapterBaseCl {
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -803,7 +1094,7 @@ class Salesforce extends AdapterBaseCl {
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -872,7 +1163,7 @@ class Salesforce extends AdapterBaseCl {
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -941,7 +1232,7 @@ class Salesforce extends AdapterBaseCl {
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -1018,7 +1309,7 @@ class Salesforce extends AdapterBaseCl {
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -1093,7 +1384,7 @@ class Salesforce extends AdapterBaseCl {
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -1162,7 +1453,7 @@ class Salesforce extends AdapterBaseCl {
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -1231,7 +1522,7 @@ class Salesforce extends AdapterBaseCl {
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -1301,7 +1592,7 @@ class Salesforce extends AdapterBaseCl {
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -1375,7 +1666,7 @@ class Salesforce extends AdapterBaseCl {
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -1447,7 +1738,7 @@ class Salesforce extends AdapterBaseCl {
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -1521,7 +1812,7 @@ class Salesforce extends AdapterBaseCl {
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -1590,7 +1881,7 @@ class Salesforce extends AdapterBaseCl {
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -1659,7 +1950,7 @@ class Salesforce extends AdapterBaseCl {
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -1733,7 +2024,7 @@ class Salesforce extends AdapterBaseCl {
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -1825,7 +2116,7 @@ Return all instances and associated incidents
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -1929,7 +2220,7 @@ Status Enums
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -2050,7 +2341,7 @@ Status Enums
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -2171,7 +2462,7 @@ Status Enums:
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -2256,7 +2547,7 @@ Status Enums:
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -2330,7 +2621,7 @@ Status Enums:
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -2455,7 +2746,7 @@ Status Enums:
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -2530,7 +2821,7 @@ Status Enums:
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -2600,7 +2891,7 @@ Status Enums:
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -2670,7 +2961,7 @@ Status Enums:
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -2745,7 +3036,7 @@ Status Enums:
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -2819,7 +3110,7 @@ Status Enums:
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -2894,7 +3185,7 @@ Status Enums:
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -2975,7 +3266,7 @@ Status Enums:
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -3061,7 +3352,7 @@ Status Enums:
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -3147,7 +3438,7 @@ Status Enums:
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -3233,7 +3524,7 @@ Status Enums:
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -3307,7 +3598,7 @@ Status Enums:
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
@@ -3433,7 +3724,7 @@ Status Enums:
     // loop in template. long callback arg name to avoid identifier conflicts
     Object.keys(queryParamsAvailable).forEach((thisKeyInQueryParamsAvailable) => {
       if (queryParamsAvailable[thisKeyInQueryParamsAvailable] !== undefined && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== null
-          && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
+        && queryParamsAvailable[thisKeyInQueryParamsAvailable] !== '') {
         queryParams[thisKeyInQueryParamsAvailable] = queryParamsAvailable[thisKeyInQueryParamsAvailable];
       }
     });
