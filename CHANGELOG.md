@@ -1,4 +1,12 @@
 
+## 0.8.0 [05-25-2022]
+
+* Migration to the latest Adapter Foundation
+
+See merge request itentialopensource/adapters/itsm-testing/adapter-salesforce!8
+
+---
+
 ## 0.7.4 [03-13-2021]
 
 - Migration to bring up to the latest foundation
